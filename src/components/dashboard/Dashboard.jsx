@@ -27,7 +27,9 @@ export function Dashboard() {
   )
 
   const isAnnual = dashboardView === 'annual'
-  const cycleLabel = budget.salaryCycle === 'fortnightly' ? 'fortnight' : 'month'
+  const cycleLabel = budget.salaryCycle === 'fortnightly' ? 'fortnight'
+    : budget.salaryCycle === 'weekly' ? 'week'
+    : 'month'
 
   // Charts and breakdowns use scenario figures when active; alerts use base
   const displayBudget = scenarioBudget ?? budget

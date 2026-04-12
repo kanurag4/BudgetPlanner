@@ -11,7 +11,9 @@ export function StepSavingsGoal() {
   const { state, actions } = useBudget()
   const { savingsGoal, income } = state
 
-  const salaryCycle = income.primarySalary.frequency === 'fortnightly' ? 'fortnightly' : 'monthly'
+  const salaryCycle = income.primarySalary.frequency === 'weekly' ? 'weekly'
+    : income.primarySalary.frequency === 'fortnightly' ? 'fortnightly'
+    : 'monthly'
 
   const hasValidGoal = !savingsGoal.enabled || (parseFloat(savingsGoal.value) || 0) > 0
 

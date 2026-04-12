@@ -106,6 +106,9 @@ export function calculateBudget(state, useScenario = false) {
   const otherLoansPerCycle = effectiveHousing.otherLoans?.enabled
     ? normaliseToFrequency(parseFloat(effectiveHousing.otherLoans.amount) || 0, effectiveHousing.otherLoans.frequency, salaryCycle)
     : 0
+  const additionalLoansPerCycle = (effectiveHousing.additionalLoans || []).reduce((sum, loan) => {
+    return sum + normaliseToFrequency(parseFloat(loan.amount) || 0, loan.frequency, salaryCycle)
+  }, 0)
 
   // --- Household bills (utilities, council, strata, medical insurance) ---
   function billPerCycle(key) {
@@ -118,7 +121,7 @@ export function calculateBudget(state, useScenario = false) {
   const medicalInsurancePerCycle = billPerCycle('medicalInsurance')
   const householdBillsPerCycle   = utilitiesPerCycle + councilFeesPerCycle + strataFeesPerCycle + medicalInsurancePerCycle
 
-  const regularBucket = housingPerCycle + groceriesPerCycle + vehicleLoanPerCycle + otherLoansPerCycle + householdBillsPerCycle
+  const regularBucket = housingPerCycle + groceriesPerCycle + vehicleLoanPerCycle + otherLoansPerCycle + additionalLoansPerCycle + householdBillsPerCycle
 
   // --- Fixed bucket ---
   const fixedBucket = (fixedExpenses || []).reduce((sum, expense) => {
@@ -174,6 +177,7 @@ export function calculateBudget(state, useScenario = false) {
     groceriesPerCycle,
     vehicleLoanPerCycle,
     otherLoansPerCycle,
+    additionalLoansPerCycle,
     utilitiesPerCycle,
     councilFeesPerCycle,
     strataFeesPerCycle,

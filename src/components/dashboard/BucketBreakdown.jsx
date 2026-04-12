@@ -54,6 +54,7 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
   } = budget
 
   const { housing, groceries, fixedExpenses } = state
+  const additionalLoans = housing.additionalLoans || []
 
   const mult = isAnnual ? periodsPerYear : 1
   const savingsAmount = Math.max(0, isAnnual ? actualSavingsAnnual : actualSavings)
@@ -80,6 +81,20 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
         {otherLoansPerCycle > 0 && (
           <LineItem label="Other loans" amount={otherLoansPerCycle * mult} />
         )}
+        {additionalLoans.map(loan => {
+          const perCycle = normaliseToFrequency(
+            parseFloat(loan.amount) || 0,
+            loan.frequency,
+            budget.salaryCycle
+          )
+          return perCycle > 0 ? (
+            <LineItem
+              key={loan.id}
+              label={loan.name || 'Loan'}
+              amount={perCycle * mult}
+            />
+          ) : null
+        })}
         {utilitiesPerCycle > 0 && (
           <LineItem label="Utilities" amount={utilitiesPerCycle * mult} />
         )}
@@ -102,20 +117,30 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
             No fixed expenses added.
           </p>
         ) : (
-          fixedExpenses.map(expense => {
-            const perCycle = normaliseToFrequency(
-              parseFloat(expense.amount) || 0,
-              expense.frequency,
-              budget.salaryCycle
-            )
-            return (
-              <LineItem
-                key={expense.id}
-                label={expense.name}
-                amount={perCycle * mult}
-              />
-            )
-          })
+          <>
+            {fixedExpenses.map(expense => {
+              const perCycle = normaliseToFrequency(
+                parseFloat(expense.amount) || 0,
+                expense.frequency,
+                budget.salaryCycle
+              )
+              return (
+                <LineItem
+                  key={expense.id}
+                  label={expense.name}
+                  amount={perCycle * mult}
+                />
+              )
+            })}
+            <div className="mt-3 pt-3 border-t border-stone-100 dark:border-stone-700 flex items-start justify-between gap-3">
+              <p className="text-xs text-stone-500 dark:text-stone-400 leading-snug">
+                Set aside per {cycleLabel} to cover all fixed costs
+              </p>
+              <p className="text-sm font-bold tabular-nums text-blue-600 dark:text-blue-400 flex-shrink-0">
+                {formatCurrency(fixedBucket)}
+              </p>
+            </div>
+          </>
         )}
       </Card>
 

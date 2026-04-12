@@ -53,4 +53,8 @@ describe('resolveSalaryCycle', () => {
   it('returns monthly for yearly salary', () => {
     expect(resolveSalaryCycle('yearly')).toBe('monthly')
   })
+
+  it('returns weekly when salary is weekly', () => {
+    expect(resolveSalaryCycle('weekly')).toBe('weekly')
+  })
 })

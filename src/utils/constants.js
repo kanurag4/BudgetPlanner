@@ -4,6 +4,7 @@ export const FREQUENCIES = {
   quarterly: { label: 'Quarterly', periodsPerYear: 4 },
   monthly: { label: 'Monthly', periodsPerYear: 12 },
   fortnightly: { label: 'Fortnightly', periodsPerYear: 26 },
+  weekly: { label: 'Weekly', periodsPerYear: 52 },
 }
 
 export const PERIODS_PER_YEAR = {
@@ -11,11 +12,12 @@ export const PERIODS_PER_YEAR = {
   quarterly: 4,
   monthly: 12,
   fortnightly: 26,
+  weekly: 52,
 }
 
-export const INCOME_FREQUENCIES = ['yearly', 'monthly', 'fortnightly']
-export const EXPENSE_FREQUENCIES = ['yearly', 'quarterly', 'monthly', 'fortnightly']
-export const HOUSING_FREQUENCIES = ['monthly', 'fortnightly']
+export const INCOME_FREQUENCIES = ['yearly', 'monthly', 'fortnightly', 'weekly']
+export const EXPENSE_FREQUENCIES = ['yearly', 'quarterly', 'monthly', 'fortnightly', 'weekly']
+export const HOUSING_FREQUENCIES = ['monthly', 'fortnightly', 'weekly']
 
 // AU tax brackets — 2025–26 rates (applicable from 1 July 2025)
 // Scheduled changes: 2026–27 → first bracket drops to 14%
@@ -122,8 +124,9 @@ export const DEFAULT_STATE = {
     type: 'rent',
     amount: '',
     frequency: 'monthly',
-    vehicleLoan: { enabled: false, amount: '', frequency: 'monthly' },
-    otherLoans:  { enabled: false, amount: '', frequency: 'monthly' },
+    vehicleLoan:      { enabled: false, amount: '', frequency: 'monthly' },
+    otherLoans:       { enabled: false, amount: '', frequency: 'monthly' },
+    additionalLoans:  [],
   },
   groceries: { amount: '', frequency: 'monthly' },
   householdBills: {

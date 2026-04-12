@@ -12,8 +12,10 @@ export function normaliseToFrequency(amount, fromFreq, toFreq) {
 
 /**
  * Determine the salary cycle to use for all budget calculations.
- * Only returns 'fortnightly' if salary is paid fortnightly; everything else → 'monthly'.
+ * Returns 'weekly', 'fortnightly', or 'monthly' based on salary frequency.
  */
 export function resolveSalaryCycle(salaryFreq) {
-  return salaryFreq === 'fortnightly' ? 'fortnightly' : 'monthly'
+  if (salaryFreq === 'weekly') return 'weekly'
+  if (salaryFreq === 'fortnightly') return 'fortnightly'
+  return 'monthly'
 }

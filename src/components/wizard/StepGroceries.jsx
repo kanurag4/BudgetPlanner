@@ -11,7 +11,7 @@ const HOUSEHOLD_ITEMS = [
     key: 'utilities',
     label: 'Utilities',
     description: 'Electricity, gas, water combined',
-    frequencies: ['quarterly', 'monthly', 'fortnightly'],
+    frequencies: ['quarterly', 'monthly', 'fortnightly', 'weekly'],
   },
   {
     key: 'councilFees',
@@ -38,7 +38,9 @@ export function StepGroceries() {
   const { state, actions } = useBudget()
   const { groceries, householdBills, income } = state
 
-  const salaryCycle = income.primarySalary.frequency === 'fortnightly' ? 'fortnightly' : 'monthly'
+  const salaryCycle = income.primarySalary.frequency === 'weekly' ? 'weekly'
+    : income.primarySalary.frequency === 'fortnightly' ? 'fortnightly'
+    : 'monthly'
 
   function handleNext() {
     actions.setWizardStep(4)

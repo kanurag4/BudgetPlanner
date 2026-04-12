@@ -51,6 +51,10 @@ All 13 original steps are complete. The app is fully built and running.
 - Fixed expenses quick-add chips (Netflix, Gym, Amazon Prime, etc.) in StepFixedExpenses
 - Superannuation rate updated to 12% (2025–26 SGC schedule)
 - BudgetContext forward-compat: stored state merged with DEFAULT_PERSISTED on hydration so new keys never crash old saved data
+- Weekly frequency added to income, expense, and housing frequency lists; `resolveSalaryCycle` returns `'weekly'|'fortnightly'|'monthly'`; dashboard shows "per week" when salary is weekly
+- Dashboard summary cards: font reduced to `text-xl` (no truncation) so large annual figures display in full
+- BucketBreakdown Fixed Expenses card: "Set aside per [cycle]" footer shows per-cycle amount to cover all fixed costs, always in per-cycle terms regardless of annual toggle
+- payslipParser: fixed pdfjs-dist v5 worker (was `workerSrc=''`, now uses `?url` static import); added date-range frequency inference (detects weekly/fortnightly/monthly from pay period dates when no keyword is present)
 
 ## Architecture
 
@@ -78,7 +82,7 @@ const persisted = { ...DEFAULT_PERSISTED, ...storedPersisted }
 
 ### Three output buckets
 
-All amounts normalised to the user's **salary cycle** (`fortnightly` only when primary salary is fortnightly, otherwise `monthly`):
+All amounts normalised to the user's **salary cycle** (`weekly` if salary is weekly, `fortnightly` if fortnightly, otherwise `monthly`):
 
 - **Regular** — housing + groceries + vehicle loan + other loans + additional loans + household bills
 - **Fixed** — all fixed expenses normalised to salary cycle
@@ -136,7 +140,7 @@ wizardStep             number  // 7 = wizard complete, redirect to dashboard
 |-------|-----------|-------|
 | `/wizard/income` | `StepIncome` | Primary + partner salary, gross/net toggle, bonus |
 | `/wizard/housing` | `StepHousing` | Rent/mortgage + vehicle loan + other loans + manual additional loans |
-| `/wizard/groceries` | `StepGroceries` | Grocery spend + household bills (utilities/quarterly/monthly/fortnightly, council, strata, health insurance) |
+| `/wizard/groceries` | `StepGroceries` | Grocery spend + household bills (utilities/quarterly/monthly/fortnightly/weekly, council, strata, health insurance) |
 | `/wizard/fixed` | `StepFixedExpenses` | Fixed expenses with quick-add chips (Netflix, Gym, Amazon Prime, etc.) + manual add |
 | `/wizard/savings` | `StepSavingsGoal` | Savings goal (% or flat amount) |
 | `/wizard/profile` | `StepProfile` | Age group, family situation, number of kids |
@@ -210,8 +214,8 @@ All reads/writes use `src/hooks/useStorage.js`, never direct `localStorage` call
 Key values returned by `calculateBudget(state, useScenario=false)`:
 
 ```
-salaryCycle              'monthly' | 'fortnightly'
-periodsPerYear           12 | 26
+salaryCycle              'monthly' | 'fortnightly' | 'weekly'
+periodsPerYear           12 | 26 | 52
 netIncomePerCycle        primary net + partner net + bonus, per cycle
 primaryNetPerCycle
 partnerNetPerCycle

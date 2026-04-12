@@ -6,19 +6,22 @@
  * Returns: Promise<{ netPay: number|null, frequency: string|null, confidence: 'high'|'low', rawText: string }>
  */
 
+// Pre-resolve the worker URL at build time so Vite includes it in the bundle.
+// The ?url suffix returns only the asset path — no worker code runs on import.
+import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
+
 // Lazy imports — only loaded when the user actually uploads a file
 async function extractTextFromPDF(file) {
   const pdfjsLib = await import('pdfjs-dist')
-  // Use the legacy build to avoid worker issues in a browser/test context
-  pdfjsLib.GlobalWorkerOptions.workerSrc = ''
+  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl
 
   const arrayBuffer = await file.arrayBuffer()
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer, useWorkerFetch: false, isEvalSupported: false, useSystemFonts: true }).promise
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer, useSystemFonts: true }).promise
   let text = ''
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i)
     const content = await page.getTextContent()
-    text += content.items.map(item => item.str).join(' ') + '\n'
+    text += content.items.map(item => item.str).filter(s => s.trim()).join(' ') + '\n'
   }
   return text
 }
@@ -81,6 +84,40 @@ function extractFrequency(text) {
   for (const { pattern, value } of FREQUENCY_PATTERNS) {
     if (pattern.test(text)) return value
   }
+  return inferFrequencyFromDateRange(text)
+}
+
+/**
+ * Infer pay frequency from a pay period date range when no keyword is present.
+ * Handles formats like "11.10.2025 - 24.10.2025", "2025-10-11 to 2025-10-24",
+ * "01/10/2025 - 14/10/2025" etc.
+ */
+function inferFrequencyFromDateRange(text) {
+  // Match two dates separated by - or to/TO, in dd.mm.yyyy, dd/mm/yyyy, or yyyy-mm-dd
+  const range = text.match(
+    /(\d{1,2}[./]\d{1,2}[./]\d{4}|\d{4}-\d{2}-\d{2})\s*(?:-|to)\s*(\d{1,2}[./]\d{1,2}[./]\d{4}|\d{4}-\d{2}-\d{2})/i
+  )
+  if (!range) return null
+
+  const parseDate = (str) => {
+    // yyyy-mm-dd
+    if (/^\d{4}/.test(str)) {
+      const [y, m, d] = str.split('-').map(Number)
+      return new Date(y, m - 1, d)
+    }
+    // dd.mm.yyyy or dd/mm/yyyy
+    const sep = str.includes('.') ? '.' : '/'
+    const [d, m, y] = str.split(sep).map(Number)
+    return new Date(y, m - 1, d)
+  }
+
+  const start = parseDate(range[1])
+  const end = parseDate(range[2])
+  const days = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1
+
+  if (days >= 6 && days <= 8)   return 'weekly'
+  if (days >= 13 && days <= 15) return 'fortnightly'
+  if (days >= 28 && days <= 31) return 'monthly'
   return null
 }
 

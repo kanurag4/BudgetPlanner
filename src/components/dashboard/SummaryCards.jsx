@@ -7,7 +7,7 @@ function SummaryCard({ label, amount, cycleLabel, isAnnual, colorClass, subLabel
       <p className="text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide">
         {label}
       </p>
-      <p className={`text-2xl font-bold tabular-nums truncate ${colorClass}`}>
+      <p className={`text-xl font-bold tabular-nums leading-tight ${colorClass}`}>
         {formatCurrency(amount)}
       </p>
       <p className="text-xs text-stone-400 dark:text-stone-500">
