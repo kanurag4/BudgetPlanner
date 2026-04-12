@@ -126,6 +126,12 @@ export const DEFAULT_STATE = {
     otherLoans:  { enabled: false, amount: '', frequency: 'monthly' },
   },
   groceries: { amount: '', frequency: 'monthly' },
+  householdBills: {
+    utilities:        { enabled: false, amount: '', frequency: 'monthly' },
+    councilFees:      { enabled: false, amount: '', frequency: 'quarterly' },
+    strataFees:       { enabled: false, amount: '', frequency: 'quarterly' },
+    medicalInsurance: { enabled: false, amount: '', frequency: 'monthly' },
+  },
   fixedExpenses: [],
   savingsGoal: { enabled: false, type: 'percentage', value: '', frequency: 'monthly' },
   profile: { familySituation: 'single', numberOfKids: 0, ageGroup: 'under25' },

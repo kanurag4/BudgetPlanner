@@ -47,6 +47,7 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
     housingPerCycle, regularBucket, regularBucketAnnual,
     groceriesPerCycle,
     vehicleLoanPerCycle, otherLoansPerCycle,
+    utilitiesPerCycle, councilFeesPerCycle, strataFeesPerCycle, medicalInsurancePerCycle,
     fixedBucket, fixedBucketAnnual,
     actualSavings, actualSavingsAnnual,
     periodsPerYear,
@@ -78,6 +79,18 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
         )}
         {otherLoansPerCycle > 0 && (
           <LineItem label="Other loans" amount={otherLoansPerCycle * mult} />
+        )}
+        {utilitiesPerCycle > 0 && (
+          <LineItem label="Utilities" amount={utilitiesPerCycle * mult} />
+        )}
+        {councilFeesPerCycle > 0 && (
+          <LineItem label="Council rates" amount={councilFeesPerCycle * mult} />
+        )}
+        {strataFeesPerCycle > 0 && (
+          <LineItem label="Strata fees" amount={strataFeesPerCycle * mult} />
+        )}
+        {medicalInsurancePerCycle > 0 && (
+          <LineItem label="Health insurance" amount={medicalInsurancePerCycle * mult} />
         )}
       </Card>
 

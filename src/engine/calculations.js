@@ -34,7 +34,7 @@ function resolveNetAndGross(salary) {
  * @returns {object} All computed values, per-cycle and annual
  */
 export function calculateBudget(state, useScenario = false) {
-  const { income, housing, groceries, fixedExpenses, savingsGoal, splitSliders, scenario } = state
+  const { income, housing, groceries, householdBills, fixedExpenses, savingsGoal, splitSliders, scenario } = state
 
   // --- Apply scenario overrides if active ---
   const effectiveIncome = { ...income }
@@ -106,7 +106,19 @@ export function calculateBudget(state, useScenario = false) {
   const otherLoansPerCycle = effectiveHousing.otherLoans?.enabled
     ? normaliseToFrequency(parseFloat(effectiveHousing.otherLoans.amount) || 0, effectiveHousing.otherLoans.frequency, salaryCycle)
     : 0
-  const regularBucket = housingPerCycle + groceriesPerCycle + vehicleLoanPerCycle + otherLoansPerCycle
+
+  // --- Household bills (utilities, council, strata, medical insurance) ---
+  function billPerCycle(key) {
+    const bill = householdBills?.[key]
+    return bill?.enabled ? normaliseToFrequency(parseFloat(bill.amount) || 0, bill.frequency, salaryCycle) : 0
+  }
+  const utilitiesPerCycle        = billPerCycle('utilities')
+  const councilFeesPerCycle      = billPerCycle('councilFees')
+  const strataFeesPerCycle       = billPerCycle('strataFees')
+  const medicalInsurancePerCycle = billPerCycle('medicalInsurance')
+  const householdBillsPerCycle   = utilitiesPerCycle + councilFeesPerCycle + strataFeesPerCycle + medicalInsurancePerCycle
+
+  const regularBucket = housingPerCycle + groceriesPerCycle + vehicleLoanPerCycle + otherLoansPerCycle + householdBillsPerCycle
 
   // --- Fixed bucket ---
   const fixedBucket = (fixedExpenses || []).reduce((sum, expense) => {
@@ -162,6 +174,10 @@ export function calculateBudget(state, useScenario = false) {
     groceriesPerCycle,
     vehicleLoanPerCycle,
     otherLoansPerCycle,
+    utilitiesPerCycle,
+    councilFeesPerCycle,
+    strataFeesPerCycle,
+    medicalInsurancePerCycle,
     fixedBucket,
     totalExpenses,
     actualSavings,

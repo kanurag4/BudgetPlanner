@@ -125,6 +125,16 @@ export function BudgetProvider({ children }) {
 
   // ── Savings goal ──────────────────────────────────────────────────────────
 
+  function updateHouseholdBill(key, subPatch) {
+    setPersisted(prev => ({
+      ...prev,
+      householdBills: {
+        ...prev.householdBills,
+        [key]: { ...prev.householdBills?.[key], ...subPatch },
+      },
+    }))
+  }
+
   function updateSavingsGoal(subPatch) { patchNested('savingsGoal', subPatch) }
 
   // ── Profile ───────────────────────────────────────────────────────────────
@@ -181,6 +191,7 @@ export function BudgetProvider({ children }) {
     addFixedExpense,
     updateFixedExpense,
     removeFixedExpense,
+    updateHouseholdBill,
     updateSavingsGoal,
     updateProfile,
     updateSplitSlider,
