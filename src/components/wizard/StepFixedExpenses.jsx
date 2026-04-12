@@ -39,15 +39,6 @@ export function StepFixedExpenses() {
     actions.addFixedExpense({ name: label, amount: '', frequency })
   }
 
-  function handleDropdownChange(e) {
-    const val = e.target.value
-    if (!val) return
-    const suggestion = SUGGESTIONS.find(s => s.label === val)
-    if (suggestion) handleSuggestion(suggestion)
-    // Reset dropdown back to placeholder
-    e.target.value = ''
-  }
-
   function handleNext() {
     actions.setWizardStep(5)
     navigate('/wizard/savings')
@@ -68,28 +59,29 @@ export function StepFixedExpenses() {
         </p>
       </div>
 
-      {/* Quick-add dropdown — shown while suggestions remain */}
+      {/* Quick-add suggestions — always shown while suggestions remain */}
       {availableSuggestions.length > 0 && (
         <div className="flex flex-col gap-2">
           <p className="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wide px-1">
             Quick add
           </p>
-          <select
-            defaultValue=""
-            onChange={handleDropdownChange}
-            aria-label="Quick-add a common expense"
-            className={[
-              'w-full px-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
-              'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-              'text-stone-800 dark:text-stone-100',
-              'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
-            ].join(' ')}
-          >
-            <option value="" disabled>Select a common expense to add…</option>
-            {availableSuggestions.map(s => (
-              <option key={s.label} value={s.label}>{s.label}</option>
+          <div className="flex flex-wrap gap-2">
+            {availableSuggestions.map(suggestion => (
+              <button
+                key={suggestion.label}
+                type="button"
+                onClick={() => handleSuggestion(suggestion)}
+                className={[
+                  'px-3 py-1.5 rounded-full border text-xs font-medium transition-colors min-h-[36px]',
+                  'border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 bg-white dark:bg-stone-800',
+                  'hover:border-emerald-400 hover:text-emerald-700 hover:bg-emerald-50',
+                  'dark:hover:border-emerald-600 dark:hover:text-emerald-400 dark:hover:bg-emerald-900/20',
+                ].join(' ')}
+              >
+                + {suggestion.label}
+              </button>
             ))}
-          </select>
+          </div>
         </div>
       )}
 

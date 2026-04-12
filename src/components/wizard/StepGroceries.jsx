@@ -11,7 +11,7 @@ const HOUSEHOLD_ITEMS = [
     key: 'utilities',
     label: 'Utilities',
     description: 'Electricity, gas, water combined',
-    frequencies: HOUSING_FREQUENCIES,
+    frequencies: ['quarterly', 'monthly', 'fortnightly'],
   },
   {
     key: 'councilFees',
