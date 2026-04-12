@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* Capacitor / iOS home indicator safe area */
+  .pb-safe {
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+  }
+  /* Dashboard needs more breathing room at the bottom */
+  .pb-safe-lg {
+    padding-bottom: max(2.5rem, env(safe-area-inset-bottom));
+  }
+}
+
+@layer base {
+  html {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-stone-50 text-stone-800 dark:bg-stone-900 dark:text-stone-100;
+  }
+}
