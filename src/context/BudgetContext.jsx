@@ -39,7 +39,12 @@ function redistributeSliders(current, changedKey, newValue) {
 
 export function BudgetProvider({ children }) {
   // Everything except scenario is persisted to localStorage
-  const [persisted, setPersisted, clearPersisted] = useStorage(STORAGE_KEY, DEFAULT_PERSISTED)
+  const [storedPersisted, setPersisted, clearPersisted] = useStorage(STORAGE_KEY, DEFAULT_PERSISTED)
+
+  // Forward-compat: merge stored data with defaults so new top-level keys
+  // (e.g. householdBills added after user already completed the wizard)
+  // are always present, preventing crashes on old localStorage data.
+  const persisted = { ...DEFAULT_PERSISTED, ...storedPersisted }
 
   // Scenario is session-only — never touches localStorage
   const [scenario, setScenarioState] = useState(DEFAULT_STATE.scenario)
