@@ -1,4 +1,4 @@
-import { PERIODS_PER_YEAR } from '../utils/constants'
+import { PERIODS_PER_YEAR, SUPER_RATE } from '../utils/constants'
 import { normaliseToFrequency, resolveSalaryCycle } from './normalise'
 import { estimateNetPay } from './taxEstimator'
 
@@ -86,7 +86,7 @@ export function calculateBudget(state, useScenario = false) {
   const netIncomePerCycle = primaryNetPerCycle + partnerNetPerCycle + bonusPerCycle
 
   // --- Superannuation (employer, 11.5% of gross) ---
-  const superYearly = (primary.gross + partnerGrossYearly) * 0.115
+  const superYearly = (primary.gross + partnerGrossYearly) * SUPER_RATE
   const superPerCycle = superYearly / periodsPerYear
 
   // --- Regular bucket ---

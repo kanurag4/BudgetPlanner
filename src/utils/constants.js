@@ -70,8 +70,8 @@ export const ALERT_THRESHOLDS = {
   // below -5 = red
 }
 
-// Employer superannuation rate (2024–25)
-export const SUPER_RATE = 0.115
+// Employer superannuation rate (2025–26)
+export const SUPER_RATE = 0.12
 
 // Default split slider values
 export const DEFAULT_SPLIT_SLIDERS = {
