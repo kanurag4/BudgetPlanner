@@ -44,8 +44,13 @@ All 13 original steps are complete. The app is fully built and running.
 **Post-launch additions:**
 - Waterfall chart replaced the original donut chart (user preference)
 - Vehicle loan + other loans added to StepHousing and regularBucket
+- Manual additional loans (arbitrary name + amount + frequency) added to StepHousing
 - "Edit" button on dashboard navigates back to wizard
 - Dashboard lazy-loaded via `React.lazy` — removed recharts from initial bundle (195 kB → 79 kB gzipped)
+- Household bills (Utilities, Council rates, Strata fees, Health insurance) added to StepGroceries
+- Fixed expenses quick-add chips (Netflix, Gym, Amazon Prime, etc.) in StepFixedExpenses
+- Superannuation rate updated to 12% (2025–26 SGC schedule)
+- BudgetContext forward-compat: stored state merged with DEFAULT_PERSISTED on hydration so new keys never crash old saved data
 
 ## Architecture
 
@@ -64,17 +69,22 @@ Pure client-side SPA (React 19 + Vite + Tailwind CSS v3 + React Router DOM v7). 
 - **Persisted** (`useStorage`): everything except `scenario`
 - **Session-only** (`useState`): `scenario` — cleared on refresh, never touches localStorage
 
+On hydration, stored data is shallow-merged with `DEFAULT_PERSISTED` so new top-level keys added after a user first saved data are always present:
+```js
+const persisted = { ...DEFAULT_PERSISTED, ...storedPersisted }
+```
+
 `ThemeContext` uses its own key (`budgetplanner_theme`) separate from the main budget key.
 
 ### Three output buckets
 
 All amounts normalised to the user's **salary cycle** (`fortnightly` only when primary salary is fortnightly, otherwise `monthly`):
 
-- **Regular** — housing + groceries + vehicle loan + other loans
+- **Regular** — housing + groceries + vehicle loan + other loans + additional loans + household bills
 - **Fixed** — all fixed expenses normalised to salary cycle
 - **Savings** — remainder; split via sliders (splurge / emergency / investment, always sum to 100%)
 
-A separate **Superannuation** line (11.5% of gross) is shown as forced savings.
+A separate **Superannuation** line (12% of gross, 2025–26 SGC rate) is shown as forced savings.
 
 ### Engine layer (`src/engine/`)
 
@@ -103,9 +113,14 @@ income.primarySalary   { amount, frequency, isGross }
 income.partnerSalary   { enabled, amount, frequency, isGross }
 income.bonus           { amount }
 housing                { type: "loan"|"rent", amount, frequency,
-                         vehicleLoan: { enabled, amount, frequency },
-                         otherLoans:  { enabled, amount, frequency } }
+                         vehicleLoan:     { enabled, amount, frequency },
+                         otherLoans:      { enabled, amount, frequency },
+                         additionalLoans: [{ id, name, amount, frequency }] }
 groceries              { amount, frequency }
+householdBills         { utilities:        { enabled, amount, frequency },
+                         councilFees:      { enabled, amount, frequency },
+                         strataFees:       { enabled, amount, frequency },
+                         medicalInsurance: { enabled, amount, frequency } }
 fixedExpenses[]        { id, name, amount, frequency }
 savingsGoal            { enabled, type: "percentage"|"flat", value, frequency }
 profile                { familySituation, numberOfKids, ageGroup }
@@ -115,7 +130,16 @@ scenario               { active, overrides }                // never persisted
 wizardStep             number  // 7 = wizard complete, redirect to dashboard
 ```
 
-### Wizard
+### Wizard steps
+
+| Route | Component | Notes |
+|-------|-----------|-------|
+| `/wizard/income` | `StepIncome` | Primary + partner salary, gross/net toggle, bonus |
+| `/wizard/housing` | `StepHousing` | Rent/mortgage + vehicle loan + other loans + manual additional loans |
+| `/wizard/groceries` | `StepGroceries` | Grocery spend + household bills (utilities/quarterly/monthly/fortnightly, council, strata, health insurance) |
+| `/wizard/fixed` | `StepFixedExpenses` | Fixed expenses with quick-add chips (Netflix, Gym, Amazon Prime, etc.) + manual add |
+| `/wizard/savings` | `StepSavingsGoal` | Savings goal (% or flat amount) |
+| `/wizard/profile` | `StepProfile` | Age group, family situation, number of kids |
 
 `WizardShell` wraps all wizard steps using React Router's `<Outlet>`. Each step component handles its own Next/Back navigation via `useNavigate`. `wizardStep` is advanced on Next — reaching 7 means the wizard is complete.
 
@@ -135,19 +159,15 @@ function handleNext() {
 |------|-----------|-------|
 | `/` | `RootRedirect` | `wizardStep >= 7` → `/dashboard`, else → `/wizard/income` |
 | `/wizard/*` | `WizardShell` + nested steps | Eagerly loaded |
-| `/wizard/income` | `StepIncome` | |
-| `/wizard/housing` | `StepHousing` | Rent/mortgage + vehicle loan + other loans |
-| `/wizard/groceries` | `StepGroceries` | |
-| `/wizard/fixed` | `StepFixedExpenses` | |
-| `/wizard/savings` | `StepSavingsGoal` | |
-| `/wizard/profile` | `StepProfile` | |
 | `/dashboard` | `Dashboard` | **Lazy-loaded** via `React.lazy` — recharts excluded from main bundle |
 
 `RootRedirect` must render inside `BudgetProvider` to read `state.wizardStep`.
 
+Uses `HashRouter` (not `BrowserRouter`) for GitHub Pages compatibility — URLs are `/#/wizard/income` etc.
+
 ### Code splitting
 
-`Dashboard` and its entire sub-tree (recharts, all dashboard components) are lazy-loaded. Main bundle is ~79 kB gzipped. The dashboard chunk (~110 kB gzipped) loads on first `/dashboard` visit and is then cached. A skeleton fallback is shown via `<Suspense>` during load.
+`Dashboard` and its entire sub-tree (recharts, all dashboard components) are lazy-loaded. Main bundle is ~79 kB gzipped. The dashboard chunk loads on first `/dashboard` visit and is then cached. A skeleton fallback is shown via `<Suspense>` during load.
 
 `pdfjs-dist`, `xlsx`, and `jsPDF` are already lazy-loaded inside their respective call sites and are never in the initial bundle.
 
@@ -158,6 +178,63 @@ When one slider moves, the other two redistribute proportionally. This logic liv
 ### Storage abstraction
 
 All reads/writes use `src/hooks/useStorage.js`, never direct `localStorage` calls. This hook is the single swap point for Capacitor: replace its body with `@capacitor/preferences` and no component changes are needed. The hook uses a `skipNextWrite` ref to prevent writing back to storage immediately after `clearValue()`.
+
+### BudgetContext actions reference
+
+| Action | Signature | What it does |
+|--------|-----------|--------------|
+| `updatePrimarySalary` | `(subPatch)` | Patch `income.primarySalary` |
+| `updatePartnerSalary` | `(subPatch)` | Patch `income.partnerSalary` |
+| `updateBonus` | `(subPatch)` | Patch `income.bonus` |
+| `updateHousing` | `(subPatch)` | Shallow-patch `housing` |
+| `addHousingLoan` | `({ name, amount, frequency })` | Append to `housing.additionalLoans` |
+| `updateHousingLoan` | `(id, subPatch)` | Update one additional loan |
+| `removeHousingLoan` | `(id)` | Remove one additional loan |
+| `updateGroceries` | `(subPatch)` | Patch `groceries` |
+| `updateHouseholdBill` | `(key, subPatch)` | Patch `householdBills[key]` |
+| `addFixedExpense` | `({ name, amount, frequency })` | Append to `fixedExpenses` |
+| `updateFixedExpense` | `(id, subPatch)` | Update one fixed expense |
+| `removeFixedExpense` | `(id)` | Remove one fixed expense |
+| `updateSavingsGoal` | `(subPatch)` | Patch `savingsGoal` |
+| `updateProfile` | `(subPatch)` | Patch `profile` |
+| `updateSplitSlider` | `(key, value)` | Move one slider; redistributes the other two |
+| `setDashboardView` | `(view)` | `'cycle'` or `'annual'` |
+| `setWizardStep` | `(step)` | Advance wizard step counter |
+| `updateScenario` | `(subPatch)` | Patch session-only `scenario` |
+| `setScenarioOverride` | `(overridePatch)` | Patch `scenario.overrides` |
+| `clearScenario` | `()` | Reset scenario to defaults |
+| `resetAll` | `()` | Clear localStorage + reset scenario |
+
+### calculateBudget return values
+
+Key values returned by `calculateBudget(state, useScenario=false)`:
+
+```
+salaryCycle              'monthly' | 'fortnightly'
+periodsPerYear           12 | 26
+netIncomePerCycle        primary net + partner net + bonus, per cycle
+primaryNetPerCycle
+partnerNetPerCycle
+bonusPerCycle
+superPerCycle            12% of gross (employer SGC)
+regularBucket            housing + groceries + all loans + household bills, per cycle
+housingPerCycle
+groceriesPerCycle
+vehicleLoanPerCycle
+otherLoansPerCycle
+additionalLoansPerCycle  sum of all manual housing.additionalLoans
+utilitiesPerCycle
+councilFeesPerCycle
+strataFeesPerCycle
+medicalInsurancePerCycle
+fixedBucket              sum of all fixedExpenses, per cycle
+totalExpenses            regularBucket + fixedBucket
+actualSavings            netIncomePerCycle - totalExpenses
+savingsRate              % of net income saved
+savingsGoalAmount        target savings per cycle
+splitAmounts             { splurge, emergency, investment } per cycle
+...Annual                annual equivalents of all per-cycle values
+```
 
 ## Testing
 
@@ -197,3 +274,7 @@ Design system: Plus Jakarta Sans, emerald-500 primary, amber-400 accent, stone-5
 **`pb-safe`** — custom Tailwind utility in `index.css` using `env(safe-area-inset-bottom)` for iPhone home indicator. Applied to wizard bottom nav containers.
 
 **`pb-safe-lg`** — same but `max(2.5rem, ...)`. Applied to dashboard main content area.
+
+## Deployment
+
+Hosted on GitHub Pages at `kanurag4/BudgetPlanner`. GitHub Actions workflow (`.github/workflows/deploy.yml`) triggers on push to `master` and builds with `VITE_BASE_PATH` repo variable. Uses `HashRouter` so deep links work without a server-side catch-all.
