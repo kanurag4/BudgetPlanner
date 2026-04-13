@@ -108,7 +108,7 @@ export function StepProfile() {
       <Card>
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300">Age group</h3>
+            <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300">Your age group</h3>
             <InfoTooltip content="Used to set your recommended savings rate based on your life stage." />
           </div>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">

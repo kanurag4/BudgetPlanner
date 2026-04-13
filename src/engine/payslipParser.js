@@ -51,22 +51,40 @@ async function extractTextFromCSV(file) {
   })
 }
 
-// Keywords to search for in extracted text (case-insensitive)
+// Keywords to search for in extracted text (case-insensitive).
+// Ordered from most specific / reliable to most permissive.
 const NET_PAY_PATTERNS = [
+  // Standard label-before-amount formats
   /net\s+pay[:\s,]+\$?([\d,]+(?:\.\d{1,2})?)/i,
   /take[- ]?home[:\s,]+\$?([\d,]+(?:\.\d{1,2})?)/i,
   /net\s+income[:\s,]+\$?([\d,]+(?:\.\d{1,2})?)/i,
   /total\s+net[:\s,]+\$?([\d,]+(?:\.\d{1,2})?)/i,
   /net\s+amount[:\s,]+\$?([\d,]+(?:\.\d{1,2})?)/i,
+
+  // "TOTAL NET PAY - Bank Credit $4,182.75" — label then dash/text then amount
+  /total\s+net\s+pay[^$\d]{0,40}\$?([\d,]+(?:\.\d{1,2})?)/i,
+
+  // "2,519.57 Net Pay" — amount appears before the label (column-scrambled PDFs)
+  /\$?([\d,]+(?:\.\d{1,2})?)\s+net\s+pay\b/i,
+
+  // "4800.10 * Employer Superannuation" — net is the value immediately before the
+  // employer super line when the PDF layout loses the "Net Income" label proximity
+  /\$?([\d,]+(?:\.\d{1,2})?)\s+\*?\s*employer\s+super/i,
 ]
 
-const FREQUENCY_PATTERNS = [
+// High-confidence frequency keywords — unambiguous pay cycle terms
+const FREQ_KEYWORDS_PRIMARY = [
   { pattern: /\bfortnightly\b/i, value: 'fortnightly' },
-  { pattern: /\bfortnight\b/i, value: 'fortnightly' },
-  { pattern: /\bweekly\b/i, value: 'weekly' },
-  { pattern: /\bmonthly\b/i, value: 'monthly' },
+  { pattern: /\bfortnight\b/i,   value: 'fortnightly' },
+  { pattern: /\bweekly\b/i,      value: 'weekly' },
+  { pattern: /\bmonthly\b/i,     value: 'monthly' },
+]
+
+// Low-confidence — "annual/yearly" often appears in allowance and salary
+// descriptions unrelated to pay cycle, so only use as a last resort
+const FREQ_KEYWORDS_FALLBACK = [
   { pattern: /\bannual(?:ly)?\b/i, value: 'yearly' },
-  { pattern: /\byearly\b/i, value: 'yearly' },
+  { pattern: /\byearly\b/i,        value: 'yearly' },
 ]
 
 function extractNetPay(text) {
@@ -81,31 +99,63 @@ function extractNetPay(text) {
 }
 
 function extractFrequency(text) {
-  for (const { pattern, value } of FREQUENCY_PATTERNS) {
+  // 1. Unambiguous keywords (fortnightly / weekly / monthly)
+  for (const { pattern, value } of FREQ_KEYWORDS_PRIMARY) {
     if (pattern.test(text)) return value
   }
-  return inferFrequencyFromDateRange(text)
+  // 2. Date-range inference — more reliable than "annual" keyword
+  const inferred = inferFrequencyFromDateRange(text)
+  if (inferred) return inferred
+  // 3. annual/yearly as last resort
+  for (const { pattern, value } of FREQ_KEYWORDS_FALLBACK) {
+    if (pattern.test(text)) return value
+  }
+  return null
 }
+
+const TEXT_MONTHS = { jan:0, feb:1, mar:2, apr:3, may:4, jun:5, jul:6, aug:7, sep:8, oct:9, nov:10, dec:11 }
 
 /**
  * Infer pay frequency from a pay period date range when no keyword is present.
- * Handles formats like "11.10.2025 - 24.10.2025", "2025-10-11 to 2025-10-24",
- * "01/10/2025 - 14/10/2025" etc.
+ * Handles formats:
+ *   - dd.mm.yyyy / dd/mm/yyyy / yyyy-mm-dd  (numeric)
+ *   - "29 Jun 20 - 05 Jul 20" / "1 January 2021 to 31 January 2021"  (text month)
  */
 function inferFrequencyFromDateRange(text) {
-  // Match two dates separated by - or to/TO, in dd.mm.yyyy, dd/mm/yyyy, or yyyy-mm-dd
+  // Text-month format: "29 Jun 20 - 05 Jul 20" or "1 January 2021 to 31 January 2021"
+  const textRange = text.match(
+    /(\d{1,2}\s+[A-Za-z]{3,9}\s+\d{2,4})\s*(?:-{1,2}|to)\s*(\d{1,2}\s+[A-Za-z]{3,9}\s+\d{2,4})/i
+  )
+  if (textRange) {
+    const parseTextDate = (str) => {
+      const m = str.match(/(\d{1,2})\s+([A-Za-z]{3,9})\s+(\d{2,4})/)
+      if (!m) return null
+      const mon = TEXT_MONTHS[m[2].toLowerCase().substring(0, 3)]
+      if (mon === undefined) return null
+      const year = m[3].length === 2 ? 2000 + parseInt(m[3]) : parseInt(m[3])
+      return new Date(year, mon, parseInt(m[1]))
+    }
+    const s = parseTextDate(textRange[1])
+    const e = parseTextDate(textRange[2])
+    if (s && e) {
+      const days = Math.round((e - s) / 86400000) + 1
+      if (days >= 6 && days <= 8)   return 'weekly'
+      if (days >= 13 && days <= 15) return 'fortnightly'
+      if (days >= 28 && days <= 31) return 'monthly'
+    }
+  }
+
+  // Numeric format: dd.mm.yyyy, dd/mm/yyyy, yyyy-mm-dd
   const range = text.match(
     /(\d{1,2}[./]\d{1,2}[./]\d{4}|\d{4}-\d{2}-\d{2})\s*(?:-|to)\s*(\d{1,2}[./]\d{1,2}[./]\d{4}|\d{4}-\d{2}-\d{2})/i
   )
   if (!range) return null
 
   const parseDate = (str) => {
-    // yyyy-mm-dd
     if (/^\d{4}/.test(str)) {
       const [y, m, d] = str.split('-').map(Number)
       return new Date(y, m - 1, d)
     }
-    // dd.mm.yyyy or dd/mm/yyyy
     const sep = str.includes('.') ? '.' : '/'
     const [d, m, y] = str.split(sep).map(Number)
     return new Date(y, m - 1, d)

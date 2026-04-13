@@ -71,3 +71,31 @@ export function estimateNetPay(grossAmount, frequency) {
     effectiveTaxRate,
   }
 }
+
+/**
+ * Back-calculate yearly gross from a yearly net amount using binary search.
+ * Used when the user enters take-home pay and we need the gross for super purposes.
+ *
+ * @param {number} yearlyNet
+ * @returns {number} estimated yearly gross
+ */
+export function estimateGrossFromNet(yearlyNet) {
+  if (!yearlyNet || yearlyNet <= 0) return 0
+
+  let lo = yearlyNet        // gross is always >= net
+  let hi = yearlyNet * 2.5 // upper bound: covers ~60% effective rate
+
+  for (let i = 0; i < 60; i++) {
+    const mid = (lo + hi) / 2
+    // estimateNetPay with 'yearly' returns netAmount as the yearly net (periodsPerYear = 1)
+    const { netAmount: estimatedNet } = estimateNetPay(mid, 'yearly')
+    if (estimatedNet < yearlyNet) {
+      lo = mid
+    } else {
+      hi = mid
+    }
+    if (hi - lo < 0.01) break
+  }
+
+  return (lo + hi) / 2
+}

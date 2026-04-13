@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Card } from '../ui/Card'
 import { getRecommendation } from '../../engine/recommendations'
 
@@ -40,24 +41,55 @@ const SEVERITY_MESSAGES = {
  *   profile {object} — state.profile { ageGroup, familySituation, numberOfKids }
  */
 export function SavingsRateAlert({ budget, profile }) {
-  const { savingsRate, netIncomePerCycle } = budget
+  const { savingsRate, savingsRateWithBonus, netIncomePerCycle, bonusAnnual } = budget
+  const [withBonus, setWithBonus] = useState(false)
 
   // Don't render if there's no income data yet
   if (netIncomePerCycle <= 0) return null
 
-  const { recommendedRate, severity, shortfallNote } = getRecommendation(profile, savingsRate)
+  const hasBonus = bonusAnnual > 0
+  const activeRate = (withBonus && hasBonus) ? savingsRateWithBonus : savingsRate
+
+  const { recommendedRate, severity, shortfallNote } = getRecommendation(profile, activeRate)
   const styles = SEVERITY_STYLES[severity] ?? SEVERITY_STYLES.amber
 
-  const actualClamped   = Math.max(0, Math.min(100, savingsRate))
+  const actualClamped   = Math.max(0, Math.min(100, activeRate))
   const recommendedMark = Math.min(100, recommendedRate) // position of the target marker
 
   return (
     <Card className={`border ${styles.border} ${styles.bg}`}>
       <div className="flex items-start justify-between gap-3 mb-3">
-        <div>
-          <p className="text-sm font-semibold text-stone-800 dark:text-stone-100">
-            Savings rate
-          </p>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <p className="text-sm font-semibold text-stone-800 dark:text-stone-100">
+              Savings rate
+            </p>
+            {hasBonus && (
+              <button
+                role="switch"
+                aria-checked={withBonus}
+                onClick={() => setWithBonus(v => !v)}
+                className="flex items-center gap-2 group"
+              >
+                {/* Track */}
+                <span className={[
+                  'relative inline-flex h-5 w-9 flex-shrink-0 rounded-full border-2 border-transparent',
+                  'transition-colors duration-200 ease-in-out focus:outline-none',
+                  withBonus ? 'bg-emerald-500' : 'bg-stone-300 dark:bg-stone-600',
+                ].join(' ')}>
+                  {/* Thumb */}
+                  <span className={[
+                    'pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow',
+                    'transform transition-transform duration-200 ease-in-out',
+                    withBonus ? 'translate-x-4' : 'translate-x-0',
+                  ].join(' ')} />
+                </span>
+                <span className="text-xs font-medium text-stone-500 dark:text-stone-400 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors">
+                  Include bonus
+                </span>
+              </button>
+            )}
+          </div>
           <p className={`text-xs mt-0.5 ${styles.text}`}>
             {SEVERITY_MESSAGES[severity]}
           </p>
@@ -90,7 +122,7 @@ export function SavingsRateAlert({ budget, profile }) {
           <span className={`w-2 h-2 rounded-full ${styles.bar}`} />
           <span className="text-stone-500 dark:text-stone-400">Your rate</span>
           <span className={`font-bold tabular-nums ${styles.text}`}>
-            {Math.max(0, savingsRate).toFixed(1)}%
+            {Math.max(0, activeRate).toFixed(1)}%
           </span>
         </div>
         <div className="flex items-center gap-1.5">

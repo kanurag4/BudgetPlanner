@@ -1,6 +1,6 @@
 import { PERIODS_PER_YEAR, SUPER_RATE } from '../utils/constants'
 import { normaliseToFrequency, resolveSalaryCycle } from './normalise'
-import { estimateNetPay } from './taxEstimator'
+import { estimateNetPay, estimateGrossFromNet } from './taxEstimator'
 
 /**
  * Resolve the net amount for a salary entry.
@@ -20,10 +20,10 @@ function resolveNetAndGross(salary) {
     return { net: yearlyNet, gross: yearlyGross }
   }
 
-  // net entered directly — back-calculate an approximate gross for super purposes
-  // We approximate gross as net / (1 - effective_rate) iteratively,
-  // but for simplicity treat entered net as gross for super (small overestimate).
-  return { net: yearlyGross, gross: yearlyGross }
+  // net entered directly — back-calculate gross for super purposes
+  const yearlyNet = yearlyGross // yearlyGross is actually yearly net here (value was net)
+  const yearlyGrossApprox = estimateGrossFromNet(yearlyNet)
+  return { net: yearlyNet, gross: yearlyGrossApprox }
 }
 
 /**
@@ -78,12 +78,12 @@ export function calculateBudget(state, useScenario = false) {
     partnerGrossYearly = partner.gross
   }
 
-  // --- Bonus (yearly, spread across pay periods) ---
+  // --- Bonus (yearly lump sum — kept separate, not folded into cycle income) ---
   const bonusAmount = parseFloat(income.bonus?.amount) || 0
   const bonusPerCycle = bonusAmount / periodsPerYear
 
-  // --- Total net income per cycle ---
-  const netIncomePerCycle = primaryNetPerCycle + partnerNetPerCycle + bonusPerCycle
+  // --- Total net income per cycle (salary only — bonus is separate) ---
+  const netIncomePerCycle = primaryNetPerCycle + partnerNetPerCycle
 
   // --- Superannuation (employer, 11.5% of gross) ---
   const superYearly = (primary.gross + partnerGrossYearly) * SUPER_RATE
@@ -134,6 +134,11 @@ export function calculateBudget(state, useScenario = false) {
   const actualSavings = netIncomePerCycle - totalExpenses
   const savingsRate = netIncomePerCycle > 0 ? (actualSavings / netIncomePerCycle) * 100 : 0
 
+  // --- Savings with bonus included ---
+  const netIncomeWithBonusPerCycle = netIncomePerCycle + bonusPerCycle
+  const actualSavingsWithBonus = netIncomeWithBonusPerCycle - totalExpenses
+  const savingsRateWithBonus = netIncomeWithBonusPerCycle > 0 ? (actualSavingsWithBonus / netIncomeWithBonusPerCycle) * 100 : 0
+
   // --- Savings goal ---
   let savingsGoalAmount = 0
   if (savingsGoal?.enabled) {
@@ -171,6 +176,8 @@ export function calculateBudget(state, useScenario = false) {
     primaryNetPerCycle,
     partnerNetPerCycle,
     bonusPerCycle,
+    bonusAnnual: bonusAmount,
+    netIncomeWithBonusPerCycle,
     superPerCycle,
     regularBucket,
     housingPerCycle,
@@ -186,16 +193,20 @@ export function calculateBudget(state, useScenario = false) {
     totalExpenses,
     actualSavings,
     savingsRate,
+    actualSavingsWithBonus,
+    savingsRateWithBonus,
     savingsGoalAmount,
     splitAmounts,
 
     // Annual equivalents
     netIncomeAnnual: annual(netIncomePerCycle),
+    netIncomeWithBonusAnnual: annual(netIncomeWithBonusPerCycle),
     superAnnual: annual(superPerCycle),
     regularBucketAnnual: annual(regularBucket),
     fixedBucketAnnual: annual(fixedBucket),
     totalExpensesAnnual: annual(totalExpenses),
     actualSavingsAnnual: annual(actualSavings),
+    actualSavingsWithBonusAnnual: annual(actualSavingsWithBonus),
     savingsGoalAmountAnnual: annual(savingsGoalAmount),
     splitAmountsAnnual: {
       splurge: annual(splitAmounts.splurge),

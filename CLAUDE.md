@@ -55,6 +55,11 @@ All 13 original steps are complete. The app is fully built and running.
 - Dashboard summary cards: font reduced to `text-xl` (no truncation) so large annual figures display in full
 - BucketBreakdown Fixed Expenses card: "Set aside per [cycle]" footer shows per-cycle amount to cover all fixed costs, always in per-cycle terms regardless of annual toggle
 - payslipParser: fixed pdfjs-dist v5 worker (was `workerSrc=''`, now uses `?url` static import); added date-range frequency inference (detects weekly/fortnightly/monthly from pay period dates when no keyword is present)
+- Bonus separated from salary cycle income: `netIncomePerCycle` = salary only; bonus shown as its own "Annual Bonus" summary card (always annual, amber); new `netIncomeWithBonusPerCycle`, `actualSavingsWithBonus`, `savingsRateWithBonus` fields added to `calculateBudget` return
+- SavingsRateAlert: "Include bonus" slide toggle — when on, rate is recalculated including the annualised bonus; only shown when a bonus is set
+- Super fix: when user enters net (take-home) pay, gross is now back-calculated via `estimateGrossFromNet()` (binary search) before applying the 12% SGC rate — previously super was incorrectly based on take-home pay
+- StepProfile: "Age group" label renamed to "Your age group"
+- payslipParser: 3 new net pay patterns covering reversed amount-before-label layout, "TOTAL NET PAY - Bank Credit $x" format, and amount-before-employer-super line; frequency detection now runs date-range inference before falling back to annual/yearly keywords (prevents "Annual leave balance" false-positives); `inferFrequencyFromDateRange` extended to parse text-month date formats ("29 Jun 20 - 05 Jul 20")
 
 ## Architecture
 
@@ -98,9 +103,9 @@ Pure functions, no React imports. All new financial logic goes here.
 |------|-----------|
 | `normalise.js` | `normaliseToFrequency(amount, fromFreq, toFreq)`, `resolveSalaryCycle(freq)` |
 | `calculations.js` | `calculateBudget(state, useScenario=false)` |
-| `taxEstimator.js` | `estimateNetPay(grossAmount, frequency)` |
+| `taxEstimator.js` | `estimateNetPay(grossAmount, frequency)`, `estimateGrossFromNet(yearlyNet)` |
 | `recommendations.js` | `getRecommendation({ ageGroup, familySituation, numberOfKids }, actualRate)` |
-| `payslipParser.js` | `parsePayslip(file)` → `Promise<{ netPay, frequency, confidence, rawText }>` |
+| `payslipParser.js` | `parsePayslip(file)` → `Promise<{ netPay, frequency, confidence, rawText }>`; handles reversed label order, "TOTAL NET PAY - ..." format, amount-before-super-line, and text-month date ranges |
 
 ### AU tax details (2025–26)
 
@@ -214,30 +219,34 @@ All reads/writes use `src/hooks/useStorage.js`, never direct `localStorage` call
 Key values returned by `calculateBudget(state, useScenario=false)`:
 
 ```
-salaryCycle              'monthly' | 'fortnightly' | 'weekly'
-periodsPerYear           12 | 26 | 52
-netIncomePerCycle        primary net + partner net + bonus, per cycle
+salaryCycle                  'monthly' | 'fortnightly' | 'weekly'
+periodsPerYear               12 | 26 | 52
+netIncomePerCycle            primary net + partner net (salary only, bonus excluded)
 primaryNetPerCycle
 partnerNetPerCycle
-bonusPerCycle
-superPerCycle            12% of gross (employer SGC)
-regularBucket            housing + groceries + all loans + household bills, per cycle
+bonusPerCycle                bonus / periodsPerYear (for reference; not in netIncomePerCycle)
+bonusAnnual                  raw annual bonus amount
+netIncomeWithBonusPerCycle   netIncomePerCycle + bonusPerCycle
+superPerCycle                12% of gross (employer SGC; gross back-calculated when user enters net pay)
+regularBucket                housing + groceries + all loans + household bills, per cycle
 housingPerCycle
 groceriesPerCycle
 vehicleLoanPerCycle
 otherLoansPerCycle
-additionalLoansPerCycle  sum of all manual housing.additionalLoans
+additionalLoansPerCycle      sum of all manual housing.additionalLoans
 utilitiesPerCycle
 councilFeesPerCycle
 strataFeesPerCycle
 medicalInsurancePerCycle
-fixedBucket              sum of all fixedExpenses, per cycle
-totalExpenses            regularBucket + fixedBucket
-actualSavings            netIncomePerCycle - totalExpenses
-savingsRate              % of net income saved
-savingsGoalAmount        target savings per cycle
-splitAmounts             { splurge, emergency, investment } per cycle
-...Annual                annual equivalents of all per-cycle values
+fixedBucket                  sum of all fixedExpenses, per cycle
+totalExpenses                regularBucket + fixedBucket
+actualSavings                netIncomePerCycle - totalExpenses (excl. bonus)
+savingsRate                  % of net salary saved (excl. bonus)
+actualSavingsWithBonus       netIncomeWithBonusPerCycle - totalExpenses
+savingsRateWithBonus         % of net income saved incl. bonus
+savingsGoalAmount            target savings per cycle
+splitAmounts                 { splurge, emergency, investment } per cycle
+...Annual                    annual equivalents of all per-cycle values
 ```
 
 ## Testing
@@ -257,9 +266,9 @@ splitAmounts             { splurge, emergency, investment } per cycle
 |------|---------------|
 | `engine/normalise.test.js` | Frequency conversions, salary cycle resolution |
 | `engine/calculations.test.js` | Bucket totals, over-budget, partner income, scenario overrides, split amounts |
-| `engine/taxEstimator.test.js` | AU 2025-26 bracket boundaries, Medicare levy, LITO |
+| `engine/taxEstimator.test.js` | AU 2025-26 bracket boundaries, Medicare levy, LITO, `estimateGrossFromNet` round-trip |
 | `engine/recommendations.test.js` | Age × family combinations, floor, alert severity |
-| `engine/payslipParser.test.js` | Keyword extraction, low-confidence fallback |
+| `engine/payslipParser.test.js` | Keyword extraction, low-confidence fallback, reversed-label and employer-super patterns |
 | `hooks/useStorage.test.js` | Read/write/clear, invalid JSON fallback |
 | `components/ui/AmountFrequencyInput.test.jsx` | Live preview normalisation, onChange callbacks |
 | `components/dashboard/SavingsSplitSliders.test.jsx` | Slider redistribution, always sums to 100 |

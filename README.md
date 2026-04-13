@@ -6,10 +6,11 @@ A personal budget planning web app built for Australians. Enter your income, hou
 
 - **6-step wizard** — income (gross or net), housing/loans, groceries, fixed expenses, savings goal, profile
 - **Vehicle loan & other loans** — tracked alongside rent/mortgage on the housing step
-- **Payslip upload** — drag-and-drop PDF, Excel, or CSV payslip to auto-fill income (client-side, nothing leaves the browser)
+- **Payslip upload** — drag-and-drop PDF, Excel, or CSV payslip to auto-fill income (client-side, nothing leaves the browser); handles varied payslip layouts including reversed label order, "TOTAL NET PAY - Bank Credit" format, and text-month date ranges for frequency detection
 - **Waterfall chart** — visual breakdown of income → regular expenses → fixed expenses → savings
-- **Savings rate alert** — compares your actual rate to a personalised AU benchmark (age + family situation)
-- **Superannuation card** — employer SGC (11.5%) shown separately from take-home pay
+- **Annual bonus card** — bonus kept separate from salary; shown as its own summary card with an "Include bonus" toggle on the savings rate alert
+- **Savings rate alert** — compares your actual rate to a personalised AU benchmark (age + family situation); toggle between excluding and including your annual bonus
+- **Superannuation card** — employer SGC (12%) shown separately from take-home pay; correctly calculated on gross salary even when you enter take-home pay
 - **Expense schedule** — fixed expenses grouped by frequency (fortnightly / monthly / quarterly / yearly)
 - **What-if scenario panel** — override salary or housing amount to see the impact without saving
 - **Annual / per-cycle toggle** — flip all dashboard figures between monthly/fortnightly and yearly
@@ -73,7 +74,7 @@ All data is stored in `localStorage` under key `budgetplanner_v1`. Nothing is se
 
 ## AU Tax (2025–26)
 
-Uses AU 2025–26 tax brackets: 0% / 15% / 30% / 37% / 45% at thresholds $18,200 / $45,000 / $135,000 / $190,000, plus 2% Medicare levy and LITO (max $700, phases out $37,500–$66,667). Scheduled: first bracket drops to 14% in 2026–27. Employer super rate: 11.5% SGC.
+Uses AU 2025–26 tax brackets: 0% / 15% / 30% / 37% / 45% at thresholds $18,200 / $45,000 / $135,000 / $190,000, plus 2% Medicare levy and LITO (max $700, phases out $37,500–$66,667). Scheduled: first bracket drops to 14% in 2026–27. Employer super rate: 12% SGC (2025–26). When take-home pay is entered instead of gross, the gross is back-calculated via binary search before applying the super rate.
 
 ## Project structure
 

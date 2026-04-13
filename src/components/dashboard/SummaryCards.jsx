@@ -29,9 +29,11 @@ export function SummaryCards({ budget, isAnnual, cycleLabel }) {
     totalExpenses, totalExpensesAnnual,
     actualSavings, actualSavingsAnnual,
     superPerCycle, superAnnual,
+    bonusAnnual,
   } = budget
 
   const isOverBudget = actualSavings < 0
+  const hasBonus = bonusAnnual > 0
 
   const cards = [
     {
@@ -39,6 +41,12 @@ export function SummaryCards({ budget, isAnnual, cycleLabel }) {
       amount: isAnnual ? netIncomeAnnual : netIncomePerCycle,
       colorClass: 'text-emerald-600 dark:text-emerald-400',
     },
+    ...(hasBonus ? [{
+      label: 'Annual Bonus',
+      amount: bonusAnnual,
+      colorClass: 'text-amber-600 dark:text-amber-400',
+      subLabel: 'per year (one-off)',
+    }] : []),
     {
       label: 'Total Expenses',
       amount: isAnnual ? totalExpensesAnnual : totalExpenses,

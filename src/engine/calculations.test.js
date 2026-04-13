@@ -74,7 +74,7 @@ describe('calculateBudget — fixed expenses', () => {
 })
 
 describe('calculateBudget — bonus', () => {
-  it('annual bonus is spread across pay periods', () => {
+  it('bonus is kept separate from cycle income', () => {
     const state = makeState({
       income: {
         primarySalary: { amount: 6000, frequency: 'monthly', isGross: false },
@@ -83,9 +83,13 @@ describe('calculateBudget — bonus', () => {
       },
     })
     const result = calculateBudget(state)
-    // 12000 / 12 = 1000/month added to income
+    // Bonus is NOT folded into cycle income
     expect(result.bonusPerCycle).toBeCloseTo(1000)
-    expect(result.netIncomePerCycle).toBeCloseTo(7000)
+    expect(result.bonusAnnual).toBeCloseTo(12000)
+    expect(result.netIncomePerCycle).toBeCloseTo(6000)
+    // With-bonus view adds the spread bonus back
+    expect(result.netIncomeWithBonusPerCycle).toBeCloseTo(7000)
+    expect(result.savingsRateWithBonus).toBeGreaterThan(result.savingsRate)
   })
 })
 

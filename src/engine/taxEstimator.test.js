@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { estimateNetPay } from './taxEstimator'
+import { estimateNetPay, estimateGrossFromNet } from './taxEstimator'
 
 // AU 2025–26 rates: 0% / 15% / 30% / 37% / 45%
 // Bracket boundaries: 18,200 / 45,000 / 135,000 / 190,000
@@ -90,5 +90,25 @@ describe('estimateNetPay', () => {
     const result = estimateNetPay(gross, 'yearly')
     const reconstructed = result.netAmount + result.taxAmount + result.medicareLevy
     expect(reconstructed).toBeCloseTo(gross, 0)
+  })
+})
+
+describe('estimateGrossFromNet', () => {
+  it('round-trips correctly — gross → net → gross', () => {
+    for (const gross of [30000, 60000, 90000, 120000, 180000, 250000]) {
+      const { netAmount } = estimateNetPay(gross, 'yearly')
+      const recovered = estimateGrossFromNet(netAmount)
+      expect(recovered).toBeCloseTo(gross, 0)
+    }
+  })
+
+  it('returns 0 for zero input', () => {
+    expect(estimateGrossFromNet(0)).toBe(0)
+  })
+
+  it('recovered gross is always greater than net', () => {
+    const net = 75000
+    const gross = estimateGrossFromNet(net)
+    expect(gross).toBeGreaterThan(net)
   })
 })
