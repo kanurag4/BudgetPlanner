@@ -33,19 +33,22 @@ function OverrideInput({ label, placeholder, value, onChange }) {
   )
 }
 
-function DeltaRow({ label, base, scenario }) {
+function DeltaRow({ label, base, scenario, format = 'currency' }) {
   const delta = scenario - base
   const hasChange = Math.abs(delta) > 0.5
+  const fmt = format === 'percent'
+    ? v => `${v.toFixed(1)}%`
+    : formatCurrency
 
   return (
     <div className="flex items-center justify-between gap-3 text-xs py-1">
       <span className="text-stone-500 dark:text-stone-400">{label}</span>
       <div className="flex items-center gap-2 tabular-nums">
-        <span className="text-stone-400 dark:text-stone-500 line-through">{formatCurrency(base)}</span>
-        <span className="text-stone-800 dark:text-stone-100 font-semibold">{formatCurrency(scenario)}</span>
+        <span className="text-stone-400 dark:text-stone-500 line-through">{fmt(base)}</span>
+        <span className="text-stone-800 dark:text-stone-100 font-semibold">{fmt(scenario)}</span>
         {hasChange && (
           <span className={delta > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}>
-            {delta > 0 ? '+' : ''}{formatCurrency(delta)}
+            {delta > 0 ? '+' : ''}{fmt(delta)}
           </span>
         )}
       </div>
@@ -169,6 +172,7 @@ export function ScenarioPanel() {
             label="Savings rate"
             base={baseBudget.savingsRate}
             scenario={scenarioBudget.savingsRate}
+            format="percent"
           />
         </div>
       )}

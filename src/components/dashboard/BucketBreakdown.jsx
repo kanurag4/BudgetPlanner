@@ -47,14 +47,20 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
     housingPerCycle, regularBucket, regularBucketAnnual,
     groceriesPerCycle,
     vehicleLoanPerCycle, otherLoansPerCycle,
+    investmentLoanRepaymentPerCycle, investmentLoanIncomePerCycle,
     utilitiesPerCycle, councilFeesPerCycle, strataFeesPerCycle, medicalInsurancePerCycle,
     fixedBucket, fixedBucketAnnual,
     actualSavings, actualSavingsAnnual,
+    primaryNetPerCycle, partnerNetPerCycle,
+    netIncomePerCycle, netIncomeAnnual,
     periodsPerYear,
   } = budget
 
   const { housing, groceries, fixedExpenses } = state
   const additionalLoans = housing.additionalLoans || []
+  const hasInvestmentIncome = (investmentLoanIncomePerCycle ?? 0) > 0
+  const hasPartnerIncome = (partnerNetPerCycle ?? 0) > 0
+  const showIncomeBreakdown = hasInvestmentIncome || hasPartnerIncome
 
   const mult = isAnnual ? periodsPerYear : 1
   const savingsAmount = Math.max(0, isAnnual ? actualSavingsAnnual : actualSavings)
@@ -64,6 +70,20 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
 
   return (
     <div className="flex flex-col gap-4">
+      {/* Income breakdown — only when there are multiple income sources */}
+      {showIncomeBreakdown && (
+        <Card>
+          <SectionHeader dot="#10b981" title="Income Sources" total={isAnnual ? netIncomeAnnual : netIncomePerCycle} />
+          <LineItem label="Primary salary" amount={(primaryNetPerCycle ?? 0) * mult} />
+          {hasPartnerIncome && (
+            <LineItem label="Partner salary" amount={partnerNetPerCycle * mult} />
+          )}
+          {hasInvestmentIncome && (
+            <LineItem label="Investment income" amount={investmentLoanIncomePerCycle * mult} />
+          )}
+        </Card>
+      )}
+
       {/* Regular bucket */}
       <Card>
         <SectionHeader dot="#f59e0b" title="Regular Expenses" total={regularTotal} />
@@ -80,6 +100,9 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
         )}
         {otherLoansPerCycle > 0 && (
           <LineItem label="Other loans" amount={otherLoansPerCycle * mult} />
+        )}
+        {(investmentLoanRepaymentPerCycle ?? 0) > 0 && (
+          <LineItem label="Investment loan repayment" amount={investmentLoanRepaymentPerCycle * mult} />
         )}
         {additionalLoans.map(loan => {
           const perCycle = normaliseToFrequency(

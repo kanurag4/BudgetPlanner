@@ -126,6 +126,7 @@ export const DEFAULT_STATE = {
     frequency: 'monthly',
     vehicleLoan:      { enabled: false, amount: '', frequency: 'monthly' },
     otherLoans:       { enabled: false, amount: '', frequency: 'monthly' },
+    investmentLoan:   { enabled: false, amount: '', frequency: 'monthly', income: '', incomeFrequency: 'monthly' },
     additionalLoans:  [],
   },
   groceries: { amount: '', frequency: 'monthly' },

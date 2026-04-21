@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Home, Building2, Car, CreditCard, Plus, Trash2 } from 'lucide-react'
+import { Home, Building2, Car, CreditCard, TrendingUp, Plus, Trash2 } from 'lucide-react'
 import { useBudget } from '../../hooks/useBudget'
 import { AmountFrequencyInput } from '../ui/AmountFrequencyInput'
 import { Toggle } from '../ui/Toggle'
@@ -34,6 +34,10 @@ export function StepHousing() {
 
   function patchOtherLoans(patch) {
     actions.updateHousing({ otherLoans: { ...housing.otherLoans, ...patch } })
+  }
+
+  function patchInvestmentLoan(patch) {
+    actions.updateHousing({ investmentLoan: { ...housing.investmentLoan, ...patch } })
   }
 
   const additionalLoans = housing.additionalLoans || []
@@ -150,6 +154,46 @@ export function StepHousing() {
             )}
           </div>
         </Card>
+        {/* Investment loan */}
+        <Card>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <TrendingUp size={18} className="text-stone-400 flex-shrink-0" />
+              <Toggle
+                id="investment-loan-toggle"
+                checked={housing.investmentLoan?.enabled ?? false}
+                onChange={checked => patchInvestmentLoan({ enabled: checked })}
+                label="Investment loan"
+                description="Property or asset loan — track repayments and rental/investment income"
+              />
+            </div>
+            {housing.investmentLoan?.enabled && (
+              <div className="border-t border-stone-100 dark:border-stone-700 pt-4 flex flex-col gap-4">
+                <AmountFrequencyInput
+                  id="investment-loan-repayment"
+                  label="Loan repayment"
+                  amount={housing.investmentLoan.amount}
+                  frequency={housing.investmentLoan.frequency}
+                  frequencies={EXPENSE_FREQUENCIES}
+                  salaryCycle={salaryCycle}
+                  onChange={({ amount, frequency }) => patchInvestmentLoan({ amount, frequency })}
+                />
+                <div className="border-t border-stone-100 dark:border-stone-700 pt-4">
+                  <AmountFrequencyInput
+                    id="investment-loan-income"
+                    label="Income from investment (e.g. rent)"
+                    amount={housing.investmentLoan.income}
+                    frequency={housing.investmentLoan.incomeFrequency}
+                    frequencies={EXPENSE_FREQUENCIES}
+                    salaryCycle={salaryCycle}
+                    onChange={({ amount, frequency }) => patchInvestmentLoan({ income: amount, incomeFrequency: frequency })}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </Card>
+
         {/* Manual additional loans */}
         {additionalLoans.length > 0 && (
           <div className="flex flex-col gap-3">

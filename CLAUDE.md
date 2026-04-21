@@ -290,4 +290,35 @@ Design system: Plus Jakarta Sans, emerald-500 primary, amber-400 accent, stone-5
 
 ## Deployment
 
+### GitHub Pages (development/standalone)
+
 Hosted on GitHub Pages at `kanurag4/BudgetPlanner`. GitHub Actions workflow (`.github/workflows/deploy.yml`) triggers on push to `master` and builds with `VITE_BASE_PATH` repo variable. Uses `HashRouter` so deep links work without a server-side catch-all.
+
+### kashvector.com (production hub — Option A)
+
+The canonical production deployment is as a subfolder at `kashvector.com/budget/`, which is part of a multi-tool hub at `kashvector.com` (hosted via Cloudflare Pages from `C:\Projects\StockAnalysis`).
+
+**Deploy workflow:**
+
+1. Build with the correct base path:
+   ```bash
+   VITE_BASE_PATH=/budget/ npm run build
+   ```
+   On Windows (PowerShell):
+   ```powershell
+   $env:VITE_BASE_PATH='/budget/'; npm run build
+   ```
+2. Copy `dist/` into the StockAnalysis repo:
+   ```bash
+   cp -r dist/. "C:/Projects/StockAnalysis/www/budget/"
+   ```
+3. Commit and push from `C:\Projects\StockAnalysis` — Cloudflare Pages auto-deploys.
+
+**Why `VITE_BASE_PATH=/budget/` matters:** The default build produces root-relative asset paths (`/assets/...`). Without the base path set, all JS/CSS will 404 when served from `/budget/`.
+
+**Sibling tools on kashvector.com:**
+- `kashvector.com/` — landing page (links to all tools)
+- `kashvector.com/stock/` — Stock Evaluator (vanilla JS, no build step)
+- `kashvector.com/budget/` — this app
+
+The two projects are developed independently. The Stock Evaluator lives at `C:\Projects\StockAnalysis`. No Worker changes are needed — both tools share the same `Origin: https://kashvector.com` header, which is already in the Worker's allowlist (though the budget planner makes no Worker calls).

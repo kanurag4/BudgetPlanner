@@ -82,8 +82,13 @@ export function calculateBudget(state, useScenario = false) {
   const bonusAmount = parseFloat(income.bonus?.amount) || 0
   const bonusPerCycle = bonusAmount / periodsPerYear
 
-  // --- Total net income per cycle (salary only — bonus is separate) ---
-  const netIncomePerCycle = primaryNetPerCycle + partnerNetPerCycle
+  // --- Investment loan income (needed before netIncomePerCycle) ---
+  const investmentLoanIncomePerCycle = effectiveHousing.investmentLoan?.enabled
+    ? normaliseToFrequency(parseFloat(effectiveHousing.investmentLoan.income) || 0, effectiveHousing.investmentLoan.incomeFrequency, salaryCycle)
+    : 0
+
+  // --- Total net income per cycle (salary + investment loan income — bonus is separate) ---
+  const netIncomePerCycle = primaryNetPerCycle + partnerNetPerCycle + investmentLoanIncomePerCycle
 
   // --- Superannuation (employer, 11.5% of gross) ---
   const superYearly = (primary.gross + partnerGrossYearly) * SUPER_RATE
@@ -109,6 +114,9 @@ export function calculateBudget(state, useScenario = false) {
   const additionalLoansPerCycle = (effectiveHousing.additionalLoans || []).reduce((sum, loan) => {
     return sum + normaliseToFrequency(parseFloat(loan.amount) || 0, loan.frequency, salaryCycle)
   }, 0)
+  const investmentLoanRepaymentPerCycle = effectiveHousing.investmentLoan?.enabled
+    ? normaliseToFrequency(parseFloat(effectiveHousing.investmentLoan.amount) || 0, effectiveHousing.investmentLoan.frequency, salaryCycle)
+    : 0
 
   // --- Household bills (utilities, council, strata, medical insurance) ---
   function billPerCycle(key) {
@@ -121,7 +129,7 @@ export function calculateBudget(state, useScenario = false) {
   const medicalInsurancePerCycle = billPerCycle('medicalInsurance')
   const householdBillsPerCycle   = utilitiesPerCycle + councilFeesPerCycle + strataFeesPerCycle + medicalInsurancePerCycle
 
-  const regularBucket = housingPerCycle + groceriesPerCycle + vehicleLoanPerCycle + otherLoansPerCycle + additionalLoansPerCycle + householdBillsPerCycle
+  const regularBucket = housingPerCycle + groceriesPerCycle + vehicleLoanPerCycle + otherLoansPerCycle + additionalLoansPerCycle + investmentLoanRepaymentPerCycle + householdBillsPerCycle
 
   // --- Fixed bucket ---
   const fixedBucket = (fixedExpenses || []).reduce((sum, expense) => {
@@ -185,6 +193,8 @@ export function calculateBudget(state, useScenario = false) {
     vehicleLoanPerCycle,
     otherLoansPerCycle,
     additionalLoansPerCycle,
+    investmentLoanRepaymentPerCycle,
+    investmentLoanIncomePerCycle,
     utilitiesPerCycle,
     councilFeesPerCycle,
     strataFeesPerCycle,

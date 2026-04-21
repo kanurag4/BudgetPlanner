@@ -30,10 +30,13 @@ export function SummaryCards({ budget, isAnnual, cycleLabel }) {
     actualSavings, actualSavingsAnnual,
     superPerCycle, superAnnual,
     bonusAnnual,
+    investmentLoanIncomePerCycle, periodsPerYear,
   } = budget
 
   const isOverBudget = actualSavings < 0
   const hasBonus = bonusAnnual > 0
+  const hasInvestmentIncome = (investmentLoanIncomePerCycle ?? 0) > 0
+  const investmentIncomeAnnual = (investmentLoanIncomePerCycle ?? 0) * periodsPerYear
 
   const cards = [
     {
@@ -46,6 +49,11 @@ export function SummaryCards({ budget, isAnnual, cycleLabel }) {
       amount: bonusAnnual,
       colorClass: 'text-amber-600 dark:text-amber-400',
       subLabel: 'per year (one-off)',
+    }] : []),
+    ...(hasInvestmentIncome ? [{
+      label: 'Investment Income',
+      amount: isAnnual ? investmentIncomeAnnual : investmentLoanIncomePerCycle,
+      colorClass: 'text-teal-600 dark:text-teal-400',
     }] : []),
     {
       label: 'Total Expenses',
