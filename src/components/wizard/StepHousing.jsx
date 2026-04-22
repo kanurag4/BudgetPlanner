@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { Home, Building2, Car, CreditCard, TrendingUp, Plus, Trash2 } from 'lucide-react'
+import { Toggle } from '../ui/Toggle'
 import { useBudget } from '../../hooks/useBudget'
 import { AmountFrequencyInput } from '../ui/AmountFrequencyInput'
-import { Toggle } from '../ui/Toggle'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
 import { HOUSING_FREQUENCIES, EXPENSE_FREQUENCIES } from '../../utils/constants'
@@ -36,11 +36,8 @@ export function StepHousing() {
     actions.updateHousing({ otherLoans: { ...housing.otherLoans, ...patch } })
   }
 
-  function patchInvestmentLoan(patch) {
-    actions.updateHousing({ investmentLoan: { ...housing.investmentLoan, ...patch } })
-  }
-
   const additionalLoans = housing.additionalLoans || []
+  const investmentLoans = housing.investmentLoans || []
 
   return (
     <div className="flex flex-col gap-6">
@@ -154,45 +151,66 @@ export function StepHousing() {
             )}
           </div>
         </Card>
-        {/* Investment loan */}
-        <Card>
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-3">
-              <TrendingUp size={18} className="text-slate-400 flex-shrink-0" />
-              <Toggle
-                id="investment-loan-toggle"
-                checked={housing.investmentLoan?.enabled ?? false}
-                onChange={checked => patchInvestmentLoan({ enabled: checked })}
-                label="Investment loan"
-                description="Property or asset loan — track repayments and rental/investment income"
+        {/* Investment loans */}
+        {investmentLoans.map(loan => (
+          <Card key={loan.id} padding={false} className="p-4">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <TrendingUp size={16} className="text-teal-500 flex-shrink-0" />
+                <input
+                  type="text"
+                  value={loan.name}
+                  onChange={e => actions.updateInvestmentLoan(loan.id, { name: e.target.value })}
+                  placeholder="Investment name (e.g. Rental property)"
+                  className={[
+                    'flex-1 px-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
+                    'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+                    'text-slate-800 dark:text-slate-100 placeholder-slate-400',
+                    'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+                  ].join(' ')}
+                />
+                <button
+                  type="button"
+                  onClick={() => actions.removeInvestmentLoan(loan.id)}
+                  aria-label="Remove investment loan"
+                  className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors flex-shrink-0"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+              <AmountFrequencyInput
+                id={`inv-loan-repayment-${loan.id}`}
+                label="Loan repayment"
+                amount={loan.amount}
+                frequency={loan.frequency}
+                frequencies={EXPENSE_FREQUENCIES}
+                salaryCycle={salaryCycle}
+                onChange={({ amount, frequency }) => actions.updateInvestmentLoan(loan.id, { amount, frequency })}
               />
-            </div>
-            {housing.investmentLoan?.enabled && (
-              <div className="border-t border-slate-100 dark:border-slate-700 pt-4 flex flex-col gap-4">
+              <div className="border-t border-slate-100 dark:border-slate-700 pt-3">
                 <AmountFrequencyInput
-                  id="investment-loan-repayment"
-                  label="Loan repayment"
-                  amount={housing.investmentLoan.amount}
-                  frequency={housing.investmentLoan.frequency}
+                  id={`inv-loan-income-${loan.id}`}
+                  label="Income from investment (e.g. rent)"
+                  amount={loan.income}
+                  frequency={loan.incomeFrequency}
                   frequencies={EXPENSE_FREQUENCIES}
                   salaryCycle={salaryCycle}
-                  onChange={({ amount, frequency }) => patchInvestmentLoan({ amount, frequency })}
+                  onChange={({ amount, frequency }) => actions.updateInvestmentLoan(loan.id, { income: amount, incomeFrequency: frequency })}
                 />
-                <div className="border-t border-slate-100 dark:border-slate-700 pt-4">
-                  <AmountFrequencyInput
-                    id="investment-loan-income"
-                    label="Income from investment (e.g. rent)"
-                    amount={housing.investmentLoan.income}
-                    frequency={housing.investmentLoan.incomeFrequency}
-                    frequencies={EXPENSE_FREQUENCIES}
-                    salaryCycle={salaryCycle}
-                    onChange={({ amount, frequency }) => patchInvestmentLoan({ income: amount, incomeFrequency: frequency })}
-                  />
-                </div>
               </div>
-            )}
-          </div>
-        </Card>
+            </div>
+          </Card>
+        ))}
+
+        {/* Add investment loan button */}
+        <button
+          type="button"
+          onClick={() => actions.addInvestmentLoan({ name: '', amount: '', frequency: 'monthly', income: '', incomeFrequency: 'monthly' })}
+          className="flex items-center justify-center gap-2 w-full rounded-xl border-2 border-dashed border-teal-300 dark:border-teal-700 py-3 text-sm font-medium text-teal-600 dark:text-teal-400 hover:border-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors min-h-[44px]"
+        >
+          <TrendingUp size={16} />
+          Add investment loan
+        </button>
 
         {/* Manual additional loans */}
         {additionalLoans.length > 0 && (
@@ -219,10 +237,12 @@ export function StepHousing() {
                       </span>
                       <input
                         type="number"
+                        inputMode="decimal"
                         min="0"
                         step="1"
                         value={loan.amount}
                         onChange={e => actions.updateHousingLoan(loan.id, { amount: e.target.value })}
+                        onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
                         placeholder="0"
                         className={[
                           'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',

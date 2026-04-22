@@ -64,10 +64,12 @@ export function AmountFrequencyInput({
           <input
             id={`${id}-amount`}
             type="number"
+            inputMode="decimal"
             min="0"
             step="1"
             value={amount}
             onChange={handleAmountChange}
+            onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
             placeholder={placeholder}
             disabled={disabled}
             className={[

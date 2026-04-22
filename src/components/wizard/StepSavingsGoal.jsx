@@ -85,11 +85,13 @@ export function StepSavingsGoal() {
                     <input
                       id="savings-pct"
                       type="number"
+                      inputMode="numeric"
                       min="1"
                       max="100"
                       step="1"
                       value={savingsGoal.value}
                       onChange={e => actions.updateSavingsGoal({ value: e.target.value })}
+                      onKeyDown={e => ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault()}
                       placeholder="20"
                       className={[
                         'w-full pr-8 pl-3 py-2.5 rounded-xl border text-sm min-h-[44px]',

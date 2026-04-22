@@ -278,10 +278,12 @@ export function StepIncome() {
             <input
               id="bonus-amount"
               type="number"
+              inputMode="decimal"
               min="0"
               step="1"
               value={bonus.amount}
               onChange={e => actions.updateBonus({ amount: e.target.value })}
+              onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
               placeholder="0"
               className={[
                 'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',

@@ -78,9 +78,16 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
           {hasPartnerIncome && (
             <LineItem label="Partner salary" amount={partnerNetPerCycle * mult} />
           )}
-          {hasInvestmentIncome && (
-            <LineItem label="Investment income" amount={investmentLoanIncomePerCycle * mult} />
-          )}
+          {(housing.investmentLoans || []).map(loan => {
+            const inc = normaliseToFrequency(parseFloat(loan.income) || 0, loan.incomeFrequency || 'monthly', budget.salaryCycle)
+            return inc > 0 ? (
+              <LineItem
+                key={loan.id}
+                label={loan.name ? `${loan.name} income` : 'Investment income'}
+                amount={inc * mult}
+              />
+            ) : null
+          })}
         </Card>
       )}
 
@@ -101,9 +108,16 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
         {otherLoansPerCycle > 0 && (
           <LineItem label="Other loans" amount={otherLoansPerCycle * mult} />
         )}
-        {(investmentLoanRepaymentPerCycle ?? 0) > 0 && (
-          <LineItem label="Investment loan repayment" amount={investmentLoanRepaymentPerCycle * mult} />
-        )}
+        {(housing.investmentLoans || []).map(loan => {
+          const repay = normaliseToFrequency(parseFloat(loan.amount) || 0, loan.frequency || 'monthly', budget.salaryCycle)
+          return repay > 0 ? (
+            <LineItem
+              key={loan.id}
+              label={loan.name ? `${loan.name} repayment` : 'Investment loan repayment'}
+              amount={repay * mult}
+            />
+          ) : null
+        })}
         {additionalLoans.map(loan => {
           const perCycle = normaliseToFrequency(
             parseFloat(loan.amount) || 0,

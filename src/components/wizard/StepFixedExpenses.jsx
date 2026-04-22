@@ -113,10 +113,12 @@ export function StepFixedExpenses() {
                     </span>
                     <input
                       type="number"
+                      inputMode="decimal"
                       min="0"
                       step="1"
                       value={expense.amount}
                       onChange={e => actions.updateFixedExpense(expense.id, { amount: e.target.value })}
+                      onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
                       placeholder="0"
                       className={[
                         'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',

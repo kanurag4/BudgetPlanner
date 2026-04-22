@@ -163,6 +163,41 @@ export function BudgetProvider({ children }) {
     }))
   }
 
+  // ── Investment loans (array, each has repayment + income) ─────────────────
+
+  function addInvestmentLoan(loan) {
+    const id = crypto.randomUUID()
+    setPersisted(prev => ({
+      ...prev,
+      housing: {
+        ...prev.housing,
+        investmentLoans: [...(prev.housing.investmentLoans || []), { id, ...loan }],
+      },
+    }))
+  }
+
+  function updateInvestmentLoan(id, subPatch) {
+    setPersisted(prev => ({
+      ...prev,
+      housing: {
+        ...prev.housing,
+        investmentLoans: (prev.housing.investmentLoans || []).map(l =>
+          l.id === id ? { ...l, ...subPatch } : l
+        ),
+      },
+    }))
+  }
+
+  function removeInvestmentLoan(id) {
+    setPersisted(prev => ({
+      ...prev,
+      housing: {
+        ...prev.housing,
+        investmentLoans: (prev.housing.investmentLoans || []).filter(l => l.id !== id),
+      },
+    }))
+  }
+
   // ── Savings goal ──────────────────────────────────────────────────────────
 
   function updateHouseholdBill(key, subPatch) {
@@ -234,6 +269,9 @@ export function BudgetProvider({ children }) {
     addHousingLoan,
     updateHousingLoan,
     removeHousingLoan,
+    addInvestmentLoan,
+    updateInvestmentLoan,
+    removeInvestmentLoan,
     updateHouseholdBill,
     updateSavingsGoal,
     updateProfile,

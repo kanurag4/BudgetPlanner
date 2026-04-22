@@ -75,10 +75,12 @@ export function PayslipReviewCard({ result, onApply, onDismiss }) {
               <input
                 id="payslip-net-pay"
                 type="number"
+                inputMode="decimal"
                 min="0"
                 step="1"
                 value={netPay}
                 onChange={e => setNetPay(e.target.value)}
+                onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
                 placeholder="e.g. 4200"
                 className={[
                   'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',

@@ -16,10 +16,12 @@ function OverrideInput({ label, placeholder, value, onChange }) {
         </span>
         <input
           type="number"
+          inputMode="decimal"
           min="0"
           step="1"
           value={value}
           onChange={e => onChange(e.target.value)}
+          onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
           placeholder={placeholder}
           className={[
             'w-full pl-7 pr-3 py-2 rounded-xl border text-sm min-h-[44px]',

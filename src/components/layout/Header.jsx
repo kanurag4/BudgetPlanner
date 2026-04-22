@@ -14,16 +14,25 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-100 dark:border-slate-800">
+    <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-100 dark:border-slate-800 relative">
+
+        {/* KashVector logo — pinned to the left edge of the page */}
+        <a
+          href="/"
+          aria-label="KashVector home"
+          className="absolute left-4 top-1/2 -translate-y-1/2 opacity-90 hover:opacity-100 transition-opacity"
+        >
+          <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="KashVector" className="w-7 h-7" />
+        </a>
+
       <div className="max-w-3xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
 
-        {/* Logo */}
+        {/* App identity */}
         <a
           href="/"
           className="flex items-center gap-2 text-slate-900 dark:text-slate-100 hover:opacity-80 transition-opacity"
           aria-label="Budget Planner home"
         >
-          <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="KashVector" className="w-7 h-7" />
           <img src={`${import.meta.env.BASE_URL}Budget.png`} alt="" className="w-7 h-7 rounded-md" />
           <span className="font-semibold text-sm hidden sm:inline">Budget Planner</span>
         </a>

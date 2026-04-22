@@ -82,10 +82,13 @@ export function calculateBudget(state, useScenario = false) {
   const bonusAmount = parseFloat(income.bonus?.amount) || 0
   const bonusPerCycle = bonusAmount / periodsPerYear
 
-  // --- Investment loan income (needed before netIncomePerCycle) ---
-  const investmentLoanIncomePerCycle = effectiveHousing.investmentLoan?.enabled
-    ? normaliseToFrequency(parseFloat(effectiveHousing.investmentLoan.income) || 0, effectiveHousing.investmentLoan.incomeFrequency, salaryCycle)
-    : 0
+  // --- Investment loans: array-based; also accepts legacy single investmentLoan for backward compat ---
+  const investmentLoans = (effectiveHousing.investmentLoans || []).length > 0
+    ? effectiveHousing.investmentLoans
+    : (effectiveHousing.investmentLoan?.enabled ? [effectiveHousing.investmentLoan] : [])
+
+  const investmentLoanIncomePerCycle = investmentLoans.reduce((sum, loan) =>
+    sum + normaliseToFrequency(parseFloat(loan.income) || 0, loan.incomeFrequency || 'monthly', salaryCycle), 0)
 
   // --- Total net income per cycle (salary + investment loan income — bonus is separate) ---
   const netIncomePerCycle = primaryNetPerCycle + partnerNetPerCycle + investmentLoanIncomePerCycle
@@ -114,9 +117,8 @@ export function calculateBudget(state, useScenario = false) {
   const additionalLoansPerCycle = (effectiveHousing.additionalLoans || []).reduce((sum, loan) => {
     return sum + normaliseToFrequency(parseFloat(loan.amount) || 0, loan.frequency, salaryCycle)
   }, 0)
-  const investmentLoanRepaymentPerCycle = effectiveHousing.investmentLoan?.enabled
-    ? normaliseToFrequency(parseFloat(effectiveHousing.investmentLoan.amount) || 0, effectiveHousing.investmentLoan.frequency, salaryCycle)
-    : 0
+  const investmentLoanRepaymentPerCycle = investmentLoans.reduce((sum, loan) =>
+    sum + normaliseToFrequency(parseFloat(loan.amount) || 0, loan.frequency || 'monthly', salaryCycle), 0)
 
   // --- Household bills (utilities, council, strata, medical insurance) ---
   function billPerCycle(key) {
