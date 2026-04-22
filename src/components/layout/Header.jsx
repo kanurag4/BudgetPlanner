@@ -24,6 +24,7 @@ export function Header() {
           aria-label="Budget Planner home"
         >
           <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="KashVector" className="w-7 h-7" />
+          <img src={`${import.meta.env.BASE_URL}Budget.png`} alt="" className="w-7 h-7 rounded-md" />
           <span className="font-semibold text-sm hidden sm:inline">Budget Planner</span>
         </a>
 
