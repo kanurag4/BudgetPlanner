@@ -93,7 +93,7 @@ export function calculateBudget(state, useScenario = false) {
   // --- Total net income per cycle (salary + investment loan income — bonus is separate) ---
   const netIncomePerCycle = primaryNetPerCycle + partnerNetPerCycle + investmentLoanIncomePerCycle
 
-  // --- Superannuation (employer, 11.5% of gross) ---
+  // --- Superannuation (employer, 12% of gross, 2025–26 SGC) ---
   const superYearly = (primary.gross + partnerGrossYearly) * SUPER_RATE
   const superPerCycle = superYearly / periodsPerYear
 

@@ -70,7 +70,7 @@ function buildPdfLines(budget, state, isAnnual, cycleLabel) {
   lines.push(spacer())
 
   lines.push(sub('SUPERANNUATION'))
-  lines.push(row('Employer super (11.5%)', formatCurrency(pick(superPerCycle, superAnnual))))
+  lines.push(row('Employer super (12%)', formatCurrency(pick(superPerCycle, superAnnual))))
   lines.push(spacer())
 
   lines.push(note('This is an estimate only. Seek professional financial advice for personalised guidance.'))
