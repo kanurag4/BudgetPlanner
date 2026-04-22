@@ -9,8 +9,8 @@ export default {
       },
       colors: {
         primary: {
-          DEFAULT: '#10b981', // emerald-500
-          dark: '#059669',    // emerald-600
+          DEFAULT: '#38bdf8', // sky-400
+          dark: '#0ea5e9',    // sky-500
         },
         accent: '#fbbf24',    // amber-400
       },

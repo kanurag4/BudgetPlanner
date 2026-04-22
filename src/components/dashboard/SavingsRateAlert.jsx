@@ -61,7 +61,7 @@ export function SavingsRateAlert({ budget, profile }) {
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <p className="text-sm font-semibold text-stone-800 dark:text-stone-100">
+            <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
               Savings rate
             </p>
             {hasBonus && (
@@ -75,7 +75,7 @@ export function SavingsRateAlert({ budget, profile }) {
                 <span className={[
                   'relative inline-flex h-5 w-9 flex-shrink-0 rounded-full border-2 border-transparent',
                   'transition-colors duration-200 ease-in-out focus:outline-none',
-                  withBonus ? 'bg-emerald-500' : 'bg-stone-300 dark:bg-stone-600',
+                  withBonus ? 'bg-sky-500' : 'bg-slate-300 dark:bg-slate-600',
                 ].join(' ')}>
                   {/* Thumb */}
                   <span className={[
@@ -84,7 +84,7 @@ export function SavingsRateAlert({ budget, profile }) {
                     withBonus ? 'translate-x-4' : 'translate-x-0',
                   ].join(' ')} />
                 </span>
-                <span className="text-xs font-medium text-stone-500 dark:text-stone-400 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors">
+                <span className="text-xs font-medium text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
                   Include bonus
                 </span>
               </button>
@@ -102,7 +102,7 @@ export function SavingsRateAlert({ budget, profile }) {
       </div>
 
       {/* Progress bar with target marker */}
-      <div className="relative h-3 bg-stone-200 dark:bg-stone-700 rounded-full overflow-visible mb-4">
+      <div className="relative h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-visible mb-4">
         {/* Actual rate fill */}
         <div
           className={`h-full rounded-full transition-all duration-500 ${styles.bar}`}
@@ -110,7 +110,7 @@ export function SavingsRateAlert({ budget, profile }) {
         />
         {/* Target marker */}
         <div
-          className="absolute top-1/2 -translate-y-1/2 w-0.5 h-5 bg-stone-500 dark:bg-stone-400 rounded-full"
+          className="absolute top-1/2 -translate-y-1/2 w-0.5 h-5 bg-slate-500 dark:bg-slate-400 rounded-full"
           style={{ left: `${recommendedMark}%` }}
           title={`Target: ${recommendedRate}%`}
         />
@@ -120,15 +120,15 @@ export function SavingsRateAlert({ budget, profile }) {
       <div className="flex items-center justify-between text-xs">
         <div className="flex items-center gap-1.5">
           <span className={`w-2 h-2 rounded-full ${styles.bar}`} />
-          <span className="text-stone-500 dark:text-stone-400">Your rate</span>
+          <span className="text-slate-500 dark:text-slate-400">Your rate</span>
           <span className={`font-bold tabular-nums ${styles.text}`}>
             {Math.max(0, activeRate).toFixed(1)}%
           </span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-0.5 h-3 bg-stone-500 dark:bg-stone-400 rounded-full" />
-          <span className="text-stone-500 dark:text-stone-400">Target</span>
-          <span className="font-bold tabular-nums text-stone-600 dark:text-stone-300">
+          <span className="w-0.5 h-3 bg-slate-500 dark:bg-slate-400 rounded-full" />
+          <span className="text-slate-500 dark:text-slate-400">Target</span>
+          <span className="font-bold tabular-nums text-slate-600 dark:text-slate-300">
             {recommendedRate}%
           </span>
         </div>

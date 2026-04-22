@@ -9,9 +9,9 @@ import { formatCurrency } from '../../utils/formatCurrency'
 function OverrideInput({ label, placeholder, value, onChange }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-xs font-medium text-stone-600 dark:text-stone-400">{label}</label>
+      <label className="text-xs font-medium text-slate-600 dark:text-slate-400">{label}</label>
       <div className="relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 dark:text-stone-500 text-sm pointer-events-none">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-sm pointer-events-none">
           $
         </span>
         <input
@@ -23,9 +23,9 @@ function OverrideInput({ label, placeholder, value, onChange }) {
           placeholder={placeholder}
           className={[
             'w-full pl-7 pr-3 py-2 rounded-xl border text-sm min-h-[44px]',
-            'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-            'text-stone-800 dark:text-stone-100 placeholder-stone-400',
-            'focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent',
+            'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+            'text-slate-800 dark:text-slate-100 placeholder-slate-400',
+            'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
           ].join(' ')}
         />
       </div>
@@ -42,10 +42,10 @@ function DeltaRow({ label, base, scenario, format = 'currency' }) {
 
   return (
     <div className="flex items-center justify-between gap-3 text-xs py-1">
-      <span className="text-stone-500 dark:text-stone-400">{label}</span>
+      <span className="text-slate-500 dark:text-slate-400">{label}</span>
       <div className="flex items-center gap-2 tabular-nums">
-        <span className="text-stone-400 dark:text-stone-500 line-through">{fmt(base)}</span>
-        <span className="text-stone-800 dark:text-stone-100 font-semibold">{fmt(scenario)}</span>
+        <span className="text-slate-400 dark:text-slate-500 line-through">{fmt(base)}</span>
+        <span className="text-slate-800 dark:text-slate-100 font-semibold">{fmt(scenario)}</span>
         {hasChange && (
           <span className={delta > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}>
             {delta > 0 ? '+' : ''}{fmt(delta)}
@@ -108,10 +108,10 @@ export function ScenarioPanel() {
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-4">
         <div>
-          <h2 className="text-sm font-semibold text-stone-700 dark:text-stone-300">
+          <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             What-if scenario
           </h2>
-          <p className="text-xs text-stone-400 dark:text-stone-500 mt-0.5">
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
             Override values to see how your budget changes. Not saved.
           </p>
         </div>
@@ -182,7 +182,7 @@ export function ScenarioPanel() {
         <Button
           variant="ghost"
           size="sm"
-          className="mt-3 text-stone-400 dark:text-stone-500"
+          className="mt-3 text-slate-400 dark:text-slate-500"
           onClick={handleReset}
         >
           Reset scenario

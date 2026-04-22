@@ -190,7 +190,7 @@ export function ExportButton({ budget, state, isAnnual, cycleLabel }) {
         <p className="text-xs text-rose-500">{error}</p>
       )}
       {budget.netIncomePerCycle <= 0 && (
-        <p className="text-xs text-stone-400 dark:text-stone-500">
+        <p className="text-xs text-slate-400 dark:text-slate-500">
           Complete the wizard to enable export.
         </p>
       )}

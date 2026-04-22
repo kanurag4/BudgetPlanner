@@ -20,13 +20,13 @@ export function SuperannuationCard({ budget, isAnnual, cycleLabel }) {
       <div className="flex items-start justify-between gap-4">
         {/* Left: label + secondary */}
         <div className="flex flex-col gap-1 min-w-0">
-          <p className="text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide">
+          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
             Employer Super
           </p>
           <p className="text-2xl font-bold tabular-nums text-blue-600 dark:text-blue-400">
             {formatCurrency(display)}
           </p>
-          <p className="text-xs text-stone-400 dark:text-stone-500">
+          <p className="text-xs text-slate-400 dark:text-slate-500">
             {isAnnual ? 'per year' : `per ${cycleLabel}`}
             {' · '}
             {formatCurrency(secondary)} {secondaryLabel}
@@ -44,7 +44,7 @@ export function SuperannuationCard({ budget, isAnnual, cycleLabel }) {
         </div>
       </div>
 
-      <p className="mt-3 text-xs text-stone-400 dark:text-stone-500 border-t border-stone-100 dark:border-stone-700 pt-3">
+      <p className="mt-3 text-xs text-slate-400 dark:text-slate-500 border-t border-slate-100 dark:border-slate-700 pt-3">
         Employer contribution (Superannuation Guarantee) — separate from your take-home pay.
         Paid into your super fund by your employer.
       </p>

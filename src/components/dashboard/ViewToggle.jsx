@@ -10,7 +10,7 @@ export function ViewToggle() {
   const { dashboardView } = state
 
   return (
-    <div className="inline-flex rounded-xl bg-stone-100 dark:bg-stone-800 p-1 gap-1">
+    <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 gap-1">
       {OPTIONS.map(({ value, label }) => (
         <button
           key={value}
@@ -18,8 +18,8 @@ export function ViewToggle() {
           className={[
             'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150 min-h-[44px]',
             dashboardView === value
-              ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-stone-100 shadow-sm'
-              : 'text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200',
+              ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm'
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200',
           ].join(' ')}
         >
           {label}

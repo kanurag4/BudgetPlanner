@@ -21,7 +21,7 @@ export function Toggle({ checked, onChange, label, description, id, disabled = f
         <div
           className={[
             'w-11 h-6 rounded-full transition-colors duration-200',
-            checked ? 'bg-emerald-500' : 'bg-stone-300 dark:bg-stone-600',
+            checked ? 'bg-sky-500' : 'bg-slate-300 dark:bg-slate-600',
           ].join(' ')}
         />
         <div
@@ -36,12 +36,12 @@ export function Toggle({ checked, onChange, label, description, id, disabled = f
       {(label || description) && (
         <div className="min-h-[44px] flex flex-col justify-center">
           {label && (
-            <span className="text-sm font-medium text-stone-800 dark:text-stone-100">
+            <span className="text-sm font-medium text-slate-800 dark:text-slate-100">
               {label}
             </span>
           )}
           {description && (
-            <span className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
+            <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               {description}
             </span>
           )}

@@ -35,7 +35,7 @@ export function Dashboard() {
   const displayBudget = scenarioBudget ?? budget
 
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-900 flex flex-col">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col">
       <Header />
 
       <main className="flex-1 w-full max-w-2xl mx-auto px-4 pt-4 pb-safe-lg flex flex-col gap-5">
@@ -43,15 +43,15 @@ export function Dashboard() {
         {/* Title + actions */}
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <h1 className="text-lg font-bold text-stone-800 dark:text-stone-100 truncate">
+            <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100 truncate">
               Your Budget
             </h1>
             <button
               onClick={() => navigate('/wizard/income')}
               className={[
                 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium min-h-[32px]',
-                'bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400',
-                'hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400',
+                'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400',
+                'hover:bg-sky-50 hover:text-sky-600 dark:hover:bg-sky-900/20 dark:hover:text-sky-400',
                 'transition-colors duration-150 flex-shrink-0',
               ].join(' ')}
               aria-label="Edit budget answers"
@@ -85,7 +85,7 @@ export function Dashboard() {
 
         {/* Waterfall chart */}
         <Card>
-          <h2 className="text-sm font-semibold text-stone-700 dark:text-stone-300 mb-4">
+          <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4">
             Budget breakdown
           </h2>
           <BucketWaterfallChart

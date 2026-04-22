@@ -5,16 +5,16 @@ import { normaliseToFrequency } from '../../engine/normalise'
 
 function LineItem({ label, amount, sub, bold = false }) {
   return (
-    <div className="flex items-start justify-between gap-3 py-2 border-b border-stone-100 dark:border-stone-700 last:border-0">
+    <div className="flex items-start justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-700 last:border-0">
       <div className="min-w-0">
-        <p className={`text-sm truncate ${bold ? 'font-semibold text-stone-800 dark:text-stone-100' : 'text-stone-600 dark:text-stone-400'}`}>
+        <p className={`text-sm truncate ${bold ? 'font-semibold text-slate-800 dark:text-slate-100' : 'text-slate-600 dark:text-slate-400'}`}>
           {label}
         </p>
         {sub && (
-          <p className="text-xs text-stone-400 dark:text-stone-500">{sub}</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500">{sub}</p>
         )}
       </div>
-      <p className={`text-sm tabular-nums flex-shrink-0 ${bold ? 'font-bold text-stone-900 dark:text-stone-50' : 'font-medium text-stone-700 dark:text-stone-200'}`}>
+      <p className={`text-sm tabular-nums flex-shrink-0 ${bold ? 'font-bold text-slate-900 dark:text-slate-50' : 'font-medium text-slate-700 dark:text-slate-200'}`}>
         {formatCurrency(amount)}
       </p>
     </div>
@@ -26,9 +26,9 @@ function SectionHeader({ dot, title, total }) {
     <div className="flex items-center justify-between mb-3">
       <div className="flex items-center gap-2">
         <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: dot }} />
-        <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300">{title}</h3>
+        <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">{title}</h3>
       </div>
-      <span className="text-sm font-bold tabular-nums text-stone-800 dark:text-stone-100">
+      <span className="text-sm font-bold tabular-nums text-slate-800 dark:text-slate-100">
         {formatCurrency(total)}
       </span>
     </div>
@@ -136,7 +136,7 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
       <Card>
         <SectionHeader dot="#3b82f6" title="Fixed Expenses" total={fixedTotal} />
         {fixedExpenses.length === 0 ? (
-          <p className="text-sm text-stone-400 dark:text-stone-500 py-2">
+          <p className="text-sm text-slate-400 dark:text-slate-500 py-2">
             No fixed expenses added.
           </p>
         ) : (
@@ -155,8 +155,8 @@ export function BucketBreakdown({ budget, state, isAnnual, cycleLabel }) {
                 />
               )
             })}
-            <div className="mt-3 pt-3 border-t border-stone-100 dark:border-stone-700 flex items-start justify-between gap-3">
-              <p className="text-xs text-stone-500 dark:text-stone-400 leading-snug">
+            <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700 flex items-start justify-between gap-3">
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-snug">
                 Set aside per {cycleLabel} to cover all fixed costs
               </p>
               <p className="text-sm font-bold tabular-nums text-blue-600 dark:text-blue-400 flex-shrink-0">

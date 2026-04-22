@@ -4,7 +4,7 @@ import { useStorage } from '../hooks/useStorage'
 export const ThemeContext = createContext(null)
 
 export function ThemeProvider({ children }) {
-  const [darkMode, setDarkMode] = useStorage('budgetplanner_theme', false)
+  const [darkMode, setDarkMode] = useStorage('budgetplanner_theme', true)
 
   // Keep the `dark` class on <html> in sync with state
   useEffect(() => {

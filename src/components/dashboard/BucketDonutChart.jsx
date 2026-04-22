@@ -7,16 +7,16 @@ const BUCKET_COLORS = {
   Savings: '#10b981',  // emerald-500
 }
 
-const EMPTY_COLOR = '#e7e5e4' // stone-200
+const EMPTY_COLOR = '#e2e8f0' // slate-200
 
 function CustomTooltip({ active, payload }) {
   if (!active || !payload?.length) return null
   const { name, value } = payload[0].payload
   if (name === 'Empty') return null
   return (
-    <div className="bg-white dark:bg-stone-800 rounded-xl shadow-md border border-stone-100 dark:border-stone-700 px-3 py-2 text-sm">
-      <p className="font-semibold text-stone-800 dark:text-stone-100">{name}</p>
-      <p className="text-stone-500 dark:text-stone-400">{formatCurrency(value)}</p>
+    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-md border border-slate-100 dark:border-slate-700 px-3 py-2 text-sm">
+      <p className="font-semibold text-slate-800 dark:text-slate-100">{name}</p>
+      <p className="text-slate-500 dark:text-slate-400">{formatCurrency(value)}</p>
     </div>
   )
 }
@@ -88,15 +88,15 @@ export function BucketDonutChart({ budget, isAnnual, cycleLabel }) {
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
           {hasData ? (
             <>
-              <p className="text-[11px] text-stone-400 dark:text-stone-500 font-medium uppercase tracking-wide">
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wide">
                 {isAnnual ? 'yearly' : `per ${cycleLabel}`}
               </p>
-              <p className="text-lg font-bold text-stone-800 dark:text-stone-100 tabular-nums leading-tight">
+              <p className="text-lg font-bold text-slate-800 dark:text-slate-100 tabular-nums leading-tight">
                 {formatCurrency(income)}
               </p>
             </>
           ) : (
-            <p className="text-xs text-stone-400 dark:text-stone-500 text-center px-4 leading-snug">
+            <p className="text-xs text-slate-400 dark:text-slate-500 text-center px-4 leading-snug">
               Complete the wizard to see your budget
             </p>
           )}
@@ -122,8 +122,8 @@ export function BucketDonutChart({ budget, isAnnual, cycleLabel }) {
                 className="w-3 h-3 rounded-full flex-shrink-0"
                 style={{ backgroundColor: color }}
               />
-              <span className="text-sm text-stone-600 dark:text-stone-400 flex-1">{label}</span>
-              <span className="text-sm font-semibold tabular-nums text-stone-800 dark:text-stone-100">
+              <span className="text-sm text-slate-600 dark:text-slate-400 flex-1">{label}</span>
+              <span className="text-sm font-semibold tabular-nums text-slate-800 dark:text-slate-100">
                 {formatCurrency(value)}
               </span>
             </div>

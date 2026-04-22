@@ -51,10 +51,10 @@ export function StepFixedExpenses() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">
           Any fixed expenses?
         </h2>
-        <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Subscriptions, memberships, fees — anything predictable.
         </p>
       </div>
@@ -62,7 +62,7 @@ export function StepFixedExpenses() {
       {/* Quick-add suggestions — always shown while suggestions remain */}
       {availableSuggestions.length > 0 && (
         <div className="flex flex-col gap-2">
-          <p className="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wide px-1">
+          <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide px-1">
             Quick add
           </p>
           <div className="flex flex-wrap gap-2">
@@ -73,9 +73,9 @@ export function StepFixedExpenses() {
                 onClick={() => handleSuggestion(suggestion)}
                 className={[
                   'px-3 py-1.5 rounded-full border text-xs font-medium transition-colors min-h-[36px]',
-                  'border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 bg-white dark:bg-stone-800',
-                  'hover:border-emerald-400 hover:text-emerald-700 hover:bg-emerald-50',
-                  'dark:hover:border-emerald-600 dark:hover:text-emerald-400 dark:hover:bg-emerald-900/20',
+                  'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800',
+                  'hover:border-sky-400 hover:text-sky-700 hover:bg-sky-50',
+                  'dark:hover:border-sky-600 dark:hover:text-sky-400 dark:hover:bg-sky-900/20',
                 ].join(' ')}
               >
                 + {suggestion.label}
@@ -99,16 +99,16 @@ export function StepFixedExpenses() {
                   placeholder="Expense name"
                   className={[
                     'w-full px-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
-                    'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-                    'text-stone-800 dark:text-stone-100 placeholder-stone-400',
-                    'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+                    'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+                    'text-slate-800 dark:text-slate-100 placeholder-slate-400',
+                    'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
                   ].join(' ')}
                 />
 
                 {/* Amount + frequency + delete */}
                 <div className="flex gap-2 items-center">
                   <div className="relative flex-1">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 dark:text-stone-500 text-sm font-medium pointer-events-none">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-sm font-medium pointer-events-none">
                       $
                     </span>
                     <input
@@ -120,9 +120,9 @@ export function StepFixedExpenses() {
                       placeholder="0"
                       className={[
                         'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
-                        'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-                        'text-stone-800 dark:text-stone-100 placeholder-stone-400',
-                        'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+                        'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+                        'text-slate-800 dark:text-slate-100 placeholder-slate-400',
+                        'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
                       ].join(' ')}
                     />
                   </div>
@@ -133,9 +133,9 @@ export function StepFixedExpenses() {
                     aria-label="Expense frequency"
                     className={[
                       'px-3 py-2.5 rounded-xl border text-sm font-medium min-h-[44px]',
-                      'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-                      'text-stone-800 dark:text-stone-100',
-                      'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+                      'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+                      'text-slate-800 dark:text-slate-100',
+                      'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
                     ].join(' ')}
                   >
                     {EXPENSE_FREQUENCIES.map(f => (
@@ -147,7 +147,7 @@ export function StepFixedExpenses() {
                     type="button"
                     onClick={() => actions.removeFixedExpense(expense.id)}
                     aria-label="Remove expense"
-                    className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-stone-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors flex-shrink-0"
+                    className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors flex-shrink-0"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -157,9 +157,9 @@ export function StepFixedExpenses() {
           ))}
         </div>
       ) : (
-        <Card className="flex flex-col items-center justify-center gap-2 py-8 text-center border-2 border-dashed border-stone-200 dark:border-stone-700 bg-transparent shadow-none">
-          <p className="text-stone-400 dark:text-stone-500 text-sm">No fixed expenses yet</p>
-          <p className="text-stone-400 dark:text-stone-500 text-xs">
+        <Card className="flex flex-col items-center justify-center gap-2 py-8 text-center border-2 border-dashed border-slate-200 dark:border-slate-700 bg-transparent shadow-none">
+          <p className="text-slate-400 dark:text-slate-500 text-sm">No fixed expenses yet</p>
+          <p className="text-slate-400 dark:text-slate-500 text-xs">
             Use the quick-add chips above or the button below
           </p>
         </Card>
@@ -169,7 +169,7 @@ export function StepFixedExpenses() {
       <button
         type="button"
         onClick={handleAdd}
-        className="flex items-center justify-center gap-2 w-full rounded-xl border-2 border-dashed border-stone-300 dark:border-stone-600 py-3 text-sm font-medium text-stone-500 dark:text-stone-400 hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors min-h-[44px]"
+        className="flex items-center justify-center gap-2 w-full rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 py-3 text-sm font-medium text-slate-500 dark:text-slate-400 hover:border-sky-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors min-h-[44px]"
       >
         <Plus size={16} />
         Add custom expense

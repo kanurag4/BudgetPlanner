@@ -74,30 +74,30 @@ export function PayslipUploader({ onResult }) {
         className={[
           'w-full flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed',
           'px-4 py-6 text-sm transition-colors duration-150 focus:outline-none',
-          'focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 dark:focus:ring-offset-stone-900',
+          'focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 dark:focus:ring-offset-slate-900',
           dragging
-            ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-900/20'
-            : 'border-stone-300 dark:border-stone-600 hover:border-emerald-400 hover:bg-stone-50 dark:hover:bg-stone-800/50',
+            ? 'border-sky-400 bg-sky-50 dark:bg-sky-900/20'
+            : 'border-slate-300 dark:border-slate-600 hover:border-sky-400 hover:bg-slate-50 dark:hover:bg-slate-800/50',
           loading ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer',
         ].join(' ')}
       >
         {loading ? (
           <>
-            <Loader2 size={24} className="text-emerald-500 animate-spin" />
-            <span className="text-stone-500 dark:text-stone-400">Reading file…</span>
+            <Loader2 size={24} className="text-sky-500 animate-spin" />
+            <span className="text-slate-500 dark:text-slate-400">Reading file…</span>
           </>
         ) : (
           <>
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-stone-100 dark:bg-stone-700">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700">
               {dragging
-                ? <FileText size={20} className="text-emerald-500" />
-                : <Upload size={20} className="text-stone-400" />
+                ? <FileText size={20} className="text-sky-500" />
+                : <Upload size={20} className="text-slate-400" />
               }
             </div>
-            <span className="font-medium text-stone-700 dark:text-stone-200">
+            <span className="font-medium text-slate-700 dark:text-slate-200">
               {dragging ? 'Drop to upload' : 'Upload payslip'}
             </span>
-            <span className="text-xs text-stone-400 dark:text-stone-500">
+            <span className="text-xs text-slate-400 dark:text-slate-500">
               PDF, Excel or CSV · drag & drop or click
             </span>
           </>
@@ -123,7 +123,7 @@ export function PayslipUploader({ onResult }) {
       )}
 
       {/* Privacy note */}
-      <p className="text-xs text-stone-400 dark:text-stone-500 text-center">
+      <p className="text-xs text-slate-400 dark:text-slate-500 text-center">
         🔒 Nothing leaves your browser — processed entirely on-device
       </p>
     </div>

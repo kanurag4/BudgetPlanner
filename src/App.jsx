@@ -20,25 +20,25 @@ const Dashboard = lazy(() =>
 
 function DashboardSkeleton() {
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-900 flex flex-col">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col">
       <Header />
       <div className="flex-1 w-full max-w-2xl mx-auto px-4 pt-4 pb-10 flex flex-col gap-5">
         {/* Title row */}
         <div className="flex items-center justify-between">
-          <div className="h-7 w-32 rounded-lg bg-stone-200 dark:bg-stone-700 animate-pulse" />
-          <div className="h-10 w-36 rounded-xl bg-stone-200 dark:bg-stone-700 animate-pulse" />
+          <div className="h-7 w-32 rounded-lg bg-slate-200 dark:bg-slate-700 animate-pulse" />
+          <div className="h-10 w-36 rounded-xl bg-slate-200 dark:bg-slate-700 animate-pulse" />
         </div>
         {/* Summary cards */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[0, 1, 2, 3].map(i => (
-            <div key={i} className="h-24 rounded-2xl bg-stone-200 dark:bg-stone-700 animate-pulse" />
+            <div key={i} className="h-24 rounded-2xl bg-slate-200 dark:bg-slate-700 animate-pulse" />
           ))}
         </div>
         {/* Chart card */}
-        <div className="h-72 rounded-2xl bg-stone-200 dark:bg-stone-700 animate-pulse" />
+        <div className="h-72 rounded-2xl bg-slate-200 dark:bg-slate-700 animate-pulse" />
         {/* Breakdown cards */}
-        <div className="h-40 rounded-2xl bg-stone-200 dark:bg-stone-700 animate-pulse" />
-        <div className="h-40 rounded-2xl bg-stone-200 dark:bg-stone-700 animate-pulse" />
+        <div className="h-40 rounded-2xl bg-slate-200 dark:bg-slate-700 animate-pulse" />
+        <div className="h-40 rounded-2xl bg-slate-200 dark:bg-slate-700 animate-pulse" />
       </div>
     </div>
   )

@@ -72,10 +72,10 @@ export function StepIncome() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">
           What does your take-home pay look like?
         </h2>
-        <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Enter the amount you actually receive — after tax and super.
         </p>
       </div>
@@ -84,12 +84,12 @@ export function StepIncome() {
       <Card>
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300">Your salary</h3>
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">Your salary</h3>
             {!showPayslip && !payslipResult && (
               <button
                 type="button"
                 onClick={() => setShowPayslip(true)}
-                className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium min-h-[36px] px-2"
+                className="text-xs text-sky-600 dark:text-sky-400 hover:underline font-medium min-h-[36px] px-2"
               >
                 Upload payslip
               </button>
@@ -103,7 +103,7 @@ export function StepIncome() {
               <button
                 type="button"
                 onClick={() => setShowPayslip(false)}
-                className="mt-2 text-xs text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 min-h-[36px]"
+                className="mt-2 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 min-h-[36px]"
               >
                 Cancel
               </button>
@@ -144,31 +144,31 @@ export function StepIncome() {
           {primaryTax && (
             <div
               data-testid="primary-tax-breakdown"
-              className="rounded-xl bg-stone-50 dark:bg-stone-700/50 p-3 text-xs flex flex-col gap-1.5"
+              className="rounded-xl bg-slate-50 dark:bg-slate-700/50 p-3 text-xs flex flex-col gap-1.5"
             >
-              <p className="font-medium text-stone-600 dark:text-stone-300 mb-1">Estimated breakdown</p>
-              <div className="flex justify-between text-stone-500 dark:text-stone-400">
+              <p className="font-medium text-slate-600 dark:text-slate-300 mb-1">Estimated breakdown</p>
+              <div className="flex justify-between text-slate-500 dark:text-slate-400">
                 <span>Gross</span>
                 <span className="tabular-nums">{formatCurrency(primaryGrossAmt)}</span>
               </div>
-              <div className="flex justify-between text-stone-500 dark:text-stone-400">
+              <div className="flex justify-between text-slate-500 dark:text-slate-400">
                 <span>Income tax</span>
                 <span className="tabular-nums text-rose-500">−{formatCurrency(primaryTax.taxAmount)}</span>
               </div>
-              <div className="flex justify-between text-stone-500 dark:text-stone-400">
+              <div className="flex justify-between text-slate-500 dark:text-slate-400">
                 <span>
                   Medicare levy{' '}
                   <InfoTooltip content="A 2% levy that funds Australia's public health system (Medicare)." />
                 </span>
                 <span className="tabular-nums text-rose-500">−{formatCurrency(primaryTax.medicareLevy)}</span>
               </div>
-              <div className="flex justify-between font-semibold text-stone-800 dark:text-stone-100 border-t border-stone-200 dark:border-stone-600 pt-1.5 mt-0.5">
+              <div className="flex justify-between font-semibold text-slate-800 dark:text-slate-100 border-t border-slate-200 dark:border-slate-600 pt-1.5 mt-0.5">
                 <span>Est. take-home</span>
                 <span className="tabular-nums text-emerald-600 dark:text-emerald-400">
                   {formatCurrency(primaryTax.netAmount)}
                 </span>
               </div>
-              <p className="text-stone-400 dark:text-stone-500 text-[10px] mt-0.5">
+              <p className="text-slate-400 dark:text-slate-500 text-[10px] mt-0.5">
                 Effective tax rate: {primaryTax.effectiveTaxRate.toFixed(1)}% · AU 2025–26 estimate
               </p>
             </div>
@@ -188,14 +188,14 @@ export function StepIncome() {
           />
 
           {partnerSalary.enabled && (
-            <div data-testid="partner-section" className="flex flex-col gap-4 pt-1 border-t border-stone-100 dark:border-stone-700">
+            <div data-testid="partner-section" className="flex flex-col gap-4 pt-1 border-t border-slate-100 dark:border-slate-700">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-stone-700 dark:text-stone-300">Partner's salary</p>
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Partner's salary</p>
                 {!showPartnerPayslip && !partnerPayslipResult && (
                   <button
                     type="button"
                     onClick={() => setShowPartnerPayslip(true)}
-                    className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium min-h-[36px] px-2"
+                    className="text-xs text-sky-600 dark:text-sky-400 hover:underline font-medium min-h-[36px] px-2"
                   >
                     Upload payslip
                   </button>
@@ -208,7 +208,7 @@ export function StepIncome() {
                   <button
                     type="button"
                     onClick={() => setShowPartnerPayslip(false)}
-                    className="mt-2 text-xs text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 min-h-[36px]"
+                    className="mt-2 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 min-h-[36px]"
                   >
                     Cancel
                   </button>
@@ -245,14 +245,14 @@ export function StepIncome() {
               {partnerTax && (
                 <div
                   data-testid="partner-tax-breakdown"
-                  className="rounded-xl bg-stone-50 dark:bg-stone-700/50 p-3 text-xs flex flex-col gap-1.5"
+                  className="rounded-xl bg-slate-50 dark:bg-slate-700/50 p-3 text-xs flex flex-col gap-1.5"
                 >
-                  <p className="font-medium text-stone-600 dark:text-stone-300 mb-1">Estimated breakdown</p>
-                  <div className="flex justify-between text-stone-500 dark:text-stone-400">
+                  <p className="font-medium text-slate-600 dark:text-slate-300 mb-1">Estimated breakdown</p>
+                  <div className="flex justify-between text-slate-500 dark:text-slate-400">
                     <span>Gross</span>
                     <span className="tabular-nums">{formatCurrency(partnerGrossAmt)}</span>
                   </div>
-                  <div className="flex justify-between font-semibold text-stone-800 dark:text-stone-100 border-t border-stone-200 dark:border-stone-600 pt-1.5 mt-0.5">
+                  <div className="flex justify-between font-semibold text-slate-800 dark:text-slate-100 border-t border-slate-200 dark:border-slate-600 pt-1.5 mt-0.5">
                     <span>Est. take-home</span>
                     <span className="tabular-nums text-emerald-600 dark:text-emerald-400">
                       {formatCurrency(partnerTax.netAmount)}
@@ -269,12 +269,12 @@ export function StepIncome() {
       <Card>
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300">Annual bonus</h3>
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">Annual bonus</h3>
             <InfoTooltip content="Any expected yearly bonus is spread evenly across your pay periods in the budget." />
           </div>
-          <p className="text-xs text-stone-400 dark:text-stone-500 -mt-1">Optional — spread evenly across pay periods</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 -mt-1">Optional — spread evenly across pay periods</p>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm font-medium pointer-events-none">$</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium pointer-events-none">$</span>
             <input
               id="bonus-amount"
               type="number"
@@ -285,9 +285,9 @@ export function StepIncome() {
               placeholder="0"
               className={[
                 'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
-                'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-                'text-stone-800 dark:text-stone-100 placeholder-stone-400',
-                'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+                'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+                'text-slate-800 dark:text-slate-100 placeholder-slate-400',
+                'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
               ].join(' ')}
             />
           </div>
@@ -305,7 +305,7 @@ export function StepIncome() {
           Next — Housing →
         </Button>
         {!canContinue && (
-          <p className="text-xs text-center text-stone-400 dark:text-stone-500 mt-2">
+          <p className="text-xs text-center text-slate-400 dark:text-slate-500 mt-2">
             Enter your salary to continue
           </p>
         )}

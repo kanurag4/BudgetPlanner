@@ -46,10 +46,10 @@ export function ExpenseCalendar({ fixedExpenses, salaryCycle }) {
   return (
     <Card>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-sm font-semibold text-stone-700 dark:text-stone-300">
+        <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
           Expense schedule
         </h2>
-        <span className="text-xs text-stone-400 dark:text-stone-500 tabular-nums">
+        <span className="text-xs text-slate-400 dark:text-slate-500 tabular-nums">
           {formatCurrency(totalPerCycle)} / {cycleLabel}
         </span>
       </div>
@@ -69,26 +69,26 @@ export function ExpenseCalendar({ fixedExpenses, salaryCycle }) {
                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${color}`}>
                     {meta.short.toUpperCase()}
                   </span>
-                  <span className="text-xs font-medium text-stone-500 dark:text-stone-400">
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
                     {meta.label}
                   </span>
                 </div>
-                <span className="text-xs tabular-nums text-stone-400 dark:text-stone-500">
+                <span className="text-xs tabular-nums text-slate-400 dark:text-slate-500">
                   {formatCurrency(groupTotal)} total
                 </span>
               </div>
 
               {/* Expense items */}
-              <div className="flex flex-col divide-y divide-stone-100 dark:divide-stone-700 rounded-xl border border-stone-100 dark:border-stone-700 overflow-hidden">
+              <div className="flex flex-col divide-y divide-slate-100 dark:divide-slate-700 rounded-xl border border-slate-100 dark:border-slate-700 overflow-hidden">
                 {items.map(expense => (
                   <div
                     key={expense.id}
-                    className="flex items-center justify-between px-3 py-2.5 bg-white dark:bg-stone-800"
+                    className="flex items-center justify-between px-3 py-2.5 bg-white dark:bg-slate-800"
                   >
-                    <span className="text-sm text-stone-700 dark:text-stone-200 truncate pr-3">
+                    <span className="text-sm text-slate-700 dark:text-slate-200 truncate pr-3">
                       {expense.name}
                     </span>
-                    <span className="text-sm font-semibold tabular-nums text-stone-800 dark:text-stone-100 flex-shrink-0">
+                    <span className="text-sm font-semibold tabular-nums text-slate-800 dark:text-slate-100 flex-shrink-0">
                       {formatCurrency(parseFloat(expense.amount) || 0)}
                     </span>
                   </div>

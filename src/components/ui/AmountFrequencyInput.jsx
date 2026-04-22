@@ -49,7 +49,7 @@ export function AmountFrequencyInput({
       {label && (
         <label
           htmlFor={`${id}-amount`}
-          className="text-sm font-medium text-stone-700 dark:text-stone-300"
+          className="text-sm font-medium text-slate-700 dark:text-slate-300"
         >
           {label}
         </label>
@@ -58,7 +58,7 @@ export function AmountFrequencyInput({
       <div className="flex gap-2">
         {/* Amount */}
         <div className="relative flex-1">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm font-medium pointer-events-none">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium pointer-events-none">
             $
           </span>
           <input
@@ -72,9 +72,9 @@ export function AmountFrequencyInput({
             disabled={disabled}
             className={[
               'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm',
-              'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-              'text-stone-800 dark:text-stone-100 placeholder-stone-400',
-              'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+              'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+              'text-slate-800 dark:text-slate-100 placeholder-slate-400',
+              'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
               'min-h-[44px]',
               disabled ? 'opacity-50 cursor-not-allowed' : '',
             ].join(' ')}
@@ -90,9 +90,9 @@ export function AmountFrequencyInput({
           aria-label="Frequency"
           className={[
             'px-3 py-2.5 rounded-xl border text-sm font-medium',
-            'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-            'text-stone-800 dark:text-stone-100',
-            'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+            'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+            'text-slate-800 dark:text-slate-100',
+            'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
             'min-h-[44px] min-w-[130px]',
             disabled ? 'opacity-50 cursor-not-allowed' : '',
           ].join(' ')}
@@ -109,7 +109,7 @@ export function AmountFrequencyInput({
       <div className="min-h-[20px]">
         {previewAmount !== null && (
           <p
-            className="text-xs text-stone-500 dark:text-stone-400"
+            className="text-xs text-slate-500 dark:text-slate-400"
             data-testid="amount-preview"
           >
             ≈ {formatCurrency(previewAmount)} per {cycleLabel}

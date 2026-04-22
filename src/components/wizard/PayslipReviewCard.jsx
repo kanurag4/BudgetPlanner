@@ -33,7 +33,7 @@ export function PayslipReviewCard({ result, onApply, onDismiss }) {
       <button
         onClick={onDismiss}
         aria-label="Dismiss payslip result"
-        className="absolute top-3 right-3 p-1.5 rounded-lg text-stone-400 hover:text-stone-600 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
+        className="absolute top-3 right-3 p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
       >
         <X size={16} />
       </button>
@@ -64,12 +64,12 @@ export function PayslipReviewCard({ result, onApply, onDismiss }) {
           <div className="flex flex-col gap-1">
             <label
               htmlFor="payslip-net-pay"
-              className="text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide"
+              className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide"
             >
               Net (take-home) pay
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm font-medium pointer-events-none">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium pointer-events-none">
                 $
               </span>
               <input
@@ -82,14 +82,14 @@ export function PayslipReviewCard({ result, onApply, onDismiss }) {
                 placeholder="e.g. 4200"
                 className={[
                   'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
-                  'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-                  'text-stone-800 dark:text-stone-100 placeholder-stone-400',
-                  'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+                  'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+                  'text-slate-800 dark:text-slate-100 placeholder-slate-400',
+                  'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
                 ].join(' ')}
               />
             </div>
             {isHighConfidence && result.netPay && (
-              <p className="text-xs text-stone-400 dark:text-stone-500">
+              <p className="text-xs text-slate-400 dark:text-slate-500">
                 Extracted: {formatCurrency(result.netPay)}
               </p>
             )}
@@ -99,7 +99,7 @@ export function PayslipReviewCard({ result, onApply, onDismiss }) {
           <div className="flex flex-col gap-1">
             <label
               htmlFor="payslip-frequency"
-              className="text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide"
+              className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide"
             >
               Pay frequency
             </label>
@@ -109,9 +109,9 @@ export function PayslipReviewCard({ result, onApply, onDismiss }) {
               onChange={e => setFrequency(e.target.value)}
               className={[
                 'w-full px-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
-                'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-                'text-stone-800 dark:text-stone-100',
-                'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+                'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+                'text-slate-800 dark:text-slate-100',
+                'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
               ].join(' ')}
             >
               {INCOME_FREQUENCIES.map(f => (

@@ -20,10 +20,10 @@ export function SavingsSplitSliders({ savingsPerCycle = 0, cycleLabel = 'month' 
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300">
+        <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">
           Split your savings
         </h3>
-        <span className="text-xs text-stone-400 dark:text-stone-500">
+        <span className="text-xs text-slate-400 dark:text-slate-500">
           Must sum to 100%
         </span>
       </div>
@@ -36,13 +36,13 @@ export function SavingsSplitSliders({ savingsPerCycle = 0, cycleLabel = 'month' 
           <div key={key} className="flex flex-col gap-2">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="text-sm font-medium text-stone-800 dark:text-stone-100">{label}</p>
-                <p className="text-xs text-stone-400 dark:text-stone-500">{description}</p>
+                <p className="text-sm font-medium text-slate-800 dark:text-slate-100">{label}</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500">{description}</p>
               </div>
               {savingsPerCycle > 0 && (
-                <span className="text-sm font-semibold text-stone-700 dark:text-stone-200 tabular-nums flex-shrink-0">
+                <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 tabular-nums flex-shrink-0">
                   {formatCurrency(amount)}
-                  <span className="text-xs font-normal text-stone-400 dark:text-stone-500">
+                  <span className="text-xs font-normal text-slate-400 dark:text-slate-500">
                     /{cycleLabel}
                   </span>
                 </span>
@@ -60,7 +60,7 @@ export function SavingsSplitSliders({ savingsPerCycle = 0, cycleLabel = 'month' 
       })}
 
       {/* Sum check — should always be 100, shown as reassurance */}
-      <p className="text-xs text-stone-400 dark:text-stone-500 text-right tabular-nums">
+      <p className="text-xs text-slate-400 dark:text-slate-500 text-right tabular-nums">
         Total: {Object.values(splitSliders).reduce((a, b) => a + b, 0)}%
       </p>
     </div>

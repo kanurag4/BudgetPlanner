@@ -45,10 +45,10 @@ export function StepHousing() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">
           Housing &amp; loans
         </h2>
-        <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Your housing cost plus any regular loan repayments.
         </p>
       </div>
@@ -66,13 +66,13 @@ export function StepHousing() {
             className={[
               'flex flex-col items-center justify-center gap-2 rounded-2xl border-2 p-5 min-h-[100px]',
               'font-semibold text-sm transition-all duration-150',
-              'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 dark:focus:ring-offset-stone-900',
+              'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 dark:focus:ring-offset-slate-900',
               housing.type === type
-                ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400'
-                : 'border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:border-emerald-300',
+                ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20 text-sky-700 dark:text-sky-400'
+                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-sky-300',
             ].join(' ')}
           >
-            <Icon size={24} className={housing.type === type ? 'text-emerald-500' : 'text-stone-400'} />
+            <Icon size={24} className={housing.type === type ? 'text-sky-500' : 'text-slate-400'} />
             {label}
           </button>
         ))}
@@ -93,7 +93,7 @@ export function StepHousing() {
 
       {/* Additional loans */}
       <div className="flex flex-col gap-3">
-        <p className="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wide px-1">
+        <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide px-1">
           Additional loan repayments
         </p>
 
@@ -101,7 +101,7 @@ export function StepHousing() {
         <Card>
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <Car size={18} className="text-stone-400 flex-shrink-0" />
+              <Car size={18} className="text-slate-400 flex-shrink-0" />
               <Toggle
                 id="vehicle-loan-toggle"
                 checked={housing.vehicleLoan?.enabled ?? false}
@@ -111,7 +111,7 @@ export function StepHousing() {
               />
             </div>
             {housing.vehicleLoan?.enabled && (
-              <div className="border-t border-stone-100 dark:border-stone-700 pt-4">
+              <div className="border-t border-slate-100 dark:border-slate-700 pt-4">
                 <AmountFrequencyInput
                   id="vehicle-loan"
                   label="Repayment amount"
@@ -130,7 +130,7 @@ export function StepHousing() {
         <Card>
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <CreditCard size={18} className="text-stone-400 flex-shrink-0" />
+              <CreditCard size={18} className="text-slate-400 flex-shrink-0" />
               <Toggle
                 id="other-loans-toggle"
                 checked={housing.otherLoans?.enabled ?? false}
@@ -140,7 +140,7 @@ export function StepHousing() {
               />
             </div>
             {housing.otherLoans?.enabled && (
-              <div className="border-t border-stone-100 dark:border-stone-700 pt-4">
+              <div className="border-t border-slate-100 dark:border-slate-700 pt-4">
                 <AmountFrequencyInput
                   id="other-loans"
                   label="Repayment amount"
@@ -158,7 +158,7 @@ export function StepHousing() {
         <Card>
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <TrendingUp size={18} className="text-stone-400 flex-shrink-0" />
+              <TrendingUp size={18} className="text-slate-400 flex-shrink-0" />
               <Toggle
                 id="investment-loan-toggle"
                 checked={housing.investmentLoan?.enabled ?? false}
@@ -168,7 +168,7 @@ export function StepHousing() {
               />
             </div>
             {housing.investmentLoan?.enabled && (
-              <div className="border-t border-stone-100 dark:border-stone-700 pt-4 flex flex-col gap-4">
+              <div className="border-t border-slate-100 dark:border-slate-700 pt-4 flex flex-col gap-4">
                 <AmountFrequencyInput
                   id="investment-loan-repayment"
                   label="Loan repayment"
@@ -178,7 +178,7 @@ export function StepHousing() {
                   salaryCycle={salaryCycle}
                   onChange={({ amount, frequency }) => patchInvestmentLoan({ amount, frequency })}
                 />
-                <div className="border-t border-stone-100 dark:border-stone-700 pt-4">
+                <div className="border-t border-slate-100 dark:border-slate-700 pt-4">
                   <AmountFrequencyInput
                     id="investment-loan-income"
                     label="Income from investment (e.g. rent)"
@@ -207,14 +207,14 @@ export function StepHousing() {
                     placeholder="Loan name (e.g. Personal loan)"
                     className={[
                       'w-full px-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
-                      'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-                      'text-stone-800 dark:text-stone-100 placeholder-stone-400',
-                      'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+                      'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+                      'text-slate-800 dark:text-slate-100 placeholder-slate-400',
+                      'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
                     ].join(' ')}
                   />
                   <div className="flex gap-2 items-center">
                     <div className="relative flex-1">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 dark:text-stone-500 text-sm font-medium pointer-events-none">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-sm font-medium pointer-events-none">
                         $
                       </span>
                       <input
@@ -226,9 +226,9 @@ export function StepHousing() {
                         placeholder="0"
                         className={[
                           'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
-                          'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-                          'text-stone-800 dark:text-stone-100 placeholder-stone-400',
-                          'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+                          'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+                          'text-slate-800 dark:text-slate-100 placeholder-slate-400',
+                          'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
                         ].join(' ')}
                       />
                     </div>
@@ -238,9 +238,9 @@ export function StepHousing() {
                       aria-label="Loan repayment frequency"
                       className={[
                         'px-3 py-2.5 rounded-xl border text-sm font-medium min-h-[44px]',
-                        'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-                        'text-stone-800 dark:text-stone-100',
-                        'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+                        'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+                        'text-slate-800 dark:text-slate-100',
+                        'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
                       ].join(' ')}
                     >
                       {EXPENSE_FREQUENCIES.map(f => (
@@ -253,7 +253,7 @@ export function StepHousing() {
                       type="button"
                       onClick={() => actions.removeHousingLoan(loan.id)}
                       aria-label="Remove loan"
-                      className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-stone-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors flex-shrink-0"
+                      className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors flex-shrink-0"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -268,7 +268,7 @@ export function StepHousing() {
         <button
           type="button"
           onClick={() => actions.addHousingLoan({ name: '', amount: '', frequency: 'monthly' })}
-          className="flex items-center justify-center gap-2 w-full rounded-xl border-2 border-dashed border-stone-300 dark:border-stone-600 py-3 text-sm font-medium text-stone-500 dark:text-stone-400 hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors min-h-[44px]"
+          className="flex items-center justify-center gap-2 w-full rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 py-3 text-sm font-medium text-slate-500 dark:text-slate-400 hover:border-sky-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors min-h-[44px]"
         >
           <Plus size={16} />
           Add another loan

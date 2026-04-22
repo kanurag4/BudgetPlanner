@@ -300,13 +300,9 @@ The canonical production deployment is as a subfolder at `kashvector.com/budget/
 
 **Deploy workflow:**
 
-1. Build with the correct base path:
+1. Build with the correct base path (Git Bash on Windows — `MSYS_NO_PATHCONV=1` prevents Git Bash from converting the path):
    ```bash
-   VITE_BASE_PATH=/budget/ npm run build
-   ```
-   On Windows (PowerShell):
-   ```powershell
-   $env:VITE_BASE_PATH='/budget/'; npm run build
+   MSYS_NO_PATHCONV=1 VITE_BASE_PATH='/budget/' npm run build
    ```
 2. Copy `dist/` into the StockAnalysis repo:
    ```bash

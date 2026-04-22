@@ -30,10 +30,10 @@ export function StepSavingsGoal() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">
           Do you have a savings target?
         </h2>
-        <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Optional — we'll highlight how close you are each pay period.
         </p>
       </div>
@@ -48,7 +48,7 @@ export function StepSavingsGoal() {
           />
 
           {savingsGoal.enabled && (
-            <div className="flex flex-col gap-4 pt-1 border-t border-stone-100 dark:border-stone-700">
+            <div className="flex flex-col gap-4 pt-1 border-t border-slate-100 dark:border-slate-700">
               {/* Type selector */}
               <div className="grid grid-cols-2 gap-2">
                 {[
@@ -61,10 +61,10 @@ export function StepSavingsGoal() {
                     onClick={() => actions.updateSavingsGoal({ type })}
                     className={[
                       'py-2.5 rounded-xl border text-sm font-medium min-h-[44px] transition-all',
-                      'focus:outline-none focus:ring-2 focus:ring-emerald-400',
+                      'focus:outline-none focus:ring-2 focus:ring-sky-400',
                       savingsGoal.type === type
-                        ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400'
-                        : 'border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:border-emerald-300',
+                        ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20 text-sky-700 dark:text-sky-400'
+                        : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-sky-300',
                     ].join(' ')}
                   >
                     {label}
@@ -77,7 +77,7 @@ export function StepSavingsGoal() {
                 <div className="flex flex-col gap-1.5">
                   <label
                     htmlFor="savings-pct"
-                    className="text-sm font-medium text-stone-700 dark:text-stone-300"
+                    className="text-sm font-medium text-slate-700 dark:text-slate-300"
                   >
                     Target savings rate
                   </label>
@@ -93,12 +93,12 @@ export function StepSavingsGoal() {
                       placeholder="20"
                       className={[
                         'w-full pr-8 pl-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
-                        'bg-stone-100 dark:bg-stone-700 border-stone-200 dark:border-stone-600',
-                        'text-stone-800 dark:text-stone-100 placeholder-stone-400',
-                        'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent',
+                        'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
+                        'text-slate-800 dark:text-slate-100 placeholder-slate-400',
+                        'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
                       ].join(' ')}
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm font-medium pointer-events-none">
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium pointer-events-none">
                       %
                     </span>
                   </div>

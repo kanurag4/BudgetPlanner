@@ -33,7 +33,7 @@ export function Tooltip({ content, children, position = 'top' }) {
           id="tooltip-content"
           role="tooltip"
           className={[
-            'absolute z-50 w-56 rounded-xl bg-stone-800 dark:bg-stone-700 text-stone-100',
+            'absolute z-50 w-56 rounded-xl bg-slate-800 dark:bg-slate-700 text-slate-100',
             'text-xs px-3 py-2 shadow-lg pointer-events-none',
             positionClasses[position] ?? positionClasses.top,
           ].join(' ')}
@@ -49,7 +49,7 @@ export function Tooltip({ content, children, position = 'top' }) {
 export function InfoTooltip({ content, position }) {
   return (
     <Tooltip content={content} position={position}>
-      <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-stone-200 dark:bg-stone-600 text-stone-500 dark:text-stone-300 text-[10px] font-bold leading-none">
+      <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-600 text-slate-500 dark:text-slate-300 text-[10px] font-bold leading-none">
         ?
       </span>
     </Tooltip>

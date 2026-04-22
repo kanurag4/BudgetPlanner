@@ -54,10 +54,10 @@ export function StepGroceries() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">
           Groceries &amp; household bills
         </h2>
-        <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Food shopping plus regular household expenses.
         </p>
       </div>
@@ -74,14 +74,14 @@ export function StepGroceries() {
           onChange={({ amount, frequency }) => actions.updateGroceries({ amount, frequency })}
           placeholder="0"
         />
-        <p className="mt-3 text-xs text-stone-400 dark:text-stone-500">
+        <p className="mt-3 text-xs text-slate-400 dark:text-slate-500">
           Include supermarket runs and any regular food shopping.
         </p>
       </Card>
 
       {/* Household bills */}
       <div className="flex flex-col gap-3">
-        <p className="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wide px-1">
+        <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide px-1">
           Household bills
         </p>
 
@@ -99,7 +99,7 @@ export function StepGroceries() {
                   description={description}
                 />
                 {bill.enabled && (
-                  <div className="border-t border-stone-100 dark:border-stone-700 pt-4">
+                  <div className="border-t border-slate-100 dark:border-slate-700 pt-4">
                     <AmountFrequencyInput
                       id={`bill-${key}-amount`}
                       label="Amount"

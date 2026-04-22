@@ -8,7 +8,7 @@ const C_INCOME  = '#10b981' // emerald-500
 const C_REGULAR = '#f59e0b' // amber-400
 const C_FIXED   = '#3b82f6' // blue-500
 const C_SAVINGS = '#34d399' // emerald-400
-const C_EMPTY   = '#e7e5e4' // stone-200
+const C_EMPTY   = '#e2e8f0' // slate-200
 
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
@@ -17,8 +17,8 @@ function CustomTooltip({ active, payload, label }) {
   if (!bar || bar.payload.isEmpty) return null
 
   return (
-    <div className="bg-white dark:bg-stone-800 rounded-xl shadow-lg border border-stone-100 dark:border-stone-700 px-3 py-2.5 text-sm">
-      <p className="font-semibold text-stone-800 dark:text-stone-100 mb-0.5">{label}</p>
+    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-100 dark:border-slate-700 px-3 py-2.5 text-sm">
+      <p className="font-semibold text-slate-800 dark:text-slate-100 mb-0.5">{label}</p>
       <p style={{ color: bar.payload.color }} className="font-bold tabular-nums">
         {bar.payload.isNegative ? '−' : ''}{formatCurrency(bar.payload.rawValue)}
       </p>
@@ -129,7 +129,7 @@ export function BucketWaterfallChart({ budget, isAnnual }) {
 
       {/* Empty state label */}
       {isEmpty && (
-        <p className="text-xs text-stone-400 dark:text-stone-500 text-center -mb-2">
+        <p className="text-xs text-slate-400 dark:text-slate-500 text-center -mb-2">
           Complete the wizard to see your budget
         </p>
       )}
@@ -145,14 +145,14 @@ export function BucketWaterfallChart({ budget, isAnnual }) {
             dataKey="name"
             axisLine={false}
             tickLine={false}
-            tick={{ fontSize: 12, fill: '#a8a29e' }} // stone-400
+            tick={{ fontSize: 12, fill: '#94a3b8' }} // slate-400
           />
           <YAxis
             domain={[0, yMax]}
             tickFormatter={yTickFormatter}
             axisLine={false}
             tickLine={false}
-            tick={{ fontSize: 11, fill: '#a8a29e' }}
+            tick={{ fontSize: 11, fill: '#94a3b8' }}
             width={42}
           />
           {!isEmpty && (
@@ -197,8 +197,8 @@ export function BucketWaterfallChart({ budget, isAnnual }) {
           ].map(({ color, label, value }) => (
             <div key={label} className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ backgroundColor: color }} />
-              <span className="text-xs text-stone-500 dark:text-stone-400">{label}</span>
-              <span className="text-xs font-semibold tabular-nums text-stone-700 dark:text-stone-200">
+              <span className="text-xs text-slate-500 dark:text-slate-400">{label}</span>
+              <span className="text-xs font-semibold tabular-nums text-slate-700 dark:text-slate-200">
                 {formatCurrency(value)}
               </span>
             </div>

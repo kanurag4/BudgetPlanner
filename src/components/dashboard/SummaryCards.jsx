@@ -4,13 +4,13 @@ import { formatCurrency } from '../../utils/formatCurrency'
 function SummaryCard({ label, amount, cycleLabel, isAnnual, colorClass, subLabel }) {
   return (
     <Card className="flex flex-col gap-1 min-w-0">
-      <p className="text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide">
+      <p className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
         {label}
       </p>
       <p className={`text-xl font-bold tabular-nums leading-tight ${colorClass}`}>
         {formatCurrency(amount)}
       </p>
-      <p className="text-xs text-stone-400 dark:text-stone-500">
+      <p className="text-xs text-slate-400 dark:text-slate-500">
         {subLabel ?? (isAnnual ? 'per year' : `per ${cycleLabel}`)}
       </p>
     </Card>
@@ -58,7 +58,7 @@ export function SummaryCards({ budget, isAnnual, cycleLabel }) {
     {
       label: 'Total Expenses',
       amount: isAnnual ? totalExpensesAnnual : totalExpenses,
-      colorClass: 'text-stone-800 dark:text-stone-100',
+      colorClass: 'text-slate-800 dark:text-slate-100',
     },
     {
       label: 'Savings',

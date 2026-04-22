@@ -1,7 +1,7 @@
 const VARIANTS = {
-  primary:   'bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm hover:shadow',
-  secondary: 'bg-stone-100 hover:bg-stone-200 text-stone-800 dark:bg-stone-700 dark:hover:bg-stone-600 dark:text-stone-100',
-  ghost:     'bg-transparent hover:bg-stone-100 text-stone-700 dark:hover:bg-stone-800 dark:text-stone-300',
+  primary:   'bg-sky-500 hover:bg-sky-600 text-white shadow-sm hover:shadow',
+  secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-100',
+  ghost:     'bg-transparent hover:bg-slate-100 text-slate-700 dark:hover:bg-slate-800 dark:text-slate-300',
   danger:    'bg-rose-500 hover:bg-rose-600 text-white shadow-sm',
 }
 
@@ -28,7 +28,7 @@ export function Button({
       className={[
         'inline-flex items-center justify-center gap-2 rounded-xl font-semibold',
         'transition-all duration-150 hover:scale-[1.02] active:scale-[0.98]',
-        'focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 dark:focus:ring-offset-stone-900',
+        'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 dark:focus:ring-offset-slate-900',
         VARIANTS[variant] ?? VARIANTS.primary,
         SIZES[size] ?? SIZES.md,
         fullWidth ? 'w-full' : '',
