@@ -276,7 +276,7 @@ splitAmounts                 { splurge, emergency, investment } per cycle
 
 ## UI components
 
-Design system: Plus Jakarta Sans, emerald-500 primary, amber-400 accent, stone-50 bg. All interactive elements `min-h-[44px]` (Capacitor tap target). Dark mode via `dark:` Tailwind variants throughout.
+Design system: Plus Jakarta Sans, slate palette (slate-900 bg, slate-800 card, slate-700 border), sky-400/500 accent (buttons, focus rings, active states), dark mode on by default. Semantic colours: emerald = income/savings/positive, rose = fail/over-budget, amber = warning. All interactive elements `min-h-[44px]` (Capacitor tap target). Dark mode via `dark:` Tailwind variants throughout. See `C:\Projects\Rules\kashvector-design.md` for full token reference.
 
 **`AmountFrequencyInput`** — used on nearly every wizard step. Accepts `salaryCycle` prop for live preview. Modify carefully.
 
