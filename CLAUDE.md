@@ -60,6 +60,7 @@ All 13 original steps are complete. The app is fully built and running.
 - Super fix: when user enters net (take-home) pay, gross is now back-calculated via `estimateGrossFromNet()` (binary search) before applying the 12% SGC rate — previously super was incorrectly based on take-home pay
 - StepProfile: "Age group" label renamed to "Your age group"
 - payslipParser: 3 new net pay patterns covering reversed amount-before-label layout, "TOTAL NET PAY - Bank Credit $x" format, and amount-before-employer-super line; frequency detection now runs date-range inference before falling back to annual/yearly keywords (prevents "Annual leave balance" false-positives); `inferFrequencyFromDateRange` extended to parse text-month date formats ("29 Jun 20 - 05 Jul 20")
+- Peer-review bug fixes: StepIncome `salaryCycle` now correctly handles `weekly` (was two-way ternary, all other steps already had three-way); tax bracket mins normalised in constants (18201→18200 etc.) and magic `+1` removed from `taxEstimator.js`; `MAX_KID_ADJUSTMENT` renamed `MIN_KID_ADJUSTMENT` to reflect it is a floor on a negative number; `ScenarioPanel` no longer calls `calculateBudget` itself — receives `budget`/`scenarioBudget` props from `Dashboard` (which memoises them); `ScenarioPanel` `cycleLabel` now handles `weekly`; `ExpenseCalendar` group totals now suffixed with frequency unit (e.g. `/ mo`, `/ qtr`) and `weekly` added to `FREQ_META`/`FREQ_COLORS`; partner tax breakdown in `StepIncome` now mirrors primary (Income Tax + Medicare Levy rows added)
 
 ## Architecture
 
