@@ -3,13 +3,15 @@ import { formatCurrency } from '../../utils/formatCurrency'
 import { normaliseToFrequency } from '../../engine/normalise'
 
 const FREQ_META = {
-  fortnightly: { label: 'Every fortnight', order: 0, short: '2wk' },
-  monthly:     { label: 'Every month',      order: 1, short: 'mo'  },
-  quarterly:   { label: 'Every quarter',    order: 2, short: 'qtr' },
-  yearly:      { label: 'Every year',       order: 3, short: 'yr'  },
+  weekly:      { label: 'Every week',       order: 0, short: 'wk'  },
+  fortnightly: { label: 'Every fortnight',  order: 1, short: '2wk' },
+  monthly:     { label: 'Every month',      order: 2, short: 'mo'  },
+  quarterly:   { label: 'Every quarter',    order: 3, short: 'qtr' },
+  yearly:      { label: 'Every year',       order: 4, short: 'yr'  },
 }
 
 const FREQ_COLORS = {
+  weekly:      'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300',
   fortnightly: 'bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300',
   monthly:     'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
   quarterly:   'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300',
@@ -41,7 +43,9 @@ export function ExpenseCalendar({ fixedExpenses, salaryCycle }) {
     return sum + normaliseToFrequency(parseFloat(e.amount) || 0, e.frequency, salaryCycle)
   }, 0)
 
-  const cycleLabel = salaryCycle === 'fortnightly' ? 'fortnight' : 'month'
+  const cycleLabel = salaryCycle === 'fortnightly' ? 'fortnight'
+    : salaryCycle === 'weekly' ? 'week'
+    : 'month'
 
   return (
     <Card>
@@ -74,7 +78,7 @@ export function ExpenseCalendar({ fixedExpenses, salaryCycle }) {
                   </span>
                 </div>
                 <span className="text-xs tabular-nums text-slate-400 dark:text-slate-500">
-                  {formatCurrency(groupTotal)} total
+                  {formatCurrency(groupTotal)} / {meta.short}
                 </span>
               </div>
 

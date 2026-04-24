@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useBudget } from '../../hooks/useBudget'
-import { calculateBudget } from '../../engine/calculations'
 import { Card } from '../ui/Card'
 import { Toggle } from '../ui/Toggle'
 import { Button } from '../ui/Button'
@@ -58,7 +57,7 @@ function DeltaRow({ label, base, scenario, format = 'currency' }) {
   )
 }
 
-export function ScenarioPanel() {
+export function ScenarioPanel({ budget: baseBudget, scenarioBudget }) {
   const { state, actions } = useBudget()
   const { scenario, income, housing } = state
 
@@ -94,11 +93,9 @@ export function ScenarioPanel() {
     setInputs({ primarySalary: '', partnerSalary: '', housingAmount: '' })
   }
 
-  // Compute comparison budgets for the delta table
-  const baseBudget     = calculateBudget(state, false)
-  const scenarioBudget = isActive ? calculateBudget(state, true) : null
-
-  const cycleLabel = baseBudget.salaryCycle === 'fortnightly' ? 'fortnight' : 'month'
+  const cycleLabel = baseBudget.salaryCycle === 'fortnightly' ? 'fortnight'
+    : baseBudget.salaryCycle === 'weekly' ? 'week'
+    : 'month'
 
   // Placeholder hints (current base values per cycle)
   const primaryHint  = formatCurrency(baseBudget.primaryNetPerCycle).replace('$', '')

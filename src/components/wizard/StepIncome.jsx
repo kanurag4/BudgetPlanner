@@ -67,7 +67,9 @@ export function StepIncome() {
     setPartnerPayslipResult(null)
   }
 
-  const salaryCycle = primarySalary.frequency === 'fortnightly' ? 'fortnightly' : 'monthly'
+  const salaryCycle = primarySalary.frequency === 'weekly' ? 'weekly'
+    : primarySalary.frequency === 'fortnightly' ? 'fortnightly'
+    : 'monthly'
 
   return (
     <div className="flex flex-col gap-6">
@@ -252,12 +254,26 @@ export function StepIncome() {
                     <span>Gross</span>
                     <span className="tabular-nums">{formatCurrency(partnerGrossAmt)}</span>
                   </div>
+                  <div className="flex justify-between text-slate-500 dark:text-slate-400">
+                    <span>Income tax</span>
+                    <span className="tabular-nums text-rose-500">−{formatCurrency(partnerTax.taxAmount)}</span>
+                  </div>
+                  <div className="flex justify-between text-slate-500 dark:text-slate-400">
+                    <span>
+                      Medicare levy{' '}
+                      <InfoTooltip content="A 2% levy that funds Australia's public health system (Medicare)." />
+                    </span>
+                    <span className="tabular-nums text-rose-500">−{formatCurrency(partnerTax.medicareLevy)}</span>
+                  </div>
                   <div className="flex justify-between font-semibold text-slate-800 dark:text-slate-100 border-t border-slate-200 dark:border-slate-600 pt-1.5 mt-0.5">
                     <span>Est. take-home</span>
                     <span className="tabular-nums text-emerald-600 dark:text-emerald-400">
                       {formatCurrency(partnerTax.netAmount)}
                     </span>
                   </div>
+                  <p className="text-slate-400 dark:text-slate-500 text-[10px] mt-0.5">
+                    Effective tax rate: {partnerTax.effectiveTaxRate.toFixed(1)}% · AU 2025–26 estimate
+                  </p>
                 </div>
               )}
             </div>

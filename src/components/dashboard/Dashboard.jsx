@@ -118,7 +118,7 @@ export function Dashboard() {
         )}
 
         {/* Scenario what-if panel */}
-        <ScenarioPanel />
+        <ScenarioPanel budget={budget} scenarioBudget={scenarioBudget} />
 
         {/* Export */}
         <ExportButton

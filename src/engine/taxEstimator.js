@@ -20,7 +20,7 @@ function calculateLITO(yearlyGross) {
 }
 
 /**
- * Calculate income tax on a yearly gross amount using AU 2024–25 tax brackets.
+ * Calculate income tax on a yearly gross amount using AU 2025–26 tax brackets.
  */
 function calculateIncomeTax(yearlyGross) {
   if (yearlyGross <= 0) return 0
@@ -31,7 +31,7 @@ function calculateIncomeTax(yearlyGross) {
 
   if (!bracket) return 0
 
-  const taxableAboveMin = yearlyGross - bracket.min + (bracket.min === 0 ? 0 : 1)
+  const taxableAboveMin = yearlyGross - bracket.min
   const tax = bracket.base + taxableAboveMin * bracket.rate
 
   const lito = calculateLITO(yearlyGross)
@@ -40,7 +40,7 @@ function calculateIncomeTax(yearlyGross) {
 
 /**
  * Estimate net pay from a gross amount at a given frequency.
- * Applies AU 2024–25 income tax + Medicare levy + LITO.
+ * Applies AU 2025–26 income tax + Medicare levy + LITO.
  *
  * @param {number} grossAmount
  * @param {'yearly'|'monthly'|'fortnightly'} frequency

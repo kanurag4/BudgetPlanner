@@ -2,7 +2,7 @@ import {
   SAVINGS_RECOMMENDATIONS,
   FAMILY_ADJUSTMENTS,
   PER_KID_ADJUSTMENT,
-  MAX_KID_ADJUSTMENT,
+  MIN_KID_ADJUSTMENT,
   SAVINGS_RATE_FLOOR,
 } from '../utils/constants'
 
@@ -18,7 +18,7 @@ export function getRecommendation({ ageGroup, familySituation, numberOfKids }, a
   const familyAdjustment = FAMILY_ADJUSTMENTS[familySituation] ?? 0
 
   const kidsCount = familySituation === 'couple+kids' ? (numberOfKids ?? 0) : 0
-  const kidAdjustment = Math.max(kidsCount * PER_KID_ADJUSTMENT, MAX_KID_ADJUSTMENT)
+  const kidAdjustment = Math.max(kidsCount * PER_KID_ADJUSTMENT, MIN_KID_ADJUSTMENT)
 
   const recommendedRate = Math.max(
     SAVINGS_RATE_FLOOR,
