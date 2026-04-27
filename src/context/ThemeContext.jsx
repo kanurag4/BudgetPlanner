@@ -4,15 +4,15 @@ import { useStorage } from '../hooks/useStorage'
 export const ThemeContext = createContext(null)
 
 export function ThemeProvider({ children }) {
-  const [darkMode, setDarkMode] = useStorage('budgetplanner_theme', true)
+  const [darkMode, setDarkMode] = useStorage('kv-theme', 'dark')
 
   // Keep the `dark` class on <html> in sync with state
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode)
+    document.documentElement.classList.toggle('dark', darkMode === 'dark')
   }, [darkMode])
 
   function toggleDarkMode() {
-    setDarkMode(prev => !prev)
+    setDarkMode(darkMode === 'dark' ? 'light' : 'dark')
   }
 
   return (
