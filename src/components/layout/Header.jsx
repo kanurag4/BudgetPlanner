@@ -24,7 +24,7 @@ export function Header() {
         aria-label="KashVector home"
         className="absolute left-4 top-4 opacity-90 hover:opacity-100 transition-opacity"
       >
-        <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="KashVector" className="w-8 h-8" />
+        <img src="/logo.svg" alt="KashVector" className="w-8 h-8" />
       </a>
 
       {/* Utility buttons */}
