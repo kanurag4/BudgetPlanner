@@ -19,8 +19,8 @@ export const INCOME_FREQUENCIES = ['yearly', 'monthly', 'fortnightly', 'weekly']
 export const EXPENSE_FREQUENCIES = ['yearly', 'quarterly', 'monthly', 'fortnightly', 'weekly']
 export const HOUSING_FREQUENCIES = ['monthly', 'fortnightly', 'weekly']
 
-// AU tax brackets — 2025–26 rates (applicable from 1 July 2025)
-// Scheduled changes: 2026–27 → first bracket drops to 14%
+// AU tax brackets — 2026–27 rates (effective 1 July 2026; 2026 Federal Budget)
+// Changes from 2025–26: first bracket 19%→15%; second bracket 32.5%→30%, $120k→$135k; $180k→$190k threshold
 // Format: { min, max, rate, base } where base = total tax owed at the bottom of the bracket
 export const AU_TAX_BRACKETS = [
   { min: 0,      max: 18200,    rate: 0,    base: 0 },

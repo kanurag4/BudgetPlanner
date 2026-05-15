@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
 ## Commands
 
@@ -108,9 +108,9 @@ Pure functions, no React imports. All new financial logic goes here.
 | `recommendations.js` | `getRecommendation({ ageGroup, familySituation, numberOfKids }, actualRate)` |
 | `payslipParser.js` | `parsePayslip(file)` → `Promise<{ netPay, frequency, confidence, rawText }>`; handles reversed label order, "TOTAL NET PAY - ..." format, amount-before-super-line, and text-month date ranges |
 
-### AU tax details (2026–27, effective 1 July 2026)
+### AU tax details (2025–26)
 
-Brackets: 0% / 15% / 30% / 37% / 45% at thresholds 18,200 / 45,000 / 135,000 / 190,000. LITO max $700, phases out $37,500–$66,667. Medicare levy 2%. All values live in `src/utils/constants.js`.
+Brackets: 0% / 15% / 30% / 37% / 45% at thresholds 18,200 / 45,000 / 135,000 / 190,000. LITO max $700, phases out $37,500–$66,667. Medicare levy 2%. Scheduled: first bracket drops to 14% in 2026–27. All values live in `src/utils/constants.js`.
 
 ### Savings rate recommendations
 

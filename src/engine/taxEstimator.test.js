@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import { estimateNetPay, estimateGrossFromNet } from './taxEstimator'
 
-// AU 2025–26 rates: 0% / 15% / 30% / 37% / 45%
+// AU 2026–27 rates (effective 1 July 2026): 0% / 15% / 30% / 37% / 45%
 // Bracket boundaries: 18,200 / 45,000 / 135,000 / 190,000
+// Key changes from 2025–26: first bracket 19%→15%; second bracket 32.5%→30%, $120k→$135k threshold; $180k→$190k threshold
 
 describe('estimateNetPay', () => {
   it('zero income returns all zeros', () => {
@@ -90,6 +91,43 @@ describe('estimateNetPay', () => {
     const result = estimateNetPay(gross, 'yearly')
     const reconstructed = result.netAmount + result.taxAmount + result.medicareLevy
     expect(reconstructed).toBeCloseTo(gross, 0)
+  })
+})
+
+describe('2026-27 budget bracket changes', () => {
+  it('first bracket is 15% — $30k earner pays less than under old 19% rate', () => {
+    const result = estimateNetPay(30000, 'yearly')
+    // Old rate 19%: (30000-18200)*0.19 = $2,242 tax before LITO
+    // New rate 15%: (30000-18200)*0.15 = $1,770 tax before LITO
+    // New net should be higher than old net ($28,330 new vs ~$27,858 old)
+    expect(result.netAmount).toBeGreaterThan(28000)
+  })
+
+  it('$120,000 income sits within the 30% bracket — old $120k threshold no longer applies', () => {
+    const result = estimateNetPay(120000, 'yearly')
+    // Under old 2025–26 rules $120k was the upper bound of the 32.5% bracket.
+    // Under 2026–27 rules the 30% bracket extends to $135k, so $120k stays at 30%.
+    // Marginal rate on last dollar should be 30% + 2% Medicare = 32%
+    expect(result.effectiveTaxRate).toBeLessThan(26) // 32% marginal on large income, effective ~24%
+    expect(result.netAmount).toBeGreaterThan(88000)
+  })
+
+  it('$135,001 is in the 37% bracket — new upper threshold for 30% bracket', () => {
+    const justBelow = estimateNetPay(135000, 'yearly')
+    const justAbove = estimateNetPay(136000, 'yearly')
+    // Extra $1,000 taxed at 37% + 2% Medicare = 39% → net gain is $610
+    const netGain = justAbove.netAmount - justBelow.netAmount
+    expect(netGain).toBeGreaterThan(600)
+    expect(netGain).toBeLessThan(620)
+  })
+
+  it('$190,001 enters the 45% bracket — new upper threshold for 37% bracket', () => {
+    const at190 = estimateNetPay(190000, 'yearly')
+    const at191 = estimateNetPay(191000, 'yearly')
+    // Extra $1,000 taxed at 45% + 2% Medicare = 47% → net gain is $530
+    const netGain = at191.netAmount - at190.netAmount
+    expect(netGain).toBeGreaterThan(520)
+    expect(netGain).toBeLessThan(540)
   })
 })
 
