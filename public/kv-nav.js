@@ -29,6 +29,7 @@
     html:not(.dark) .kv-tool-nav a{color:#64748b;}
     html:not(.dark) .kv-tool-nav a:hover{color:#0f172a;}
     html:not(.dark) .kv-tool-nav a.kv-nav-active{color:#0ea5e9;border-bottom-color:#0ea5e9;}
+    @media(max-width:800px){.kv-tool-nav{justify-content:flex-start;}}
   `;
   document.head.appendChild(style);
 
