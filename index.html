@@ -4,10 +4,52 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/Budget.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Budget Planner</title>
+    <title>Budget Planner — KashVector</title>
+    <meta name="description" content="Plan your monthly budget across income, housing, groceries, fixed costs, and savings goals. Free budget planner — no sign-up, no data leaves your browser.">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Budget Planner",
+      "url": "https://kashvector.com/budget/",
+      "description": "Plan your income, expenses, and savings across housing, groceries, fixed costs, and investment goals.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "AUD" }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script src="/kv-nav.js"></script>
+
+    <!-- Static content for SEO — crawlable by Google, visually hidden behind the app -->
+    <section id="seo-content" style="max-width:900px;margin:0 auto;padding:48px 20px 64px;display:grid;grid-template-columns:1fr 1fr;gap:32px;font-family:system-ui,-apple-system,sans-serif;color:#94a3b8;">
+      <div>
+        <h2 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #334155;">About this tool</h2>
+        <p style="font-size:0.9rem;line-height:1.6;margin-bottom:8px;">Plan your monthly budget across income, housing, groceries, fixed costs, and savings goals. The Budget Planner guides you through a step-by-step wizard, then shows a clear dashboard of where your money goes and how much you can save.</p>
+        <p style="font-size:0.9rem;line-height:1.6;">Ideal for Australians setting up their first budget, reviewing their spending after a pay rise, or planning how to reach a savings goal faster. No sign-up required — all data stays in your browser.</p>
+      </div>
+      <div>
+        <h2 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #334155;">Frequently asked questions</h2>
+        <details style="border-bottom:1px solid #334155;padding:10px 0;">
+          <summary style="font-size:0.9rem;font-weight:500;color:#f1f5f9;cursor:pointer;list-style:none;">Does the Budget Planner store my data?</summary>
+          <p style="font-size:0.85rem;line-height:1.6;margin-top:8px;">No. All data is saved to your browser's local storage and never sent to any server. Clearing your browser storage will reset the planner.</p>
+        </details>
+        <details style="border-bottom:1px solid #334155;padding:10px 0;">
+          <summary style="font-size:0.9rem;font-weight:500;color:#f1f5f9;cursor:pointer;list-style:none;">What is the savings rate and why does it matter?</summary>
+          <p style="font-size:0.85rem;line-height:1.6;margin-top:8px;">Your savings rate is the percentage of your take-home income you save or invest each month. A higher savings rate is the single biggest lever for reaching financial independence — even more than investment returns.</p>
+        </details>
+        <details style="border-bottom:1px solid #334155;padding:10px 0;">
+          <summary style="font-size:0.9rem;font-weight:500;color:#f1f5f9;cursor:pointer;list-style:none;">Can I upload my payslip?</summary>
+          <p style="font-size:0.85rem;line-height:1.6;margin-top:8px;">Yes. The income step lets you upload an Australian payslip PDF to automatically parse your gross income, tax, and super — so you don't have to enter them manually.</p>
+        </details>
+        <details style="border-bottom:1px solid #334155;padding:10px 0;">
+          <summary style="font-size:0.9rem;font-weight:500;color:#f1f5f9;cursor:pointer;list-style:none;">How is tax calculated?</summary>
+          <p style="font-size:0.85rem;line-height:1.6;margin-top:8px;">The planner estimates Australian income tax using the current ATO tax brackets and the low-income tax offset (LITO). The estimate is a guide — your actual tax will depend on deductions, Medicare levy, and other personal circumstances.</p>
+        </details>
+      </div>
+    </section>
   </body>
 </html>
