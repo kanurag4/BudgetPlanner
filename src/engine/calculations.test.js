@@ -11,6 +11,12 @@ function makeState(overrides = {}) {
     },
     housing: { type: 'rent', amount: 1500, frequency: 'monthly' },
     groceries: { amount: 600, frequency: 'monthly' },
+    householdBills: {
+      utilities:        { enabled: false, amount: 0, frequency: 'monthly' },
+      councilFees:      { enabled: false, amount: 0, frequency: 'quarterly' },
+      strataFees:       { enabled: false, amount: 0, frequency: 'quarterly' },
+      medicalInsurance: { enabled: false, amount: 0, frequency: 'monthly' },
+    },
     fixedExpenses: [],
     savingsGoal: { enabled: false, type: 'percentage', value: 0, frequency: 'monthly' },
     splitSliders: { splurge: 20, emergency: 40, investment: 40 },
@@ -222,5 +228,62 @@ describe('calculateBudget — split sliders', () => {
     expect(result.splitAmounts.splurge).toBeCloseTo(result.actualSavings * 0.1)
     expect(result.splitAmounts.emergency).toBeCloseTo(result.actualSavings * 0.5)
     expect(result.splitAmounts.investment).toBeCloseTo(result.actualSavings * 0.4)
+  })
+})
+
+describe('calculateBudget - weekly cycle edge cases', () => {
+  it('normalises mixed regular, household, and fixed expenses to a weekly salary cycle', () => {
+    const state = makeState({
+      income: {
+        primarySalary: { amount: 2000, frequency: 'weekly', isGross: false },
+        partnerSalary: { enabled: false, amount: 0, frequency: 'monthly', isGross: false },
+        bonus: { amount: 5200 },
+      },
+      housing: {
+        type: 'loan',
+        amount: 2600,
+        frequency: 'monthly',
+        vehicleLoan: { enabled: true, amount: 520, frequency: 'fortnightly' },
+        otherLoans: { enabled: true, amount: 100, frequency: 'monthly' },
+        additionalLoans: [{ id: 'loan-1', name: 'Family loan', amount: 5200, frequency: 'yearly' }],
+      },
+      groceries: { amount: 150, frequency: 'weekly' },
+      householdBills: {
+        utilities: { enabled: true, amount: 1200, frequency: 'yearly' },
+        councilFees: { enabled: true, amount: 390, frequency: 'quarterly' },
+        strataFees: { enabled: false, amount: 999, frequency: 'monthly' },
+        medicalInsurance: { enabled: true, amount: 80, frequency: 'monthly' },
+      },
+      fixedExpenses: [
+        { id: 'fixed-1', name: 'Weekly sub', amount: 52, frequency: 'weekly' },
+        { id: 'fixed-2', name: 'Annual sub', amount: 1200, frequency: 'yearly' },
+      ],
+    })
+
+    const result = calculateBudget(state)
+
+    expect(result.salaryCycle).toBe('weekly')
+    expect(result.periodsPerYear).toBe(52)
+    expect(result.housingPerCycle).toBeCloseTo(600)
+    expect(result.vehicleLoanPerCycle).toBeCloseTo(260)
+    expect(result.otherLoansPerCycle).toBeCloseTo(100 * 12 / 52)
+    expect(result.additionalLoansPerCycle).toBeCloseTo(100)
+    expect(result.utilitiesPerCycle).toBeCloseTo(1200 / 52)
+    expect(result.councilFeesPerCycle).toBeCloseTo(390 * 4 / 52)
+    expect(result.strataFeesPerCycle).toBe(0)
+    expect(result.medicalInsurancePerCycle).toBeCloseTo(80 * 12 / 52)
+    expect(result.fixedBucket).toBeCloseTo(52 + 1200 / 52)
+    expect(result.bonusPerCycle).toBeCloseTo(100)
+    expect(result.netIncomePerCycle).toBeCloseTo(2000)
+    expect(result.netIncomeWithBonusPerCycle).toBeCloseTo(2100)
+  })
+
+  it('does not produce negative split amounts when the budget is over-spent', () => {
+    const result = calculateBudget(makeState({
+      housing: { type: 'rent', amount: 8000, frequency: 'monthly' },
+    }))
+
+    expect(result.actualSavings).toBeLessThan(0)
+    expect(result.splitAmounts).toEqual({ splurge: 0, emergency: 0, investment: 0 })
   })
 })

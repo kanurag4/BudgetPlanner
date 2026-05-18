@@ -19,18 +19,18 @@ export const INCOME_FREQUENCIES = ['yearly', 'monthly', 'fortnightly', 'weekly']
 export const EXPENSE_FREQUENCIES = ['yearly', 'quarterly', 'monthly', 'fortnightly', 'weekly']
 export const HOUSING_FREQUENCIES = ['monthly', 'fortnightly', 'weekly']
 
-// AU tax brackets — 2026–27 rates (effective 1 July 2026; 2026 Federal Budget)
-// Changes from 2025–26: first bracket 19%→15%; second bracket 32.5%→30%, $120k→$135k; $180k→$190k threshold
-// Format: { min, max, rate, base } where base = total tax owed at the bottom of the bracket
+// AU tax brackets - 2025-26 resident rates.
+// The first bracket reduces from 16% to 15% from the 2026-27 income year.
+// Format: { min, max, rate, base } where base = total tax owed at the bottom of the bracket.
 export const AU_TAX_BRACKETS = [
   { min: 0,      max: 18200,    rate: 0,    base: 0 },
-  { min: 18200,  max: 45000,    rate: 0.15, base: 0 },      // (45000-18200)*0.15 = 4,020 at top
-  { min: 45000,  max: 135000,   rate: 0.30, base: 4020 },   // (135000-45000)*0.30 = 27,000 → top: 31,020
-  { min: 135000, max: 190000,   rate: 0.37, base: 31020 },  // (190000-135000)*0.37 = 20,350 → top: 51,370
-  { min: 190000, max: Infinity, rate: 0.45, base: 51370 },
+  { min: 18200,  max: 45000,    rate: 0.16, base: 0 },      // (45000-18200)*0.16 = 4,288 at top
+  { min: 45000,  max: 135000,   rate: 0.30, base: 4288 },   // (135000-45000)*0.30 = 27,000 -> top: 31,288
+  { min: 135000, max: 190000,   rate: 0.37, base: 31288 },  // (190000-135000)*0.37 = 20,350 -> top: 51,638
+  { min: 190000, max: Infinity, rate: 0.45, base: 51638 },
 ]
 
-// Low Income Tax Offset (LITO) 2025–26
+// Low Income Tax Offset (LITO) 2025-26
 export const LITO = {
   maxOffset: 700,
   phase1Start: 37500,
@@ -59,10 +59,10 @@ export const FAMILY_ADJUSTMENTS = {
   'couple+kids': -2,  // same base as couple; kids add on top
 }
 
-// Per-kid reduction: −2% per kid, capped at −6% for kids alone.
-// Combined with couple adjustment (−2%) this gives a max total of −8% from single.
+// Per-kid reduction: -2% per kid, capped at -6% for kids alone.
+// Combined with couple adjustment (-2%) this gives a max total of -8% from single.
 export const PER_KID_ADJUSTMENT = -2
-export const MIN_KID_ADJUSTMENT = -6  // floor: kids penalty capped at −6% regardless of count
+export const MIN_KID_ADJUSTMENT = -6  // floor: kids penalty capped at -6% regardless of count
 export const SAVINGS_RATE_FLOOR = 5
 
 // Alert severity thresholds (percentage points below recommended)
@@ -72,7 +72,7 @@ export const ALERT_THRESHOLDS = {
   // below -5 = red
 }
 
-// Employer superannuation rate (2025–26)
+// Employer superannuation rate (2025-26)
 export const SUPER_RATE = 0.12
 
 // Default split slider values
@@ -100,9 +100,9 @@ export const TOTAL_STEPS = WIZARD_STEPS.length
 // Age group options
 export const AGE_GROUPS = [
   { value: 'under25', label: 'Under 25' },
-  { value: '25-34',   label: '25 – 34' },
-  { value: '35-44',   label: '35 – 44' },
-  { value: '45-54',   label: '45 – 54' },
+  { value: '25-34',   label: '25 - 34' },
+  { value: '35-44',   label: '35 - 44' },
+  { value: '45-54',   label: '45 - 54' },
   { value: '55+',     label: '55 or older' },
 ]
 

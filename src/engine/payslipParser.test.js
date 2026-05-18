@@ -53,6 +53,20 @@ describe('parsePayslip — net pay extraction from plain text', () => {
     expect(result.confidence).toBe('high')
   })
 
+  it('extracts net pay when the amount appears before the label', async () => {
+    const file = mockTextFile('Earnings 3,100.00\nDeductions 420.00\n2,680.50 Net Pay')
+    const result = await parsePayslip(file)
+    expect(result.netPay).toBeCloseTo(2680.5)
+    expect(result.confidence).toBe('high')
+  })
+
+  it('extracts net pay from total net pay bank credit layouts', async () => {
+    const file = mockTextFile('TOTAL NET PAY - Bank Credit $4,182.75')
+    const result = await parsePayslip(file)
+    expect(result.netPay).toBeCloseTo(4182.75)
+    expect(result.confidence).toBe('high')
+  })
+
   it('returns null netPay with low confidence when no keyword found', async () => {
     const file = mockTextFile('Employee Name: John Smith\nDepartment: Engineering')
     const result = await parsePayslip(file)
@@ -84,6 +98,24 @@ describe('parsePayslip — frequency extraction', () => {
     const file = mockTextFile('Net Pay $3,000')
     const result = await parsePayslip(file)
     expect(result.frequency).toBeNull()
+  })
+
+  it('infers weekly frequency from numeric date ranges before annual fallback keywords', async () => {
+    const file = mockTextFile('Pay period 01/05/2026 - 07/05/2026\nAnnual leave balance 40.0\nNet Pay $1,200')
+    const result = await parsePayslip(file)
+    expect(result.frequency).toBe('weekly')
+  })
+
+  it('infers fortnightly frequency from ISO date ranges', async () => {
+    const file = mockTextFile('Period: 2026-04-01 to 2026-04-14\nNet Pay $2,400')
+    const result = await parsePayslip(file)
+    expect(result.frequency).toBe('fortnightly')
+  })
+
+  it('infers monthly frequency from text-month date ranges', async () => {
+    const file = mockTextFile('Pay period 1 January 2026 to 31 January 2026\nNet Pay $5,000')
+    const result = await parsePayslip(file)
+    expect(result.frequency).toBe('monthly')
   })
 })
 

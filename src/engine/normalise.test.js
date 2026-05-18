@@ -39,6 +39,22 @@ describe('normaliseToFrequency', () => {
   it('zero amount returns zero', () => {
     expect(normaliseToFrequency(0, 'yearly', 'monthly')).toBe(0)
   })
+
+  it('weekly -> monthly uses 52 weeks over 12 months', () => {
+    expect(normaliseToFrequency(100, 'weekly', 'monthly')).toBeCloseTo(433.33, 2)
+  })
+
+  it('monthly -> weekly uses 12 months over 52 weeks', () => {
+    expect(normaliseToFrequency(2600, 'monthly', 'weekly')).toBeCloseTo(600)
+  })
+
+  it('preserves negative amounts for adjustment-style values', () => {
+    expect(normaliseToFrequency(-1200, 'yearly', 'monthly')).toBeCloseTo(-100)
+  })
+
+  it('preserves decimal cents through conversion', () => {
+    expect(normaliseToFrequency(99.99, 'weekly', 'yearly')).toBeCloseTo(5199.48)
+  })
 })
 
 describe('resolveSalaryCycle', () => {

@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { estimateNetPay, estimateGrossFromNet } from './taxEstimator'
 
-// AU 2026–27 rates (effective 1 July 2026): 0% / 15% / 30% / 37% / 45%
+// AU 2025-26 rates: 0% / 16% / 30% / 37% / 45%
 // Bracket boundaries: 18,200 / 45,000 / 135,000 / 190,000
-// Key changes from 2025–26: first bracket 19%→15%; second bracket 32.5%→30%, $120k→$135k threshold; $180k→$190k threshold
 
 describe('estimateNetPay', () => {
   it('zero income returns all zeros', () => {
@@ -24,55 +23,53 @@ describe('estimateNetPay', () => {
     expect(result.medicareLevy).toBeCloseTo(18200 * 0.02, 0)
   })
 
-  it('income in 15% bracket ($30,000 yearly)', () => {
+  it('income in 16% bracket ($30,000 yearly)', () => {
     const result = estimateNetPay(30000, 'yearly')
-    // Tax: 15% on (30000 - 18200) = $1,770, LITO $700 (income < $37,500 → full offset)
-    // After LITO: $1,070 + Medicare $600 = $1,670 total → net $28,330
-    expect(result.netAmount).toBeGreaterThan(27000)
-    expect(result.netAmount).toBeLessThan(29500)
+    // Tax: 16% on (30000 - 18200) = $1,888, LITO $700.
+    // After LITO: $1,188 + Medicare $600 = $1,788 total -> net $28,212.
+    expect(result.taxAmount).toBeCloseTo(1188, 0)
+    expect(result.netAmount).toBeCloseTo(28212, 0)
   })
 
   it('income at $45,000 bracket boundary', () => {
     const result = estimateNetPay(45000, 'yearly')
-    // Tax: 15% on 26,800 = $4,020, LITO partially phased out (~$325)
-    // After LITO: $3,695 + Medicare $900 → effective ~10.2%
-    expect(result.effectiveTaxRate).toBeGreaterThan(9)
-    expect(result.effectiveTaxRate).toBeLessThan(13)
+    // Tax: 16% on 26,800 = $4,288, LITO partially phased out (~$325).
+    // After LITO: $3,963 + Medicare $900 -> effective ~10.8%.
+    expect(result.effectiveTaxRate).toBeGreaterThan(10)
+    expect(result.effectiveTaxRate).toBeLessThan(12)
   })
 
   it('income at $120,000 (within 30% bracket)', () => {
     const result = estimateNetPay(120000, 'yearly')
-    // Tax: 4,020 + (120,000-45,000)*0.30 = 4,020 + 22,500 = $26,520
-    // Medicare: $2,400 → total $28,920 → effective ~24.1%
-    expect(result.effectiveTaxRate).toBeCloseTo(24.1, 0)
-    expect(result.netAmount).toBeCloseTo(91080, -2)
+    // Tax: 4,288 + (120,000-45,000)*0.30 = $26,788.
+    // Medicare: $2,400 -> total $29,188 -> net $90,812.
+    expect(result.effectiveTaxRate).toBeCloseTo(24.3, 0)
+    expect(result.netAmount).toBeCloseTo(90812, -2)
   })
 
   it('income at $180,000 (within 37% bracket)', () => {
     const result = estimateNetPay(180000, 'yearly')
-    // Tax: 31,020 + (180,000-135,000)*0.37 = 31,020 + 16,650 = $47,670
-    // Medicare: $3,600 → total $51,270 → effective ~28.5%
-    expect(result.effectiveTaxRate).toBeCloseTo(28.5, 0)
-    expect(result.netAmount).toBeCloseTo(128730, -2)
+    // Tax: 31,288 + (180,000-135,000)*0.37 = $47,938.
+    // Medicare: $3,600 -> total $51,538 -> net $128,462.
+    expect(result.effectiveTaxRate).toBeCloseTo(28.6, 0)
+    expect(result.netAmount).toBeCloseTo(128462, -2)
   })
 
   it('high income above $190,000', () => {
     const result = estimateNetPay(250000, 'yearly')
-    // Tax: 51,370 + (250,000-190,000)*0.45 = 51,370 + 27,000 = $78,370
-    // Medicare: $5,000 → total $83,370 → effective ~33.3%
-    expect(result.effectiveTaxRate).toBeCloseTo(33.3, 0)
-    expect(result.netAmount).toBeCloseTo(166630, -2)
+    // Tax: 51,638 + (250,000-190,000)*0.45 = $78,638.
+    // Medicare: $5,000 -> total $83,638 -> net $166,362.
+    expect(result.effectiveTaxRate).toBeCloseTo(33.5, 0)
+    expect(result.netAmount).toBeCloseTo(166362, -2)
   })
 
   it('LITO reduces tax for low incomes ($20,000)', () => {
     const low = estimateNetPay(20000, 'yearly')
     const mid = estimateNetPay(80000, 'yearly')
-    // Low income should have a lower effective rate due to LITO
     expect(low.effectiveTaxRate).toBeLessThan(mid.effectiveTaxRate)
   })
 
   it('fortnightly gross input returns fortnightly net', () => {
-    // $80,000/year = ~$3,076.92/fortnight
     const yearlyResult = estimateNetPay(80000, 'yearly')
     const fortnightlyResult = estimateNetPay(80000 / 26, 'fortnightly')
 
@@ -86,7 +83,14 @@ describe('estimateNetPay', () => {
     expect(monthlyResult.netAmount).toBeCloseTo(yearlyResult.netAmount / 12, 0)
   })
 
-  it('netAmount + taxAmount + medicareLevy ≈ grossAmount (yearly)', () => {
+  it('weekly gross input returns weekly net', () => {
+    const yearlyResult = estimateNetPay(104000, 'yearly')
+    const weeklyResult = estimateNetPay(104000 / 52, 'weekly')
+
+    expect(weeklyResult.netAmount).toBeCloseTo(yearlyResult.netAmount / 52, 0)
+  })
+
+  it('netAmount + taxAmount + medicareLevy equals grossAmount for yearly input', () => {
     const gross = 90000
     const result = estimateNetPay(gross, 'yearly')
     const reconstructed = result.netAmount + result.taxAmount + result.medicareLevy
@@ -94,37 +98,25 @@ describe('estimateNetPay', () => {
   })
 })
 
-describe('2026-27 budget bracket changes', () => {
-  it('first bracket is 15% — $30k earner pays less than under old 19% rate', () => {
+describe('2025-26 tax bracket boundaries', () => {
+  it('first bracket is 16% for the current 2025-26 income year', () => {
     const result = estimateNetPay(30000, 'yearly')
-    // Old rate 19%: (30000-18200)*0.19 = $2,242 tax before LITO
-    // New rate 15%: (30000-18200)*0.15 = $1,770 tax before LITO
-    // New net should be higher than old net ($28,330 new vs ~$27,858 old)
-    expect(result.netAmount).toBeGreaterThan(28000)
+    expect(result.taxAmount).toBeCloseTo(1188, 0)
   })
 
-  it('$120,000 income sits within the 30% bracket — old $120k threshold no longer applies', () => {
-    const result = estimateNetPay(120000, 'yearly')
-    // Under old 2025–26 rules $120k was the upper bound of the 32.5% bracket.
-    // Under 2026–27 rules the 30% bracket extends to $135k, so $120k stays at 30%.
-    // Marginal rate on last dollar should be 30% + 2% Medicare = 32%
-    expect(result.effectiveTaxRate).toBeLessThan(26) // 32% marginal on large income, effective ~24%
-    expect(result.netAmount).toBeGreaterThan(88000)
-  })
-
-  it('$135,001 is in the 37% bracket — new upper threshold for 30% bracket', () => {
+  it('$135,001 is in the 37% bracket', () => {
     const justBelow = estimateNetPay(135000, 'yearly')
     const justAbove = estimateNetPay(136000, 'yearly')
-    // Extra $1,000 taxed at 37% + 2% Medicare = 39% → net gain is $610
+    // Extra $1,000 taxed at 37% + 2% Medicare = 39% -> net gain is $610.
     const netGain = justAbove.netAmount - justBelow.netAmount
     expect(netGain).toBeGreaterThan(600)
     expect(netGain).toBeLessThan(620)
   })
 
-  it('$190,001 enters the 45% bracket — new upper threshold for 37% bracket', () => {
+  it('$190,001 enters the 45% bracket', () => {
     const at190 = estimateNetPay(190000, 'yearly')
     const at191 = estimateNetPay(191000, 'yearly')
-    // Extra $1,000 taxed at 45% + 2% Medicare = 47% → net gain is $530
+    // Extra $1,000 taxed at 45% + 2% Medicare = 47% -> net gain is $530.
     const netGain = at191.netAmount - at190.netAmount
     expect(netGain).toBeGreaterThan(520)
     expect(netGain).toBeLessThan(540)
@@ -132,7 +124,7 @@ describe('2026-27 budget bracket changes', () => {
 })
 
 describe('estimateGrossFromNet', () => {
-  it('round-trips correctly — gross → net → gross', () => {
+  it('round-trips correctly from gross to net to gross', () => {
     for (const gross of [30000, 60000, 90000, 120000, 180000, 250000]) {
       const { netAmount } = estimateNetPay(gross, 'yearly')
       const recovered = estimateGrossFromNet(netAmount)
