@@ -1,8 +1,8 @@
 (function () {
   // Update LATEST when publishing a new article.
   const LATEST = {
-    title: '2026 Federal Budget — What Changes for Everyday Australians',
-    href: '/articles/2026-budget-what-changes/'
+    title: 'How to Value a Stock: DCF and the Dividend Discount Model',
+    href: '/articles/dcf-ddm-stock-valuation/'
   };
 
   const style = document.createElement('style');
@@ -35,12 +35,12 @@
     .kv-article-banner a:hover { color: #38bdf8; }
     html:not(.dark) .kv-article-banner {
       background: #d4dce8;
-      border-left-color: #0ea5e9;
+      border-left-color: #0369a1;
       border-bottom-color: #e2e8f0;
     }
     html:not(.dark) .kv-article-banner-label { color: #64748b; }
     html:not(.dark) .kv-article-banner a { color: #0f172a; }
-    html:not(.dark) .kv-article-banner a:hover { color: #0ea5e9; }
+    html:not(.dark) .kv-article-banner a:hover { color: #0369a1; }
     @media (max-width: 600px) {
       .kv-article-banner { font-size: 0.75rem; padding: 0 12px; }
     }
@@ -51,7 +51,7 @@
     const div = document.createElement('div');
     div.className = 'kv-article-banner';
     div.innerHTML =
-      '<span class="kv-article-banner-label">New article:</span>' +
+      '<span class="kv-article-banner-label">Hot article:</span>' +
       '<a href="' + LATEST.href + '">' + LATEST.title + ' →</a>';
     return div;
   }

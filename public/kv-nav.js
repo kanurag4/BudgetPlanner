@@ -1,6 +1,7 @@
 (function () {
   const TOOLS = [
     { name: 'Stock Evaluator',  slug: 'stock' },
+    { name: 'DCF Valuation',    slug: 'dcf' },
     { name: 'Budget',           slug: 'budget' },
     { name: 'Debt Recycling',   slug: 'debt-recycling' },
     { name: 'Portfolio',        slug: 'portfolio-health' },
@@ -10,6 +11,7 @@
     { name: 'Rent vs Buy',      slug: 'rent-vs-buy' },
     { name: 'Life Buyback',     slug: 'life-buyback' },
     { name: 'Budget Impact',    slug: 'budget-impact' },
+    { name: 'Articles',         slug: 'articles' },
   ];
 
   const path = window.location.pathname;
@@ -28,7 +30,7 @@
     html:not(.dark) .kv-tool-nav{background:#edf2f7;border-color:#e2e8f0;}
     html:not(.dark) .kv-tool-nav a{color:#64748b;}
     html:not(.dark) .kv-tool-nav a:hover{color:#0f172a;}
-    html:not(.dark) .kv-tool-nav a.kv-nav-active{color:#0ea5e9;border-bottom-color:#0ea5e9;}
+    html:not(.dark) .kv-tool-nav a.kv-nav-active{color:#0369a1;border-bottom-color:#0369a1;}
     @media(max-width:800px){.kv-tool-nav{justify-content:flex-start;}}
   `;
   document.head.appendChild(style);
