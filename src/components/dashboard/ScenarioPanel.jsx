@@ -3,6 +3,7 @@ import { useBudget } from '../../hooks/useBudget'
 import { Card } from '../ui/Card'
 import { Toggle } from '../ui/Toggle'
 import { Button } from '../ui/Button'
+import { MoneyInput } from '../ui/MoneyInput'
 import { formatCurrency } from '../../utils/formatCurrency'
 
 function OverrideInput({ label, placeholder, value, onChange }) {
@@ -13,14 +14,9 @@ function OverrideInput({ label, placeholder, value, onChange }) {
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-sm pointer-events-none">
           $
         </span>
-        <input
-          type="number"
-          inputMode="decimal"
-          min="0"
-          step="1"
+        <MoneyInput
           value={value}
-          onChange={e => onChange(e.target.value)}
-          onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
+          onChange={onChange}
           placeholder={placeholder}
           className={[
             'w-full pl-7 pr-3 py-2 rounded-xl border text-sm min-h-[44px]',
@@ -86,6 +82,11 @@ export function ScenarioPanel({ budget: baseBudget, scenarioBudget }) {
     setInputs(prev => ({ ...prev, [key]: raw }))
     const num = parseFloat(raw)
     actions.setScenarioOverride({ [key]: isNaN(num) || raw === '' ? null : num })
+    // Auto-activate as soon as the user enters a real value — otherwise typing
+    // appears to do nothing until they find and flip the separate toggle.
+    if (!isNaN(num) && raw !== '' && !isActive) {
+      actions.updateScenario({ active: true })
+    }
   }
 
   function handleReset() {
@@ -118,7 +119,7 @@ export function ScenarioPanel({ budget: baseBudget, scenarioBudget }) {
           id="scenario-toggle"
           checked={isActive}
           onChange={handleToggle}
-          label=""
+          label="Active"
         />
       </div>
 

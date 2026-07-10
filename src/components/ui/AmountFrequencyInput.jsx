@@ -1,6 +1,7 @@
 import { normaliseToFrequency } from '../../engine/normalise'
 import { formatCurrency } from '../../utils/formatCurrency'
 import { FREQUENCIES } from '../../utils/constants'
+import { MoneyInput } from './MoneyInput'
 
 /**
  * Reusable amount + frequency input with a live per-cycle preview.
@@ -27,7 +28,9 @@ export function AmountFrequencyInput({
   disabled = false,
   id = 'amount-freq',
 }) {
-  const cycleLabel = salaryCycle === 'fortnightly' ? 'fortnight' : 'month'
+  const cycleLabel = salaryCycle === 'fortnightly' ? 'fortnight'
+    : salaryCycle === 'weekly' ? 'week'
+    : 'month'
 
   const numericAmount = parseFloat(String(amount).replace(/,/g, '')) || 0
 
@@ -35,10 +38,6 @@ export function AmountFrequencyInput({
     numericAmount > 0 && frequency !== salaryCycle
       ? normaliseToFrequency(numericAmount, frequency, salaryCycle)
       : null
-
-  function handleAmountChange(e) {
-    onChange({ amount: e.target.value, frequency })
-  }
 
   function handleFrequencyChange(e) {
     onChange({ amount, frequency: e.target.value })
@@ -61,15 +60,10 @@ export function AmountFrequencyInput({
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium pointer-events-none">
             $
           </span>
-          <input
+          <MoneyInput
             id={`${id}-amount`}
-            type="number"
-            inputMode="decimal"
-            min="0"
-            step="1"
             value={amount}
-            onChange={handleAmountChange}
-            onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
+            onChange={raw => onChange({ amount: raw, frequency })}
             placeholder={placeholder}
             disabled={disabled}
             className={[

@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, AlertTriangle } from 'lucide-react'
 import { useBudget } from '../../hooks/useBudget'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
+import { MoneyInput } from '../ui/MoneyInput'
 import { FREQUENCIES, EXPENSE_FREQUENCIES } from '../../utils/constants'
 
 // Suggestions with sensible default frequencies
@@ -48,6 +49,10 @@ export function StepFixedExpenses() {
     navigate('/wizard/groceries')
   }
 
+  const incompleteCount = fixedExpenses.filter(
+    e => !e.name.trim() || !((parseFloat(e.amount) || 0) > 0)
+  ).length
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -88,8 +93,14 @@ export function StepFixedExpenses() {
       {/* Expense rows */}
       {fixedExpenses.length > 0 ? (
         <div className="flex flex-col gap-3">
-          {fixedExpenses.map((expense) => (
-            <Card key={expense.id} padding={false} className="p-4">
+          {fixedExpenses.map((expense) => {
+            const isIncomplete = !expense.name.trim() || !((parseFloat(expense.amount) || 0) > 0)
+            return (
+            <Card
+              key={expense.id}
+              padding={false}
+              className={`p-4 ${isIncomplete ? 'border-amber-300 dark:border-amber-700' : ''}`}
+            >
               <div className="flex flex-col gap-3">
                 {/* Name */}
                 <input
@@ -111,14 +122,9 @@ export function StepFixedExpenses() {
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-sm font-medium pointer-events-none">
                       $
                     </span>
-                    <input
-                      type="number"
-                      inputMode="decimal"
-                      min="0"
-                      step="1"
+                    <MoneyInput
                       value={expense.amount}
-                      onChange={e => actions.updateFixedExpense(expense.id, { amount: e.target.value })}
-                      onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
+                      onChange={raw => actions.updateFixedExpense(expense.id, { amount: raw })}
                       placeholder="0"
                       className={[
                         'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
@@ -154,9 +160,17 @@ export function StepFixedExpenses() {
                     <Trash2 size={16} />
                   </button>
                 </div>
+
+                {isIncomplete && (
+                  <p className="flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400">
+                    <AlertTriangle size={12} className="flex-shrink-0" />
+                    {!expense.name.trim() ? 'Add a name' : 'Add an amount'} or remove this row
+                  </p>
+                )}
               </div>
             </Card>
-          ))}
+            )
+          })}
         </div>
       ) : (
         <Card className="flex flex-col items-center justify-center gap-2 py-8 text-center border-2 border-dashed border-slate-200 dark:border-slate-700 bg-transparent shadow-none">
@@ -179,6 +193,14 @@ export function StepFixedExpenses() {
 
       {/* Navigation */}
       <div className="flex flex-col gap-2 pb-safe">
+        {incompleteCount > 0 && (
+          <p className="flex items-center justify-center gap-1.5 text-xs text-amber-600 dark:text-amber-400">
+            <AlertTriangle size={12} className="flex-shrink-0" />
+            {incompleteCount === 1
+              ? '1 expense is missing a name or amount'
+              : `${incompleteCount} expenses are missing a name or amount`}
+          </p>
+        )}
         <Button fullWidth size="lg" onClick={handleNext}>
           Next — Savings Goal →
         </Button>

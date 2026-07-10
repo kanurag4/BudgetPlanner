@@ -25,7 +25,7 @@ describe('StepIncome — gross toggle', () => {
     expect(grossToggle).toBeChecked()
 
     // Label changes to "Gross salary" after toggle — wait for re-render
-    const amountInput = await screen.findByRole('spinbutton', { name: /gross salary/i })
+    const amountInput = await screen.findByRole('textbox', { name: /gross salary/i })
     await user.type(amountInput, '80000')
 
     expect(screen.getByTestId('primary-tax-breakdown')).toBeInTheDocument()
@@ -39,7 +39,7 @@ describe('StepIncome — gross toggle', () => {
     const grossToggle = screen.getByRole('checkbox', { name: /gross salary/i })
 
     await user.click(grossToggle)
-    const amountInput = await screen.findByRole('spinbutton', { name: /gross salary/i })
+    const amountInput = await screen.findByRole('textbox', { name: /gross salary/i })
     await user.type(amountInput, '80000')
     expect(screen.getByTestId('primary-tax-breakdown')).toBeInTheDocument()
 
@@ -82,8 +82,8 @@ describe('StepIncome — partner salary toggle', () => {
 
     await user.click(screen.getByRole('checkbox', { name: /partner/i }))
 
-    // There should now be two spinbuttons (primary + partner)
-    const inputs = screen.getAllByRole('spinbutton')
+    // There should now be at least two amount textboxes (primary + partner)
+    const inputs = screen.getAllByRole('textbox')
     expect(inputs.length).toBeGreaterThanOrEqual(2)
   })
 })
@@ -98,8 +98,8 @@ describe('StepIncome — Next button', () => {
     const user = userEvent.setup()
     setup()
 
-    // The first spinbutton is the primary salary amount
-    const [salaryInput] = screen.getAllByRole('spinbutton')
+    // The first textbox is the primary salary amount
+    const [salaryInput] = screen.getAllByRole('textbox')
     await user.type(salaryInput, '5000')
 
     expect(screen.getByRole('button', { name: /next/i })).not.toBeDisabled()

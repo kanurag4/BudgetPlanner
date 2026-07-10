@@ -18,17 +18,38 @@ const FREQ_COLORS = {
   yearly:      'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300',
 }
 
+const HOUSEHOLD_BILL_LABELS = {
+  utilities:        'Utilities',
+  councilFees:      'Council rates',
+  strataFees:       'Strata fees',
+  medicalInsurance: 'Health insurance',
+}
+
 /**
  * Props:
- *   fixedExpenses {array}  — state.fixedExpenses
- *   salaryCycle   {string} — 'monthly' | 'fortnightly'
+ *   fixedExpenses  {array}  — state.fixedExpenses
+ *   householdBills {object} — state.householdBills (optional)
+ *   salaryCycle    {string} — 'monthly' | 'fortnightly' | 'weekly'
  */
-export function ExpenseCalendar({ fixedExpenses, salaryCycle }) {
-  if (!fixedExpenses || fixedExpenses.length === 0) return null
+export function ExpenseCalendar({ fixedExpenses, householdBills, salaryCycle }) {
+  // Enabled household bills join the schedule alongside fixed expenses —
+  // quarterly/yearly bills are exactly the lumpy items this card is for.
+  const billItems = Object.entries(householdBills ?? {})
+    .filter(([, bill]) => bill?.enabled && (parseFloat(bill.amount) || 0) > 0)
+    .map(([key, bill]) => ({
+      id: `bill-${key}`,
+      name: HOUSEHOLD_BILL_LABELS[key] ?? key,
+      amount: bill.amount,
+      frequency: bill.frequency,
+    }))
+
+  const allItems = [...(fixedExpenses ?? []), ...billItems]
+
+  if (allItems.length === 0) return null
 
   // Group by frequency, sorted by FREQ_META.order
   const grouped = {}
-  for (const expense of fixedExpenses) {
+  for (const expense of allItems) {
     const freq = expense.frequency ?? 'monthly'
     if (!grouped[freq]) grouped[freq] = []
     grouped[freq].push(expense)
@@ -38,8 +59,8 @@ export function ExpenseCalendar({ fixedExpenses, salaryCycle }) {
     (a, b) => (FREQ_META[a]?.order ?? 99) - (FREQ_META[b]?.order ?? 99)
   )
 
-  // Total across all fixed expenses normalised to salary cycle
-  const totalPerCycle = fixedExpenses.reduce((sum, e) => {
+  // Total across all items normalised to salary cycle
+  const totalPerCycle = allItems.reduce((sum, e) => {
     return sum + normaliseToFrequency(parseFloat(e.amount) || 0, e.frequency, salaryCycle)
   }, 0)
 

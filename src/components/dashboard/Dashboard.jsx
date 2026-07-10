@@ -13,18 +13,20 @@ import { SavingsRateAlert } from './SavingsRateAlert'
 import { ExpenseCalendar } from './ExpenseCalendar'
 import { ScenarioPanel } from './ScenarioPanel'
 import { ExportButton } from './ExportButton'
+import { ToolSuggestion, selectSuggestion } from './ToolSuggestion'
 import { Card } from '../ui/Card'
 
 export function Dashboard() {
   const navigate = useNavigate()
   const { state } = useBudget()
-  const { dashboardView, profile, fixedExpenses } = state
+  const { dashboardView, profile, fixedExpenses, householdBills } = state
 
   const budget = useMemo(() => calculateBudget(state, false), [state])
   const scenarioBudget = useMemo(
     () => state.scenario?.active ? calculateBudget(state, true) : null,
     [state]
   )
+  const suggestion = useMemo(() => selectSuggestion(budget, profile), [budget, profile])
 
   const isAnnual = dashboardView === 'annual'
   const cycleLabel = budget.salaryCycle === 'fortnightly' ? 'fortnight'
@@ -109,16 +111,20 @@ export function Dashboard() {
           cycleLabel={cycleLabel}
         />
 
-        {/* Expense schedule — only when fixed expenses exist */}
-        {fixedExpenses.length > 0 && (
+        {/* Expense schedule — only when there's something to schedule */}
+        {(fixedExpenses.length > 0 || Object.values(householdBills ?? {}).some(b => b?.enabled)) && (
           <ExpenseCalendar
             fixedExpenses={fixedExpenses}
+            householdBills={householdBills}
             salaryCycle={budget.salaryCycle}
           />
         )}
 
         {/* Scenario what-if panel */}
         <ScenarioPanel budget={budget} scenarioBudget={scenarioBudget} />
+
+        {/* Cross-tool suggestion */}
+        <ToolSuggestion key={suggestion?.key ?? 'none'} suggestion={suggestion} />
 
         {/* Export */}
         <ExportButton

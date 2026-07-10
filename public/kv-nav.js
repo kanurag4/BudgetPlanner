@@ -2,6 +2,7 @@
   const TOOLS = [
     { name: 'Stock Evaluator',  slug: 'stock' },
     { name: 'DCF Valuation',    slug: 'dcf' },
+    { name: 'Gordon Growth',    slug: 'gordon-growth' },
     { name: 'Budget',           slug: 'budget' },
     { name: 'Debt Recycling',   slug: 'debt-recycling' },
     { name: 'Portfolio',        slug: 'portfolio-health' },

@@ -27,15 +27,15 @@
   }
 }
 
-/* ── Light mode overrides — Warm Paper palette ── */
+/* ── Light mode overrides — Slate Blue palette ── */
 html:not(.dark) body,
-html:not(.dark) .bg-slate-50  { background-color: #fafaf9 !important; }
-html:not(.dark) .bg-white     { background-color: #ffffff !important; }
-html:not(.dark) .bg-slate-100 { background-color: #f5f5f2 !important; }
-html:not(.dark) .bg-slate-200 { background-color: #e7e5e4 !important; }
-html:not(.dark) .text-slate-800 { color: #1c1917 !important; }
-html:not(.dark) .text-slate-700 { color: #292524 !important; }
+html:not(.dark) .bg-slate-50  { background-color: #edf2f7 !important; }
+html:not(.dark) .bg-white     { background-color: #d4dce8 !important; }
+html:not(.dark) .bg-slate-100 { background-color: #c5cfe0 !important; }
+html:not(.dark) .bg-slate-200 { background-color: #b8c4d2 !important; }
+html:not(.dark) .text-slate-800 { color: #0f172a !important; }
+html:not(.dark) .text-slate-700 { color: #1e293b !important; }
 html:not(.dark) .text-slate-500,
-html:not(.dark) .text-slate-400 { color: #78716c !important; }
+html:not(.dark) .text-slate-400 { color: #64748b !important; }
 html:not(.dark) .border-slate-100,
-html:not(.dark) .border-slate-200 { border-color: #e7e5e4 !important; }
+html:not(.dark) .border-slate-200 { border-color: #c5cfe0 !important; }

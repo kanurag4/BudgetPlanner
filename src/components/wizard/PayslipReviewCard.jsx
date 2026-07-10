@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { CheckCircle, AlertTriangle, X } from 'lucide-react'
 import { Card } from '../ui/Card'
 import { Button } from '../ui/Button'
+import { MoneyInput } from '../ui/MoneyInput'
 import { FREQUENCIES, INCOME_FREQUENCIES } from '../../utils/constants'
 import { formatCurrency } from '../../utils/formatCurrency'
 
@@ -72,15 +73,10 @@ export function PayslipReviewCard({ result, onApply, onDismiss }) {
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium pointer-events-none">
                 $
               </span>
-              <input
+              <MoneyInput
                 id="payslip-net-pay"
-                type="number"
-                inputMode="decimal"
-                min="0"
-                step="1"
                 value={netPay}
-                onChange={e => setNetPay(e.target.value)}
-                onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
+                onChange={raw => setNetPay(raw)}
                 placeholder="e.g. 4200"
                 className={[
                   'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',

@@ -1,8 +1,8 @@
 (function () {
   // Update LATEST when publishing a new article.
   const LATEST = {
-    title: 'How to Value a Stock: DCF and the Dividend Discount Model',
-    href: '/articles/dcf-ddm-stock-valuation/'
+    title: 'The $10,000 Paper Portfolio: Tracking an Undervalued Screen Over Time',
+    href: '/articles/paper-portfolio-tracker/'
   };
 
   const style = document.createElement('style');

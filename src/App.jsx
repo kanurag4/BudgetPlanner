@@ -12,6 +12,7 @@ import { StepFixedExpenses } from './components/wizard/StepFixedExpenses'
 import { StepSavingsGoal } from './components/wizard/StepSavingsGoal'
 import { StepProfile } from './components/wizard/StepProfile'
 import { Header } from './components/layout/Header'
+import { ScrollToTop } from './components/layout/ScrollToTop'
 
 // Dashboard is code-split — recharts only loads when the user navigates here
 const Dashboard = lazy(() =>
@@ -57,30 +58,33 @@ function RootRedirect() {
 
 function AppRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<RootRedirect />} />
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<RootRedirect />} />
 
-      <Route path="/wizard" element={<WizardShell />}>
-        <Route index element={<Navigate to="/wizard/income" replace />} />
-        <Route path="income"    element={<StepIncome />} />
-        <Route path="housing"   element={<StepHousing />} />
-        <Route path="groceries" element={<StepGroceries />} />
-        <Route path="fixed"     element={<StepFixedExpenses />} />
-        <Route path="savings"   element={<StepSavingsGoal />} />
-        <Route path="profile"   element={<StepProfile />} />
-      </Route>
+        <Route path="/wizard" element={<WizardShell />}>
+          <Route index element={<Navigate to="/wizard/income" replace />} />
+          <Route path="income"    element={<StepIncome />} />
+          <Route path="housing"   element={<StepHousing />} />
+          <Route path="groceries" element={<StepGroceries />} />
+          <Route path="fixed"     element={<StepFixedExpenses />} />
+          <Route path="savings"   element={<StepSavingsGoal />} />
+          <Route path="profile"   element={<StepProfile />} />
+        </Route>
 
-      <Route
-        path="/dashboard"
-        element={
-          <Suspense fallback={<DashboardSkeleton />}>
-            <Dashboard />
-          </Suspense>
-        }
-      />
+        <Route
+          path="/dashboard"
+          element={
+            <Suspense fallback={<DashboardSkeleton />}>
+              <Dashboard />
+            </Suspense>
+          }
+        />
 
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   )
 }
 

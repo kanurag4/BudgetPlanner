@@ -45,7 +45,7 @@ function setupControlled(initialProps = {}) {
 describe('AmountFrequencyInput — rendering', () => {
   it('renders amount input and frequency select', () => {
     setup()
-    expect(screen.getByRole('spinbutton')).toBeInTheDocument()
+    expect(screen.getByRole('textbox')).toBeInTheDocument()
     expect(screen.getByRole('combobox')).toBeInTheDocument()
   })
 
@@ -94,6 +94,14 @@ describe('AmountFrequencyInput — live preview', () => {
     expect(preview).toHaveTextContent('$554')
     expect(preview).toHaveTextContent('fortnight')
   })
+
+  it('labels the preview "week" (not "month") when salaryCycle is weekly', () => {
+    // 1000/month × 12 / 52 ≈ 231/week
+    setup({ amount: '1000', frequency: 'monthly', salaryCycle: 'weekly' })
+    const preview = screen.getByTestId('amount-preview')
+    expect(preview).toHaveTextContent('week')
+    expect(preview).not.toHaveTextContent('month')
+  })
 })
 
 describe('AmountFrequencyInput — onChange callbacks', () => {
@@ -101,7 +109,7 @@ describe('AmountFrequencyInput — onChange callbacks', () => {
     const user = userEvent.setup()
     const { onChange } = setupControlled({ amount: '' })
 
-    await user.type(screen.getByRole('spinbutton'), '500')
+    await user.type(screen.getByRole('textbox'), '500')
     const lastCall = onChange.mock.calls.at(-1)[0]
     expect(lastCall.amount).toBe('500')
     expect(lastCall.frequency).toBe('monthly')

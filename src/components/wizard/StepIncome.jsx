@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useBudget } from '../../hooks/useBudget'
 import { estimateNetPay } from '../../engine/taxEstimator'
 import { AmountFrequencyInput } from '../ui/AmountFrequencyInput'
+import { MoneyInput } from '../ui/MoneyInput'
 import { Toggle } from '../ui/Toggle'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
@@ -291,15 +292,10 @@ export function StepIncome() {
           <p className="text-xs text-slate-400 dark:text-slate-500 -mt-1">Optional — spread evenly across pay periods</p>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium pointer-events-none">$</span>
-            <input
+            <MoneyInput
               id="bonus-amount"
-              type="number"
-              inputMode="decimal"
-              min="0"
-              step="1"
               value={bonus.amount}
-              onChange={e => actions.updateBonus({ amount: e.target.value })}
-              onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
+              onChange={raw => actions.updateBonus({ amount: raw })}
               placeholder="0"
               className={[
                 'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',

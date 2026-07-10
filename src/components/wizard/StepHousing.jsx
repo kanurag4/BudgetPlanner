@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import { Home, Building2, Car, CreditCard, TrendingUp, Plus, Trash2 } from 'lucide-react'
+import { Home, Building2, Car, CreditCard, TrendingUp, Plus, Trash2, AlertTriangle } from 'lucide-react'
 import { Toggle } from '../ui/Toggle'
 import { useBudget } from '../../hooks/useBudget'
 import { AmountFrequencyInput } from '../ui/AmountFrequencyInput'
+import { MoneyInput } from '../ui/MoneyInput'
 import { Button } from '../ui/Button'
 import { Card } from '../ui/Card'
 import { HOUSING_FREQUENCIES, EXPENSE_FREQUENCIES } from '../../utils/constants'
@@ -215,8 +216,14 @@ export function StepHousing() {
         {/* Manual additional loans */}
         {additionalLoans.length > 0 && (
           <div className="flex flex-col gap-3">
-            {additionalLoans.map(loan => (
-              <Card key={loan.id} padding={false} className="p-4">
+            {additionalLoans.map(loan => {
+              const isIncomplete = !loan.name.trim() || !((parseFloat(loan.amount) || 0) > 0)
+              return (
+              <Card
+                key={loan.id}
+                padding={false}
+                className={`p-4 ${isIncomplete ? 'border-amber-300 dark:border-amber-700' : ''}`}
+              >
                 <div className="flex flex-col gap-3">
                   <input
                     type="text"
@@ -235,14 +242,9 @@ export function StepHousing() {
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-sm font-medium pointer-events-none">
                         $
                       </span>
-                      <input
-                        type="number"
-                        inputMode="decimal"
-                        min="0"
-                        step="1"
+                      <MoneyInput
                         value={loan.amount}
-                        onChange={e => actions.updateHousingLoan(loan.id, { amount: e.target.value })}
-                        onKeyDown={e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
+                        onChange={raw => actions.updateHousingLoan(loan.id, { amount: raw })}
                         placeholder="0"
                         className={[
                           'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
@@ -278,9 +280,16 @@ export function StepHousing() {
                       <Trash2 size={16} />
                     </button>
                   </div>
+                  {isIncomplete && (
+                    <p className="flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400">
+                      <AlertTriangle size={12} className="flex-shrink-0" />
+                      {!loan.name.trim() ? 'Add a name' : 'Add an amount'} or remove this row
+                    </p>
+                  )}
                 </div>
               </Card>
-            ))}
+              )
+            })}
           </div>
         )}
 
