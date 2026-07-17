@@ -12,7 +12,9 @@
     { name: 'Rent vs Buy',      slug: 'rent-vs-buy' },
     { name: 'Life Buyback',     slug: 'life-buyback' },
     { name: 'Budget Impact',    slug: 'budget-impact' },
+    { name: 'HECS',             slug: 'hecs' },
     { name: 'Articles',         slug: 'articles' },
+    { name: 'Contact',          slug: 'contact' },
   ];
 
   const path = window.location.pathname;
@@ -29,7 +31,7 @@
     .kv-tool-nav a:hover{color:var(--kv-text,var(--text,#f1f5f9));}
     .kv-tool-nav a.kv-nav-active{color:var(--kv-accent,var(--accent,#38bdf8));border-bottom-color:var(--kv-accent,var(--accent,#38bdf8));}
     html:not(.dark) .kv-tool-nav{background:#edf2f7;border-color:#e2e8f0;}
-    html:not(.dark) .kv-tool-nav a{color:#64748b;}
+    html:not(.dark) .kv-tool-nav a{color:#475569;}
     html:not(.dark) .kv-tool-nav a:hover{color:#0f172a;}
     html:not(.dark) .kv-tool-nav a.kv-nav-active{color:#0369a1;border-bottom-color:#0369a1;}
     @media(max-width:800px){.kv-tool-nav{justify-content:flex-start;}}
