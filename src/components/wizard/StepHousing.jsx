@@ -64,13 +64,13 @@ export function StepHousing() {
             className={[
               'flex flex-col items-center justify-center gap-2 rounded-2xl border-2 p-5 min-h-[100px]',
               'font-semibold text-sm transition-all duration-150',
-              'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 dark:focus:ring-offset-slate-900',
+              'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900',
               housing.type === type
-                ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20 text-sky-700 dark:text-sky-400'
-                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-sky-300',
+                ? 'border-primary bg-[color-mix(in_srgb,var(--kv-accent)_8%,transparent)] text-primary'
+                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-primary',
             ].join(' ')}
           >
-            <Icon size={24} className={housing.type === type ? 'text-sky-500' : 'text-slate-400'} />
+            <Icon size={24} className={housing.type === type ? 'text-primary' : 'text-slate-400'} />
             {label}
           </button>
         ))}
@@ -167,7 +167,7 @@ export function StepHousing() {
                     'flex-1 px-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
                     'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
                     'text-slate-800 dark:text-slate-100 placeholder-slate-400',
-                    'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+                    'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
                   ].join(' ')}
                 />
                 <button
@@ -234,7 +234,7 @@ export function StepHousing() {
                       'w-full px-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
                       'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
                       'text-slate-800 dark:text-slate-100 placeholder-slate-400',
-                      'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+                      'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
                     ].join(' ')}
                   />
                   <div className="flex gap-2 items-center">
@@ -250,7 +250,7 @@ export function StepHousing() {
                           'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
                           'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
                           'text-slate-800 dark:text-slate-100 placeholder-slate-400',
-                          'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+                          'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
                         ].join(' ')}
                       />
                     </div>
@@ -262,7 +262,7 @@ export function StepHousing() {
                         'px-3 py-2.5 rounded-xl border text-sm font-medium min-h-[44px]',
                         'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
                         'text-slate-800 dark:text-slate-100',
-                        'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+                        'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
                       ].join(' ')}
                     >
                       {EXPENSE_FREQUENCIES.map(f => (
@@ -297,7 +297,7 @@ export function StepHousing() {
         <button
           type="button"
           onClick={() => actions.addHousingLoan({ name: '', amount: '', frequency: 'monthly' })}
-          className="flex items-center justify-center gap-2 w-full rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 py-3 text-sm font-medium text-slate-500 dark:text-slate-400 hover:border-sky-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors min-h-[44px]"
+          className="flex items-center justify-center gap-2 w-full rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 py-3 text-sm font-medium text-slate-500 dark:text-slate-400 hover:border-primary hover:text-primary transition-colors min-h-[44px]"
         >
           <Plus size={16} />
           Add another loan

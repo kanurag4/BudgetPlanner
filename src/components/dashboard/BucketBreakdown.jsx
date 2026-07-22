@@ -35,7 +35,7 @@ function SectionHeader({ dot, title, total, editRoute }) {
             type="button"
             onClick={() => navigate(editRoute)}
             aria-label={`Edit ${title}`}
-            className="p-1 rounded-lg text-slate-300 dark:text-slate-600 hover:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/20 dark:hover:text-sky-400 transition-colors"
+            className="p-1 rounded-lg text-slate-300 dark:text-slate-600 hover:text-primary hover:bg-[color-mix(in_srgb,var(--kv-accent)_10%,transparent)] transition-colors"
           >
             <Pencil size={12} />
           </button>

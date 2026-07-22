@@ -53,7 +53,7 @@ export function SliderInput({
           onChange={e => onChange(Number(e.target.value))}
           className={[
             'relative w-full h-2 bg-transparent appearance-none cursor-pointer',
-            'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-1 rounded-full',
+            'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 rounded-full',
             trackColors[color] ?? trackColors.emerald,
             disabled ? 'opacity-50 cursor-not-allowed' : '',
           ].join(' ')}

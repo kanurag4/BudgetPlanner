@@ -25,7 +25,7 @@ export function Header() {
         className="absolute left-4 top-3 flex flex-col items-center gap-0.5 no-underline group max-[800px]:static max-[800px]:flex-none max-[800px]:order-1 max-[800px]:mt-1.5"
       >
         <img src="/logo.svg" alt="KashVector" className="w-8 h-8 opacity-90 group-hover:opacity-100 transition-opacity" />
-        <span className="text-[0.6rem] font-medium tracking-wide text-slate-400 group-hover:text-sky-400 dark:text-slate-500 dark:group-hover:text-sky-400 transition-colors whitespace-nowrap">← All tools</span>
+        <span className="text-[0.6rem] font-medium tracking-wide text-slate-400 group-hover:text-primary dark:text-slate-500 dark:group-hover:text-primary transition-colors whitespace-nowrap">← All tools</span>
       </a>
 
       {/* Centered app identity — flex-1 center column on mobile */}

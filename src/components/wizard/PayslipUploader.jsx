@@ -74,23 +74,23 @@ export function PayslipUploader({ onResult }) {
         className={[
           'w-full flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed',
           'px-4 py-6 text-sm transition-colors duration-150 focus:outline-none',
-          'focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 dark:focus:ring-offset-slate-900',
+          'focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900',
           dragging
-            ? 'border-sky-400 bg-sky-50 dark:bg-sky-900/20'
-            : 'border-slate-300 dark:border-slate-600 hover:border-sky-400 hover:bg-slate-50 dark:hover:bg-slate-800/50',
+            ? 'border-primary bg-[color-mix(in_srgb,var(--kv-accent)_8%,transparent)]'
+            : 'border-slate-300 dark:border-slate-600 hover:border-primary hover:bg-slate-50 dark:hover:bg-slate-800/50',
           loading ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer',
         ].join(' ')}
       >
         {loading ? (
           <>
-            <Loader2 size={24} className="text-sky-500 animate-spin" />
+            <Loader2 size={24} className="text-primary animate-spin" />
             <span className="text-slate-500 dark:text-slate-400">Reading file…</span>
           </>
         ) : (
           <>
             <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700">
               {dragging
-                ? <FileText size={20} className="text-sky-500" />
+                ? <FileText size={20} className="text-primary" />
                 : <Upload size={20} className="text-slate-400" />
               }
             </div>

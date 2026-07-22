@@ -59,27 +59,27 @@ export function ToolSuggestion({ suggestion }) {
   if (!suggestion || dismissed) return null
 
   return (
-    <div className="relative rounded-2xl border border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-900/10 p-4 sm:p-5">
+    <div className="relative rounded-2xl border border-[color-mix(in_srgb,var(--kv-accent)_35%,transparent)] bg-[color-mix(in_srgb,var(--kv-accent)_6%,transparent)] p-4 sm:p-5">
       <button
         type="button"
         onClick={() => setDismissed(true)}
         aria-label="Dismiss suggestion"
-        className="absolute top-3 right-3 p-1.5 rounded-lg text-sky-400 hover:text-sky-600 hover:bg-sky-100 dark:hover:bg-sky-900/30 transition-colors min-h-[32px] min-w-[32px] flex items-center justify-center"
+        className="absolute top-3 right-3 p-1.5 rounded-lg text-primary hover:bg-[color-mix(in_srgb,var(--kv-accent)_15%,transparent)] transition-colors min-h-[32px] min-w-[32px] flex items-center justify-center"
       >
         <X size={14} />
       </button>
 
-      <p className="text-sm font-semibold text-sky-800 dark:text-sky-300 pr-8">
+      <p className="text-sm font-semibold text-primary pr-8">
         {suggestion.title}
       </p>
-      <p className="text-xs text-sky-700 dark:text-sky-400 mt-1 pr-8 leading-relaxed">
+      <p className="text-xs text-primary mt-1 pr-8 leading-relaxed">
         {suggestion.body}
       </p>
       <a
         href={suggestion.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 mt-3 text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-800 dark:hover:text-sky-300 transition-colors min-h-[32px]"
+        className="inline-flex items-center gap-1.5 mt-3 text-xs font-semibold text-primary hover:opacity-80 transition-opacity min-h-[32px]"
       >
         {suggestion.cta}
         <ArrowRight size={12} />

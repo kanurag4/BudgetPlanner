@@ -20,8 +20,8 @@ export function Toggle({ checked, onChange, label, description, id, disabled = f
         />
         <div
           className={[
-            'w-11 h-6 rounded-full transition-colors duration-200 ring-2 ring-sky-400',
-            checked ? 'bg-sky-500' : 'bg-slate-300 dark:bg-slate-600',
+            'w-11 h-6 rounded-full transition-colors duration-200 ring-2 ring-primary',
+            checked ? 'bg-primary' : 'bg-slate-300 dark:bg-slate-600',
           ].join(' ')}
         />
         <div

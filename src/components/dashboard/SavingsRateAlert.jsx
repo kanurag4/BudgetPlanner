@@ -75,7 +75,7 @@ export function SavingsRateAlert({ budget, profile }) {
                 <span className={[
                   'relative inline-flex h-5 w-9 flex-shrink-0 rounded-full border-2 border-transparent',
                   'transition-colors duration-200 ease-in-out focus:outline-none',
-                  withBonus ? 'bg-sky-500' : 'bg-slate-300 dark:bg-slate-600',
+                  withBonus ? 'bg-primary' : 'bg-slate-300 dark:bg-slate-600',
                 ].join(' ')}>
                   {/* Thumb */}
                   <span className={[

@@ -61,10 +61,10 @@ export function StepSavingsGoal() {
                     onClick={() => actions.updateSavingsGoal({ type })}
                     className={[
                       'py-2.5 rounded-xl border text-sm font-medium min-h-[44px] transition-all',
-                      'focus:outline-none focus:ring-2 focus:ring-sky-400',
+                      'focus:outline-none focus:ring-2 focus:ring-primary',
                       savingsGoal.type === type
-                        ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20 text-sky-700 dark:text-sky-400'
-                        : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-sky-300',
+                        ? 'border-primary bg-[color-mix(in_srgb,var(--kv-accent)_8%,transparent)] text-primary'
+                        : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-primary',
                     ].join(' ')}
                   >
                     {label}
@@ -97,7 +97,7 @@ export function StepSavingsGoal() {
                         'w-full pr-8 pl-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
                         'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
                         'text-slate-800 dark:text-slate-100 placeholder-slate-400',
-                        'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+                        'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
                       ].join(' ')}
                     />
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium pointer-events-none">
