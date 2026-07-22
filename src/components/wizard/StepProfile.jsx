@@ -48,10 +48,10 @@ export function StepProfile() {
                 }}
                 className={[
                   'py-3 px-4 rounded-xl border text-sm font-medium min-h-[44px] text-left transition-all',
-                  'focus:outline-none focus:ring-2 focus:ring-sky-400',
+                  'focus:outline-none focus:ring-2 focus:ring-primary',
                   familySituation === value
-                    ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20 text-sky-700 dark:text-sky-400'
-                    : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-sky-300',
+                    ? 'border-primary bg-[color-mix(in_srgb,var(--kv-accent)_8%,transparent)] text-primary'
+                    : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-primary',
                 ].join(' ')}
               >
                 {label}
@@ -76,10 +76,10 @@ export function StepProfile() {
                     onClick={() => actions.updateProfile({ numberOfKids: n })}
                     className={[
                       'w-12 h-12 rounded-xl border text-sm font-bold transition-all',
-                      'focus:outline-none focus:ring-2 focus:ring-sky-400',
+                      'focus:outline-none focus:ring-2 focus:ring-primary',
                       numberOfKids === n
-                        ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20 text-sky-700 dark:text-sky-400'
-                        : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-sky-300',
+                        ? 'border-primary bg-[color-mix(in_srgb,var(--kv-accent)_8%,transparent)] text-primary'
+                        : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-primary',
                     ].join(' ')}
                   >
                     {n}
@@ -90,10 +90,10 @@ export function StepProfile() {
                   onClick={() => actions.updateProfile({ numberOfKids: 5 })}
                   className={[
                     'px-3 h-12 rounded-xl border text-sm font-medium transition-all',
-                    'focus:outline-none focus:ring-2 focus:ring-sky-400',
+                    'focus:outline-none focus:ring-2 focus:ring-primary',
                     numberOfKids >= 5
-                      ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20 text-sky-700 dark:text-sky-400'
-                      : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-sky-300',
+                      ? 'border-primary bg-[color-mix(in_srgb,var(--kv-accent)_8%,transparent)] text-primary'
+                      : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-primary',
                   ].join(' ')}
                 >
                   5+
@@ -119,10 +119,10 @@ export function StepProfile() {
                 onClick={() => actions.updateProfile({ ageGroup: value })}
                 className={[
                   'py-3 px-2 rounded-xl border text-sm font-medium min-h-[44px] transition-all text-center',
-                  'focus:outline-none focus:ring-2 focus:ring-sky-400',
+                  'focus:outline-none focus:ring-2 focus:ring-primary',
                   ageGroup === value
-                    ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20 text-sky-700 dark:text-sky-400'
-                    : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-sky-300',
+                    ? 'border-primary bg-[color-mix(in_srgb,var(--kv-accent)_8%,transparent)] text-primary'
+                    : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-primary',
                 ].join(' ')}
               >
                 {label}
@@ -133,7 +133,7 @@ export function StepProfile() {
       </Card>
 
       {/* Summary */}
-      <div className="rounded-xl bg-sky-50 dark:bg-sky-900/20 border border-sky-100 dark:border-sky-800 px-4 py-3 text-sm text-sky-700 dark:text-sky-300">
+      <div className="rounded-xl bg-[color-mix(in_srgb,var(--kv-accent)_6%,transparent)] border border-[color-mix(in_srgb,var(--kv-accent)_20%,transparent)] px-4 py-3 text-sm text-primary">
         Almost there! Hit the button below to see your personalised budget.
       </div>
 

@@ -70,7 +70,7 @@ export function AmountFrequencyInput({
               'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm',
               'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
               'text-slate-800 dark:text-slate-100 placeholder-slate-400',
-              'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+              'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
               'min-h-[44px]',
               disabled ? 'opacity-50 cursor-not-allowed' : '',
             ].join(' ')}
@@ -88,7 +88,7 @@ export function AmountFrequencyInput({
             'px-3 py-2.5 rounded-xl border text-sm font-medium',
             'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
             'text-slate-800 dark:text-slate-100',
-            'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+            'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
             'min-h-[44px] min-w-[130px]',
             disabled ? 'opacity-50 cursor-not-allowed' : '',
           ].join(' ')}

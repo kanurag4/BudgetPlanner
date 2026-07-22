@@ -92,7 +92,7 @@ export function StepIncome() {
               <button
                 type="button"
                 onClick={() => setShowPayslip(true)}
-                className="text-xs text-sky-600 dark:text-sky-400 hover:underline font-medium min-h-[36px] px-2"
+                className="text-xs text-primary hover:underline font-medium min-h-[36px] px-2"
               >
                 Upload payslip
               </button>
@@ -198,7 +198,7 @@ export function StepIncome() {
                   <button
                     type="button"
                     onClick={() => setShowPartnerPayslip(true)}
-                    className="text-xs text-sky-600 dark:text-sky-400 hover:underline font-medium min-h-[36px] px-2"
+                    className="text-xs text-primary hover:underline font-medium min-h-[36px] px-2"
                   >
                     Upload payslip
                   </button>
@@ -301,7 +301,7 @@ export function StepIncome() {
                 'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
                 'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
                 'text-slate-800 dark:text-slate-100 placeholder-slate-400',
-                'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+                'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
               ].join(' ')}
             />
           </div>

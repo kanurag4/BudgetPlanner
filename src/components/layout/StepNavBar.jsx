@@ -38,11 +38,11 @@ export function StepNavBar() {
                   aria-current={isCurrent ? 'step' : undefined}
                   className={[
                     'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold z-10 transition-all duration-200',
-                    'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 dark:focus:ring-offset-slate-900',
+                    'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900',
                     isCompleted
-                      ? 'bg-sky-500 text-white cursor-pointer hover:bg-sky-600 hover:scale-110'
+                      ? 'bg-primary text-primary-contrast cursor-pointer hover:bg-primary-dark hover:scale-110'
                       : isCurrent
-                        ? 'bg-sky-500 text-white ring-4 ring-sky-100 dark:ring-sky-900/40 scale-110'
+                        ? 'bg-primary text-primary-contrast ring-4 ring-[color-mix(in_srgb,var(--kv-accent)_20%,transparent)] scale-110'
                         : 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-default',
                   ].join(' ')}
                 >
@@ -52,7 +52,7 @@ export function StepNavBar() {
                 <span
                   className={[
                     'text-[10px] font-medium leading-tight text-center hidden sm:block',
-                    isCurrent  ? 'text-sky-600 dark:text-sky-400' :
+                    isCurrent  ? 'text-primary' :
                     isCompleted ? 'text-slate-500 dark:text-slate-400' :
                                   'text-slate-400 dark:text-slate-600',
                   ].join(' ')}
@@ -67,7 +67,7 @@ export function StepNavBar() {
         {/* Progress bar */}
         <div className="mt-3 h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
           <div
-            className="h-full bg-sky-500 rounded-full transition-all duration-500 ease-out"
+            className="h-full bg-primary rounded-full transition-all duration-500 ease-out"
             style={{ width: `${progressPct}%` }}
             aria-hidden="true"
           />

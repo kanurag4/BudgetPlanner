@@ -53,7 +53,7 @@ export function Dashboard() {
               className={[
                 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium min-h-[32px]',
                 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400',
-                'hover:bg-sky-50 hover:text-sky-600 dark:hover:bg-sky-900/20 dark:hover:text-sky-400',
+                'hover:bg-[color-mix(in_srgb,var(--kv-accent)_10%,transparent)] hover:text-primary',
                 'transition-colors duration-150 flex-shrink-0',
               ].join(' ')}
               aria-label="Edit budget answers"

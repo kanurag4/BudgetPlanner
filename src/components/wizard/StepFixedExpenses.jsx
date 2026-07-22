@@ -79,8 +79,7 @@ export function StepFixedExpenses() {
                 className={[
                   'px-3 py-1.5 rounded-full border text-xs font-medium transition-colors min-h-[36px]',
                   'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800',
-                  'hover:border-sky-400 hover:text-sky-700 hover:bg-sky-50',
-                  'dark:hover:border-sky-600 dark:hover:text-sky-400 dark:hover:bg-sky-900/20',
+                  'hover:border-primary hover:text-primary hover:bg-[color-mix(in_srgb,var(--kv-accent)_8%,transparent)]',
                 ].join(' ')}
               >
                 + {suggestion.label}
@@ -112,7 +111,7 @@ export function StepFixedExpenses() {
                     'w-full px-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
                     'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
                     'text-slate-800 dark:text-slate-100 placeholder-slate-400',
-                    'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+                    'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
                   ].join(' ')}
                 />
 
@@ -130,7 +129,7 @@ export function StepFixedExpenses() {
                         'w-full pl-7 pr-3 py-2.5 rounded-xl border text-sm min-h-[44px]',
                         'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
                         'text-slate-800 dark:text-slate-100 placeholder-slate-400',
-                        'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+                        'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
                       ].join(' ')}
                     />
                   </div>
@@ -143,7 +142,7 @@ export function StepFixedExpenses() {
                       'px-3 py-2.5 rounded-xl border text-sm font-medium min-h-[44px]',
                       'bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600',
                       'text-slate-800 dark:text-slate-100',
-                      'focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent',
+                      'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
                     ].join(' ')}
                   >
                     {EXPENSE_FREQUENCIES.map(f => (
@@ -185,7 +184,7 @@ export function StepFixedExpenses() {
       <button
         type="button"
         onClick={handleAdd}
-        className="flex items-center justify-center gap-2 w-full rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 py-3 text-sm font-medium text-slate-500 dark:text-slate-400 hover:border-sky-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors min-h-[44px]"
+        className="flex items-center justify-center gap-2 w-full rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 py-3 text-sm font-medium text-slate-500 dark:text-slate-400 hover:border-primary hover:text-primary transition-colors min-h-[44px]"
       >
         <Plus size={16} />
         Add custom expense
