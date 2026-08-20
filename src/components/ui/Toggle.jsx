@@ -26,7 +26,7 @@ export function Toggle({ checked, onChange, label, description, id, disabled = f
         />
         <div
           className={[
-            'absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200',
+            'absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow border border-slate-400 dark:border-slate-500 transition-transform duration-200',
             checked ? 'translate-x-5' : 'translate-x-0',
           ].join(' ')}
         />
