@@ -9,17 +9,38 @@
    ramp is intentionally left on Tailwind's default palette, see
    Kashvector.md's redesign rollout status for why. --kv-bg here is used
    only for accent-button text contrast (mirrors every other KashVector
-   tool's `color: var(--kv-bg)` pattern), not applied to page backgrounds. */
+   tool's `color: var(--kv-bg)` pattern), not applied to page backgrounds.
+   --kv-card/-card-2/-text/-muted/-primary/-border are NOT part of that
+   original scope, but were added 2026-08-20: this page deliberately never
+   loads brand.css (see that file's own comment on the exception), yet
+   kv-nav.js's injected nav bar reads exactly these var(--kv-*, var(--*,
+   hardcoded)) names — undefined here, they silently fell through to
+   kv-nav.js's hardcoded *light* fallback regardless of theme, which is why
+   the nav stayed light-colored even after toggling to dark. Values copied
+   verbatim from brand.css's :root/html.dark blocks — keep in sync if that
+   file's palette ever changes. */
 :root {
   --kv-bg:       #0b1120;
+  --kv-card:     #111d33;
+  --kv-card-2:   #162040;
+  --kv-text:     #e2e8f0;
+  --kv-muted:    #7b8eaa;
+  --kv-primary:  #a3bfed;
+  --kv-border:   #1e3050;
   --kv-accent:   #fbbf24;
   --kv-accent-h: #f5a623;
   --kv-warn:     #f97316;
 }
 html:not(.dark) {
-  --kv-bg:     #f8fafc;
-  --kv-accent: #12335e;
-  --kv-warn:   #b45309;
+  --kv-bg:      #f8fafc;
+  --kv-card:    #ffffff;
+  --kv-card-2:  #f1f5f9;
+  --kv-text:    #16202b;
+  --kv-muted:   #4d5c6b;
+  --kv-primary: #12335e;
+  --kv-border:  #e7e2d8;
+  --kv-accent:  #12335e;
+  --kv-warn:    #b45309;
 }
 
 @layer utilities {
