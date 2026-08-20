@@ -4,22 +4,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Ink & Amber accent/warn tokens ──
-   Scope: accent + warn colors only (2026-07-22) — the base slate background/
-   text/border ramp is intentionally left on Tailwind's default palette, see
-   Kashvector.md's "Ink & Amber rebrand — rollout status" for why. --kv-bg
-   here is used only for accent-button text contrast (mirrors every other
-   KashVector tool's `color: var(--kv-bg)` pattern), not applied to page
-   backgrounds. */
+/* ── Light-first navy+amber accent/warn tokens (redesign 2026-08-19) ──
+   Scope: accent + warn colors only — the base slate background/text/border
+   ramp is intentionally left on Tailwind's default palette, see
+   Kashvector.md's redesign rollout status for why. --kv-bg here is used
+   only for accent-button text contrast (mirrors every other KashVector
+   tool's `color: var(--kv-bg)` pattern), not applied to page backgrounds. */
 :root {
   --kv-bg:       #0b1120;
-  --kv-accent:   #f5a623;
-  --kv-accent-h: #ffb84d;
+  --kv-accent:   #fbbf24;
+  --kv-accent-h: #f5a623;
   --kv-warn:     #f97316;
 }
 html:not(.dark) {
-  --kv-bg:     #faf8f4;
-  --kv-accent: #1a3a5f;
+  --kv-bg:     #f8fafc;
+  --kv-accent: #12335e;
   --kv-warn:   #b45309;
 }
 
